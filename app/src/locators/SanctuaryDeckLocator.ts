@@ -1,3 +1,4 @@
+/** @jsxImportSource @emotion/react */
 import { DeckLocator } from '@gamepark/react-game'
 
 export class SanctuaryDeckLocator extends DeckLocator {

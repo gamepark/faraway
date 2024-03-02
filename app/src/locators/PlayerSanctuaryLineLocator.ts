@@ -1,3 +1,4 @@
+/** @jsxImportSource @emotion/react */
 import { GridLocator, ItemContext } from '@gamepark/react-game'
 import { MaterialItem } from '@gamepark/rules-api'
 import { sanctuaryCardDescription } from '../material/SanctuaryCardDescription'

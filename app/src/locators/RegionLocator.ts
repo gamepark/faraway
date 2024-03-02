@@ -1,3 +1,4 @@
+/** @jsxImportSource @emotion/react */
 import { LineLocator } from '@gamepark/react-game'
 import { regionCardDescription } from '../material/RegionCardDescription'
 

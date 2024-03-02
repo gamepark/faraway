@@ -1,3 +1,4 @@
+/** @jsxImportSource @emotion/react */
 import { HandLocator, ItemContext } from '@gamepark/react-game'
 import { Location, MaterialItem } from '@gamepark/rules-api'
 
@@ -12,9 +13,8 @@ export class RegionHandLocator extends HandLocator {
     return { x: 12, y: -22, z: 0}
   }
 
-  getRadius(item: MaterialItem, context: ItemContext): number {
-    const { player } = context
-    return player === item.location.player? 135: 135
+  getRadius(): number {
+    return 135
   }
 
   getBaseAngle(item: MaterialItem, { rules, player }: ItemContext): number {
