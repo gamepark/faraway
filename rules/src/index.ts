@@ -1,3 +1,3 @@
-export { GameTemplateRules } from './GameTemplateRules'
-export { GameTemplateOptionsSpec } from './GameTemplateOptions'
-export { GameTemplateSetup } from './GameTemplateSetup'
+export { FarawayRules } from './FarawayRules'
+export { FarawayOptionsSpec } from './FarawayOptions'
+export { FarawaySetup } from './FarawaySetup'

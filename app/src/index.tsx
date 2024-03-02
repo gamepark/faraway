@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
-import { GameTemplateOptionsSpec } from '@gamepark/game-template/GameTemplateOptions'
-import { GameTemplateRules } from '@gamepark/game-template/GameTemplateRules'
-import { GameTemplateSetup } from '@gamepark/game-template/GameTemplateSetup'
+import { FarawayOptionsSpec } from '@gamepark/faraway/FarawayOptions'
+import { FarawayRules } from '@gamepark/faraway/FarawayRules'
+import { FarawaySetup } from '@gamepark/faraway/FarawaySetup'
 import { GameProvider, MaterialGameAnimations, setupTranslation } from '@gamepark/react-game'
 import { StrictMode } from 'react'
 import ReactDOM from 'react-dom'
@@ -14,8 +14,15 @@ setupTranslation(translations, { debug: false })
 
 ReactDOM.render(
   <StrictMode>
-    <GameProvider game="game-template" Rules={GameTemplateRules} optionsSpec={GameTemplateOptionsSpec} GameSetup={GameTemplateSetup}
-                  material={Material} locators={Locators} animations={new MaterialGameAnimations()}>
+    <GameProvider
+      game="faraway"
+      Rules={FarawayRules}
+      optionsSpec={FarawayOptionsSpec}
+      GameSetup={FarawaySetup}
+      material={Material}
+      locators={Locators}
+      animations={new MaterialGameAnimations()}
+    >
       <App/>
     </GameProvider>
   </StrictMode>,

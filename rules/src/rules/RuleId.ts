@@ -1,3 +1,8 @@
 export enum RuleId {
-  PlayerTurn = 1
+  ChooseRegionCard = 1,
+  ChooseSanctuaryCard,
+  DiscardSanctuaryCard,
+  EndOfTurn,
+  PrepareNewRound,
+  DefineFirstPlayer,
 }

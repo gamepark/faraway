@@ -1,4 +1,5 @@
 /** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react'
 import { GameTable, GameTableNavigation } from '@gamepark/react-game'
 import { FC } from 'react'
 import { PlayerPanels } from './panels/PlayerPanels'
@@ -9,8 +10,8 @@ type GameDisplayProps = {
 
 export const GameDisplay: FC<GameDisplayProps> = () => {
   return <>
-    <GameTable xMin={-50} xMax={50} yMin={-30} yMax={30}
-               margin={{ top: 7, left: 0, right: 30, bottom: 0 }}>
+    <GameTable xMin={-32} xMax={32} yMin={-28} yMax={35}
+               margin={{ top: 7, left: 0, right: 0, bottom: 0 }} css={css`//background-color: rgba(255, 255, 255, 0.31)`}>
       <GameTableNavigation/>
     </GameTable>
     <PlayerPanels/>

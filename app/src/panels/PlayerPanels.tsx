@@ -1,15 +1,17 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { PlayerColor } from '@gamepark/game-template/PlayerColor'
-import { PlayerPanel, usePlayers } from '@gamepark/react-game'
+import { FarawayRules } from '@gamepark/faraway/FarawayRules'
+import { PlayerPanel, usePlayerId, usePlayers, useRules } from '@gamepark/react-game'
 import { FC } from 'react'
 
 export const PlayerPanels: FC<any> = () => {
+  const playerId = usePlayerId()
   const players = usePlayers({ sortFromMe: true })
+  const rules = useRules<FarawayRules>()!
   return (
     <>
       {players.map((player, index) =>
-        <PlayerPanel key={player.id} playerId={player.id} color={playerColorCode[player.id]} css={panelPosition(index)}/>
+        <PlayerPanel key={player.id} playerId={player.id} css={[panelPosition(index), player.id === (playerId ?? rules.players[0])? bottomPosition: topPosition ]}/>
       )}
     </>
   )
@@ -19,12 +21,13 @@ const panelPosition = (index: number) => css`
   right: 1em;
   top: ${8.5 + index * 16}em;
   width: 28em;
-  height: 14em;
+  height: 8.3em;
 `
 
-export const playerColorCode: Record<PlayerColor, string> = {
-  [PlayerColor.Red]: 'red',
-  [PlayerColor.Blue]: 'blue',
-  [PlayerColor.Green]: 'green',
-  [PlayerColor.Yellow]: 'yellow'
-}
+const topPosition = css`
+  top: 8.5em;
+`
+
+const bottomPosition = css`
+  top: 90em;
+`
