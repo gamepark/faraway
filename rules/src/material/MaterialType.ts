@@ -1,4 +1,4 @@
 export enum MaterialType {
-  RegionCard = 1,
-  SanctuaryCard
+  Region = 1,
+  Sanctuary
 }

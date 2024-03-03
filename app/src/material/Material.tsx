@@ -4,6 +4,6 @@ import { regionCardDescription } from './RegionCardDescription'
 import { sanctuaryCardDescription } from './SanctuaryCardDescription'
 
 export const Material: Partial<Record<MaterialType, MaterialDescription>> = {
-  [MaterialType.SanctuaryCard]: sanctuaryCardDescription,
-  [MaterialType.RegionCard]: regionCardDescription
+  [MaterialType.Sanctuary]: sanctuaryCardDescription,
+  [MaterialType.Region]: regionCardDescription
 }

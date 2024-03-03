@@ -1,8 +1,12 @@
 export enum RuleId {
-  ChooseRegionCard = 1,
-  ChooseSanctuaryCard,
-  DiscardSanctuaryCard,
-  EndOfTurn,
-  PrepareNewRound,
-  DefineFirstPlayer,
+  PlaceRegion = 1,
+  RevealRegions,
+  DealSanctuaries,
+  ChooseNewRegion,
+  PlaceSanctuary,
+  RefillRegion,
+  //DiscardSanctuaryCard,
+  //EndOfTurn,
+  //PrepareNewRound,
+  //DefineFirstPlayer,
 }

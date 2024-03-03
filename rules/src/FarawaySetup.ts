@@ -6,6 +6,7 @@ import { FarawayRules } from './FarawayRules'
 import { LocationType } from './material/LocationType'
 import { MaterialType } from './material/MaterialType'
 import { PlayerId } from './PlayerId'
+import { Memory } from './rules/Memory'
 import { RuleId } from './rules/RuleId'
 
 /**
@@ -18,7 +19,7 @@ export class FarawaySetup extends MaterialGameSetup<PlayerId, MaterialType, Loca
     this.setupRegions()
     this.setupSanctuaries()
     this.setupPlayers(options)
-    const deck = this.material(MaterialType.RegionCard).location(LocationType.RegionDeck).deck()
+    const deck = this.material(MaterialType.Region).location(LocationType.RegionDeck).deck()
     /*const sanctuaryDeck = this.material(MaterialType.SanctuaryCard).location(LocationType.SanctuaryDeck).deck()
     for (let index = 0; index < options.players; index++) {
       deck.deal({ type: LocationType.PlayerRegion, player: index }, 8)
@@ -26,12 +27,13 @@ export class FarawaySetup extends MaterialGameSetup<PlayerId, MaterialType, Loca
     }*/
 
     deck.deal({ type: LocationType.Region }, 3)
+    this.memorize(Memory.Round, 1)
   }
 
   setupPlayers(options: FarawayOptions) {
-    const deck = this.material(MaterialType.RegionCard).deck()
+    const deck = this.material(MaterialType.Region).deck()
     for (let index = 0; index < options.players; index++) {
-      deck.deal({ type: LocationType.RegionHand, player: index + 1 }, 3)
+      deck.deal({ type: LocationType.PlayerRegionHand, player: index + 1 }, 3)
     }
   }
 
@@ -43,8 +45,8 @@ export class FarawaySetup extends MaterialGameSetup<PlayerId, MaterialType, Loca
       }
     }))
 
-    this.material(MaterialType.RegionCard).createItems(cards)
-    this.material(MaterialType.RegionCard).shuffle()
+    this.material(MaterialType.Region).createItems(cards)
+    this.material(MaterialType.Region).shuffle()
   }
 
   setupSanctuaries() {
@@ -55,11 +57,11 @@ export class FarawaySetup extends MaterialGameSetup<PlayerId, MaterialType, Loca
       }
     }))
 
-    this.material(MaterialType.SanctuaryCard).createItems(cards)
-    this.material(MaterialType.SanctuaryCard).shuffle()
+    this.material(MaterialType.Sanctuary).createItems(cards)
+    this.material(MaterialType.Sanctuary).shuffle()
   }
 
   start() {
-    this.startPlayerTurn(RuleId.ChooseSanctuaryCard, this.game.players[0])
+    this.startSimultaneousRule(RuleId.PlaceRegion)
   }
 }

@@ -18,7 +18,7 @@ export class PlayerRegionLineDescription extends LocationDescription {
     const { rules } = context
     return rules.players.flatMap((p) => Array.from(Array(8))
       .map((_, x) => ({
-        type: LocationType.PlayerRegion,
+        type: LocationType.PlayerRegionLine,
         player: p,
         x: x
       })))

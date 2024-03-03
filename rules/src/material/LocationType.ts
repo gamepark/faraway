@@ -1,10 +1,11 @@
 export enum LocationType {
-  RegionHand = 1,
-  RegionLineLocator,
-  PlayerSanctuary,
+  PlayerRegionHand = 1,
+  PlayerSanctuaryLine,
   RegionDeck,
   SanctuaryDeck,
-  SanctuaryHand,
-  PlayerRegion,
+  PlayerSanctuaryHand,
+  PlayerRegionLine,
   Region,
+  RegionDiscard,
+  SanctuaryDiscard
 }
