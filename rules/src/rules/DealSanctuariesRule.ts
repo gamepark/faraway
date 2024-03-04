@@ -1,11 +1,13 @@
 import { MaterialDeck, MaterialMove, MaterialRulesPart } from '@gamepark/rules-api'
 import { getValue } from '../cards/Region'
+import { Regions } from '../cards/Regions'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { PlayerId } from '../PlayerId'
 import { RoundHelper } from './helper/RoundHelper'
 import { Memory } from './Memory'
 import { RuleId } from './RuleId'
+import sum from 'lodash/sum'
 
 export class DealSanctuariesRule extends MaterialRulesPart {
   onRuleStart() {
@@ -25,9 +27,13 @@ export class DealSanctuariesRule extends MaterialRulesPart {
   getPlayerSanctuaries(deck: MaterialDeck, playerId: PlayerId) {
     const drawSanctuary = this.getCardValue(playerId) > this.getPreviousCardValue(playerId)
     if (!drawSanctuary) return []
-
-    // TODO: compute sanctuary count
-    const sanctuaryCount = 1
+    const regionClues = sum(this
+      .getPlayerRegionCards(playerId)
+      .getItems().map((item) => Regions[item.id].clue ?? 0))
+    console.log(regionClues)
+    // TODO: count sanctuary clues
+    const sanctuariesClues = 0
+    const sanctuaryCount = 1 + regionClues + sanctuariesClues
     return deck.deal({
       type: LocationType.PlayerSanctuaryHand,
       player: playerId,
@@ -36,7 +42,7 @@ export class DealSanctuariesRule extends MaterialRulesPart {
 
   getCardValue(playerId: PlayerId) {
     return getValue(
-      this.getPlayerCard(playerId)
+      this.getPlayerRegionCards(playerId)
       .location((location) => location.x === (this.round - 1))
       .getItem()!.id
     )
@@ -44,7 +50,7 @@ export class DealSanctuariesRule extends MaterialRulesPart {
 
   getPreviousCardValue(playerId: PlayerId) {
     return getValue(
-      this.getPlayerCard(playerId)
+      this.getPlayerRegionCards(playerId)
         .location((location) => location.x === (this.round - 2))
         .getItem()!.id
     )
@@ -54,10 +60,17 @@ export class DealSanctuariesRule extends MaterialRulesPart {
     return this.material(MaterialType.Sanctuary).location(LocationType.SanctuaryDeck).deck()
   }
 
-  getPlayerCard(playerId: PlayerId) {
+  getPlayerRegionCards(playerId: PlayerId) {
     return this
       .material(MaterialType.Region)
       .location(LocationType.PlayerRegionLine)
+      .player(playerId)
+  }
+
+  getPlayerSanctuaryCards(playerId: PlayerId) {
+    return this
+      .material(MaterialType.Sanctuary)
+      .location(LocationType.PlayerSanctuaryLine)
       .player(playerId)
   }
 

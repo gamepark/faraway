@@ -1,5 +1,5 @@
 import {
-  CompetitiveScore,
+  CompetitiveScore, FillGapStrategy,
   hideItemId,
   hideItemIdToOthers,
   HidingStrategy,
@@ -57,7 +57,7 @@ export class FarawayRules extends SecretMaterialRules<PlayerId, MaterialType, Lo
       [LocationType.PlayerRegionHand]: new PositiveSequenceStrategy(),
       [LocationType.RegionDeck]: new PositiveSequenceStrategy(),
       [LocationType.PlayerRegionLine]: new PositiveSequenceStrategy(),
-      [LocationType.Region]: new PositiveSequenceStrategy(),
+      [LocationType.Region]: new FillGapStrategy(),
       [LocationType.RegionDiscard]: new PositiveSequenceStrategy()
     },
     [MaterialType.Sanctuary]: {

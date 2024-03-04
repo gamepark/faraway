@@ -33,7 +33,11 @@ export class PlaceSanctuaryRule extends PlayerTurnRule {
 
   goToNextRule() {
     const nextPlayer = new RoundHelper(this.game).getNextPlayer(this.player)
-    if (!nextPlayer) return [this.rules().startRule(RuleId.RefillRegion)]
+    if (!nextPlayer) {
+      if (this.round === 8) return [this.rules().endGame()]
+      return [this.rules().startRule(RuleId.RefillRegion)]
+    }
+
     return [this.rules().startPlayerTurn(RuleId.ChooseNewRegion, nextPlayer)]
   }
 

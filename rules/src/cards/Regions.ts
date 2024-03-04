@@ -331,9 +331,6 @@ const Yellow65: CardDescription = {
   quest: new ColorQuest(3, [Color.Yellow, Color.Green], [Wonder.Thistle, Wonder.Thistle, Wonder.Thistle])
 }
 
-
-
-
 export const Regions: Partial<Record<Region, CardDescription>> = {
   [Region.Red1]: Red1,
   [Region.Red4]: Red4,

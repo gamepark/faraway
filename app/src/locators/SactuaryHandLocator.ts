@@ -14,7 +14,7 @@ export class SanctuaryHandLocator extends HandLocator {
   }
 
   getRadius(): number {
-    return 135
+    return 80
   }
 
   getBaseAngle(item: MaterialItem, { rules, player }: ItemContext): number {
