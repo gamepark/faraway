@@ -8,13 +8,13 @@ export class SanctuaryHandLocator extends HandLocator {
   delta = { x: -0.04, y: -0.04 }
   getCoordinates(location: Location, context: ItemContext) {
     const { player, rules } = context
-    const coordinates = { x: -11, y: 30, z: 0}
+    const coordinates = { x: -11, y: 29, z: 0}
     const index = getBoardIndex(location, rules, player)
     const delta = getDeltaForPosition(location, rules, player)
     const top = [1, 2, 3].includes(index)? -25.5: 0
 
     if (player && player !== location.player) {
-      coordinates.x += 10
+      coordinates.x += 12
     }
 
     if (rules.game.rule?.id === RuleId.PlaceSanctuary && rules.game.rule?.player === player && location.player === player) {
@@ -31,7 +31,7 @@ export class SanctuaryHandLocator extends HandLocator {
 
   getRadius(item: MaterialItem, context: ItemContext): number {
     const { rules, player } = context
-    if (player && player !== item.location.player) return 50
+    if (player && player !== item.location.player) return 40
     if (rules.game.rule?.id === RuleId.PlaceSanctuary && rules.game.rule?.player === player && item.location.player === player) return 200
     return 80
   }

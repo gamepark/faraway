@@ -52,9 +52,11 @@ const getMargin = (rules: FarawayRules, player: Player, playerId?: PlayerId) => 
   const index = computeBoardIndex({ player: player.id }, rules, playerId)
   switch (index) {
     case 0:
+      const smallTop = rules.players.length <= 5
+      const smallBottom = rules.players.length === 2
       return {
-        top: rules.players.length <= 2? 0: 5,
-        bottom: rules.players.length === 6? 5: 1,
+        top: smallTop? 1: 5,
+        bottom: smallBottom? 1: 3,
       }
     case 1:
       return {

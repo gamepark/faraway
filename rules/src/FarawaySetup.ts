@@ -20,10 +20,6 @@ export class FarawaySetup extends MaterialGameSetup<PlayerId, MaterialType, Loca
     this.setupSanctuaries()
     this.setupPlayers(options)
     const deck = this.material(MaterialType.Region).location(LocationType.RegionDeck).deck()
-    const sanctuaryDeck = this.material(MaterialType.Sanctuary).location(LocationType.SanctuaryDeck).deck()
-    for (let index = 0; index < options.players; index++) {
-      sanctuaryDeck.deal({ type: LocationType.PlayerSanctuaryHand, player: index + 1 }, 7)
-    }
 
     deck.deal({ type: LocationType.Region }, options.players + 1)
     this.memorize(Memory.Round, 1)
