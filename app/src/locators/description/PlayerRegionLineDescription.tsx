@@ -4,6 +4,7 @@ import { LocationType } from '@gamepark/faraway/material/LocationType'
 import { LocationContext, LocationDescription, MaterialContext } from '@gamepark/react-game'
 import { Coordinates, Location } from '@gamepark/rules-api'
 import { regionCardDescription } from '../../material/RegionCardDescription'
+import { getDeltaForPosition } from '../position/PositionOnTable'
 
 export class PlayerRegionLineDescription extends LocationDescription {
   height = regionCardDescription.height
@@ -35,10 +36,12 @@ export class PlayerRegionLineDescription extends LocationDescription {
 
   getRegionCoordinates(location: Location, context: LocationContext) {
     const { player, rules } = context
-    if (location.player === (player ?? rules.players[0])) {
-      return { x: 0, y: 13, z: 0}
+    const coordinates = { x: 0, y: 13, z: 0}
+    const delta = getDeltaForPosition(location, rules, player)
+    return {
+      x: coordinates.x + (delta.x ?? 0),
+      y: coordinates.y + (delta.y ?? 0),
+      z: coordinates.z
     }
-
-    return { x: 0, y: -13, z: 0}
   }
 }

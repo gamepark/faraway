@@ -1,9 +1,11 @@
 /** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react'
 import { LocationType } from '@gamepark/faraway/material/LocationType'
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
 import { LocationContext, LocationDescription, MaterialContext } from '@gamepark/react-game'
 import { Location } from '@gamepark/rules-api'
 import { sanctuaryCardDescription } from '../../material/SanctuaryCardDescription'
+import { getDeltaForPosition } from '../position/PositionOnTable'
 
 export class PlayerSanctuaryLineDescription extends LocationDescription {
   height = sanctuaryCardDescription.height
@@ -11,6 +13,8 @@ export class PlayerSanctuaryLineDescription extends LocationDescription {
   borderRadius = sanctuaryCardDescription.borderRadius
 
   alwaysVisible = true
+
+  extraCss = css`border: 0.05em solid white`
 
   getLocations(context: MaterialContext) {
     const { player } = context
@@ -36,10 +40,12 @@ export class PlayerSanctuaryLineDescription extends LocationDescription {
 
   getSanctuaryCoordinates(location: Location, context: LocationContext) {
     const { player, rules } = context
-    if (location.player === (player ?? rules.players[0])) {
-      return { x: -7.5, y: 13, z: 0}
+    const coordinates = { x: -7.5, y: 13, z: 0}
+    const delta = getDeltaForPosition(location, rules, player)
+    return {
+      x: coordinates.x + (delta.x ?? 0),
+      y: coordinates.y + (delta.y ?? 0),
+      z: coordinates.z
     }
-
-    return { x: -7.5, y: -13, z: 0}
   }
 }

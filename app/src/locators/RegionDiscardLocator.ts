@@ -10,10 +10,12 @@ export class RegionDiscardLocator extends DeckLocator {
   getCoordinates(item: MaterialItem, context: ItemContext): Coordinates {
     const deckCoordinates = { ...regionDeckLocator.getCoordinates(item, context) }
     const playersCount = context.rules.players.length
-    deckCoordinates.x += ((regionCardDescription.width + 0.5) * (playersCount + 3))
+    deckCoordinates.x += ((regionCardDescription.width + 0.5) * (playersCount + 2.5))
     deckCoordinates.z = 0
     return deckCoordinates
   }
+
+  rotateZ = 90
 }
 
 export const regionDiscardLocator = new RegionDiscardLocator()
