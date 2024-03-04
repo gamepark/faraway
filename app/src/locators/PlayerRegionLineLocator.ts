@@ -13,7 +13,10 @@ export class PlayerRegionLineLocator extends GridLocator {
 
   getCoordinates(item: MaterialItem, context: ItemContext) {
     const { location } = item
-    return this.locationDescription.getRegionCoordinates(location, context)
+    return {
+      ...this.locationDescription.getRegionCoordinates(location, context),
+      z: 0.05
+    }
   }
 }
 

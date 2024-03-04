@@ -44,35 +44,42 @@ const Red19: CardDescription = {
 }
 
 const Red23: CardDescription = {
+  night: 1,
   wonders: [Wonder.Chimera, Wonder.Rock],
   quest: new AllColorQuest(10)
 }
 
 const Red26: CardDescription = {
+  night: 1,
   wonders: [Wonder.Chimera],
   quest: new ThistleQuest(3)
 }
 
 const Red28: CardDescription = {
+  night: 1,
   wonders: [Wonder.Rock],
   quest: new ChimeraQuest(3)
 }
 
 const Red30: CardDescription = {
+  night: 1,
   wonders: [Wonder.Rock],
   quest: new RockQuest(2)
 }
 
 const Red32: CardDescription = {
+  night: 1,
   wonders: [Wonder.Chimera, Wonder.Rock],
   quest: new BrutPointQuest(7, [Wonder.Rock, Wonder.Rock, Wonder.Rock])
 }
 
 const Red36: CardDescription = {
+  night: 1,
   quest: new ThistleQuest(4, [Wonder.Chimera, Wonder.Chimera])
 }
 
 const Red39: CardDescription = {
+  night: 1,
   wonders: [Wonder.Thistle, Wonder.Rock],
   quest: new BrutPointQuest(9, [Wonder.Chimera, Wonder.Chimera])
 }
@@ -119,21 +126,25 @@ const Green18: CardDescription = {
 }
 
 const Green20: CardDescription = {
+  night: 1,
   clue: 1,
   quest: new NightQuest(2, [Wonder.Rock])
 }
 
 const Green22: CardDescription = {
+  night: 1,
   clue: 1,
   quest: new ClueQuest(1)
 }
 
 const Green34: CardDescription = {
+  night: 1,
   wonders: [Wonder.Chimera],
   quest: new ChimeraQuest(3, [Wonder.Rock, Wonder.Rock])
 }
 
 const Green38: CardDescription = {
+  night: 1,
   wonders: [Wonder.Rock],
   quest: new ClueQuest(3, [Wonder.Chimera, Wonder.Thistle])
 }
@@ -197,15 +208,18 @@ const Blue17: CardDescription = {
 }
 
 const Blue21: CardDescription = {
+  night: 1,
   quest: new BrutPointQuest(8, [Wonder.Rock, Wonder.Rock])
 }
 
 const Blue24: CardDescription = {
+  night: 1,
   wonders: [Wonder.Rock],
   quest: new NightQuest(2, [Wonder.Chimera])
 }
 
 const Blue40: CardDescription = {
+  night: 1,
   quest: new NightQuest(3, [Wonder.Thistle, Wonder.Chimera, Wonder.Rock])
 }
 
@@ -259,33 +273,40 @@ const Yellow12: CardDescription = {
 }
 
 const Yellow25: CardDescription = {
+  night: 1,
   quest: new ColorQuest(1, [Color.Yellow, Color.Green])
 }
 
 const Yellow27: CardDescription = {
+  night: 1,
   quest: new ColorQuest(1, [Color.Yellow, Color.Blue])
 }
 
 const Yellow29: CardDescription = {
+  night: 1,
   wonders: [Wonder.Thistle],
   quest: new ThistleQuest(2)
 }
 
 const Yellow31: CardDescription = {
+  night: 1,
   quest: new ColorQuest(1, [Color.Yellow, Color.Red])
 }
 
 const Yellow33: CardDescription = {
+  night: 1,
   clue: 1,
   quest: new ThistleQuest(3)
 }
 
 const Yellow35: CardDescription = {
+  night: 1,
   wonders: [Wonder.Chimera],
   quest: new AllColorQuest(10)
 }
 
 const Yellow37: CardDescription = {
+  night: 1,
   quest: new NightQuest(3, [Wonder.Thistle])
 }
 
