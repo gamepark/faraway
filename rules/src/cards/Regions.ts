@@ -263,6 +263,7 @@ export const Regions: Partial<Record<Region, CardDescription>> = {
   [Region.Red36]: Red36,
   [Region.Red39]: Red39,
   [Region.Red48]: Red48,
+
   [Region.Green5]: Green5,
   [Region.Green8]: Green8,
   [Region.Green15]: Green15,

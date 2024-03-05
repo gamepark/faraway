@@ -9,6 +9,7 @@ export class ClueQuest extends Quest {
   getScore(regions: MaterialItem[], sanctuaries: MaterialItem[]): number | undefined {
     const regionClues = regions.map((r) => Regions[r.id]?.clue ?? 0)
     const sanctuaryClues = sanctuaries.map((r) => Sanctuaries[r.id]?.clue ?? 0)
+    console.log(regionClues, sanctuaryClues, this.points * (sum(regionClues) + sum(sanctuaryClues)))
     return this.points * (sum(regionClues) + sum(sanctuaryClues))
   }
 }
