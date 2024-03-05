@@ -2,9 +2,10 @@
 import { FarawayOptionsSpec } from '@gamepark/faraway/FarawayOptions'
 import { FarawayRules } from '@gamepark/faraway/FarawayRules'
 import { FarawaySetup } from '@gamepark/faraway/FarawaySetup'
-import { GameProvider, MaterialGameAnimations, setupTranslation } from '@gamepark/react-game'
+import { GameProvider, setupTranslation } from '@gamepark/react-game'
 import { StrictMode } from 'react'
 import ReactDOM from 'react-dom'
+import { farawayAnimations } from './animation/FarawayAnimations'
 import App from './App'
 import { Locators } from './locators/Locators'
 import { Material } from './material/Material'
@@ -21,7 +22,7 @@ ReactDOM.render(
       GameSetup={FarawaySetup}
       material={Material}
       locators={Locators}
-      animations={new MaterialGameAnimations()}
+      animations={farawayAnimations}
     >
       <App/>
     </GameProvider>

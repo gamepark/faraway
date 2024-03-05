@@ -1,4 +1,4 @@
-import { isMoveItemType, ItemMove, PlayerTurnRule } from '@gamepark/rules-api'
+import { isMoveItemType, isShuffle, ItemMove, PlayerTurnRule } from '@gamepark/rules-api'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { RuleId } from './RuleId'
@@ -19,7 +19,16 @@ export class ChooseNewRegionCardRule extends PlayerTurnRule {
 
   afterItemMove(move: ItemMove) {
     if (!isMoveItemType(MaterialType.Region)(move)) return []
-    return [this.rules().startRule(RuleId.PlaceSanctuary)]
+    if (isShuffle(move)) return []
+
+    return [
+      this.hand.shuffle(),
+      this.rules().startRule(RuleId.PlaceSanctuary)
+    ]
+  }
+
+  get hand() {
+    return this.material(MaterialType.Region).location(LocationType.PlayerRegionHand).player(this.player)
   }
 
   get regions() {

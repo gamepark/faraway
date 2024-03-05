@@ -1,8 +1,11 @@
 /** @jsxImportSource @emotion/react */
+import { getValue } from '@gamepark/faraway/cards/Region'
 import { LocationType } from '@gamepark/faraway/material/LocationType'
+import { MaterialType } from '@gamepark/faraway/material/MaterialType'
 import { RuleId } from '@gamepark/faraway/rules/RuleId'
 import { HandLocator, ItemContext, LocationDescription, MaterialContext } from '@gamepark/react-game'
 import { Location, MaterialItem } from '@gamepark/rules-api'
+import { orderBy } from 'lodash'
 import { regionCardDescription } from '../material/RegionCardDescription'
 import { getBoardIndex, getDeltaForPosition } from './position/PositionOnTable'
 
@@ -23,6 +26,18 @@ export class RegionHandLocator extends HandLocator {
   getBaseAngle(item: MaterialItem, { rules, player }: ItemContext): number {
     const index = getBoardIndex(item.location, rules, player)
     return [1, 2, 3].includes(index) ? 180 : 0
+  }
+
+  getItemIndex(item: MaterialItem, context: ItemContext): number {
+    const { player, rules, index } = context
+    if (item.location.player === player) {
+      const hand = rules.material(MaterialType.Region).location(LocationType.PlayerRegionHand)
+      const coins = hand.player(player)
+      const sorted = orderBy(coins.getIndexes(), (index) => getValue(hand.getItem(index)!.id))
+      return sorted.indexOf(index)
+    } else {
+      return item.location.x!
+    }
   }
 }
 
