@@ -33,7 +33,8 @@ export const FarawayPlayerPanel: FC<FarawayPlayerPanelProps> = (props) => {
             player: player.id,
             x: x
           })),
-      margin: getMargin(rules, player, playerId)
+      margin: getMargin(rules, player, playerId),
+      animationTime: 500
     })
   }, [rules, player])
 
