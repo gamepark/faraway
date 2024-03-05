@@ -9,7 +9,11 @@ export class RefillRegionRule extends MaterialRulesPart {
     const moves: MaterialMove[] = []
 
     moves.push(...this.discardRegionCardsMoves)
-    moves.push(...this.drawRegionCardsMoves)
+
+    if (this.round < 7) {
+      moves.push(...this.drawRegionCardsMoves)
+    }
+
     moves.push(this.rules().startSimultaneousRule(RuleId.PlaceRegion))
     return moves
   }
@@ -40,5 +44,9 @@ export class RefillRegionRule extends MaterialRulesPart {
   onRuleEnd() {
     this.memorize(Memory.Round, (round) => round + 1)
     return []
+  }
+
+  get round() {
+    return this.remind<number>(Memory.Round)
   }
 }

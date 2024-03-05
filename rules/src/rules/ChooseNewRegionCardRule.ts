@@ -4,6 +4,11 @@ import { MaterialType } from '../material/MaterialType'
 import { RuleId } from './RuleId'
 
 export class ChooseNewRegionCardRule extends PlayerTurnRule {
+
+  onRuleStart() {
+    if (!this.getPlayerMoves().length) return [this.rules().startRule(RuleId.PlaceSanctuary)]
+    return []
+  }
   getPlayerMoves() {
     return this.regions
       .moveItems({

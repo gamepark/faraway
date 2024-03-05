@@ -5,8 +5,5 @@ export enum RuleId {
   ChooseNewRegion,
   PlaceSanctuary,
   RefillRegion,
-  //DiscardSanctuaryCard,
-  //EndOfTurn,
-  //PrepareNewRound,
-  //DefineFirstPlayer,
+  Scoring
 }

@@ -20,6 +20,7 @@ import { PlaceSanctuaryRule } from './rules/PlaceSanctuaryRule'
 import { RefillRegionRule } from './rules/RefillRegionRule'
 import { RevealRegionCards } from './rules/RevealRegionCards'
 import { RuleId } from './rules/RuleId'
+import { ScoringRule } from './rules/ScoringRule'
 
 
 export const hideCardWhenNotRotated: HidingStrategy = (
@@ -42,13 +43,8 @@ export class FarawayRules extends SecretMaterialRules<PlayerId, MaterialType, Lo
     [RuleId.DealSanctuaries]: DealSanctuariesRule,
     [RuleId.ChooseNewRegion]: ChooseNewRegionCardRule,
     [RuleId.RefillRegion]: RefillRegionRule,
-    [RuleId.PlaceSanctuary]: PlaceSanctuaryRule
-    //[RuleId.ChooseRegionCard]: ChooseRegionCardRule,
-    //[RuleId.ChoosesanctuaryCard]: ChooseSanctuaryCardRule,
-    //[RuleId.DiscardsanctuaryCard]: DiscardSanctuaryCardRule,
-    //[RuleId.EndOfTurn]: EndOfTurnRule,
-    //[RuleId.PrepareNewRound]: PrepareNewRoundRule,
-    //[RuleId.DefineFirstPlayer]: DefineFirstPlayerRule,
+    [RuleId.PlaceSanctuary]: PlaceSanctuaryRule,
+    [RuleId.Scoring]: ScoringRule
 
   }
 
