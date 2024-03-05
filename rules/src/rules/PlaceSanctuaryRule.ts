@@ -42,8 +42,10 @@ export class PlaceSanctuaryRule extends PlayerTurnRule {
   }
 
   discardHand() {
+
     return this.hand.moveItems({
-      type: LocationType.SanctuaryDeck
+      type: LocationType.SanctuaryDeck,
+      x: 0
     })
   }
 
