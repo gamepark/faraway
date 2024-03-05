@@ -43,7 +43,7 @@ export const FarawayPlayerPanel: FC<FarawayPlayerPanelProps> = (props) => {
       setTimeout(focusPlayer, 3000)
     }
 
-  }, [itsMe])
+  }, [itsMe, playerId, setFocus])
 
   return (
     <PlayerPanel onClick={focusPlayer} playerId={player.id} css={panelStyle} {...rest} />

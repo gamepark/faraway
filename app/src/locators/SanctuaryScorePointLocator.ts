@@ -7,7 +7,7 @@ export class SanctuaryScorePointLocator extends ItemLocator {
   parentItemType = MaterialType.Sanctuary
 
   getPositionOnParent() {
-    return { x: 50, y: 60 }
+    return { x: 50, y: 57 }
   }
 }
 
