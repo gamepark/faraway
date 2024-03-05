@@ -1,5 +1,6 @@
 import { Sanctuary } from '@gamepark/faraway/cards/Sanctuary'
 import { LocationType } from '@gamepark/faraway/material/LocationType'
+import { MaterialType } from '@gamepark/faraway/material/MaterialType'
 import { RuleId } from '@gamepark/faraway/rules/RuleId'
 import { CardDescription, ItemContext } from '@gamepark/react-game'
 import { MaterialItem } from '@gamepark/rules-api'
@@ -106,6 +107,9 @@ export class SanctuaryCardDescription extends CardDescription {
 
   getLocations(item: MaterialItem, context: ItemContext) {
     if (item.location.type !== LocationType.PlayerSanctuaryLine || (context.rules.game.rule && context.rules.game.rule?.id !== RuleId.Scoring)) return []
+    const { rules } = context
+    const hiddenRegions = rules.material(MaterialType.Region).location(LocationType.PlayerRegionLine).rotation((r) => !r)
+    if (hiddenRegions.length) return []
     return [{
       type: LocationType.SanctuaryScorePoints,
       parent: context.index

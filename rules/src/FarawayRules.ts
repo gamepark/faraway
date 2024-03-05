@@ -84,7 +84,7 @@ export class FarawayRules extends SecretMaterialRules<PlayerId, MaterialType, Lo
 
   getScore(playerId: PlayerId) {
     let score = 0
-    const regionIndexes = this.material(MaterialType.Region).location(LocationType.PlayerRegionHand).player(playerId).getIndexes()
+    const regionIndexes = this.material(MaterialType.Region).location(LocationType.PlayerRegionLine).player(playerId).getIndexes()
     for (let index of regionIndexes) {
       const item = this.material(MaterialType.Region).getItem(index)!
       const quest: Quest = RegionQuests[item.id]
