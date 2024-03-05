@@ -22,9 +22,8 @@ export const FarawayPlayerPanel: FC<FarawayPlayerPanelProps> = (props) => {
   const focusPlayer = useCallback(() => {
     setFocus({
       materials: [
-        rules.material(MaterialType.Region).player(player.id),
-        rules.material(MaterialType.Sanctuary).player(player.id),
-        ...(itsMe ? [rules.material(MaterialType.Region).location(LocationType.Region)] : [])
+        ...(itsMe ? [rules.material(MaterialType.Region).location(LocationType.Region)]: []),
+        ...(itsMe ? [rules.material(MaterialType.Region).location(LocationType.PlayerRegionHand).player(playerId)]: [])
       ],
       staticItems: [],
       locations:
@@ -55,47 +54,28 @@ const panelStyle = css`
 `
 
 const getMargin = (rules: FarawayRules, player: Player, playerId?: PlayerId) => {
-  const itsMe = playerId && player.id === playerId
   const index = computeBoardIndex({ player: player.id }, rules, playerId)
-  switch (index) {
-    case 0:
-      const smallTop = rules.players.length <= 5
-      const smallBottom = rules.players.length === 2
-      return {
-        top: smallTop ? 1 : 5,
-        bottom: smallBottom ? 1 : 4,
-        left: 3
-      }
-    case 1:
-      return {
-        top: 3,
-        bottom: rules.players.length < 5 ? 1 : 4,
-        left: itsMe ? 15 : 0
-      }
-    case 2:
-      return {
-        top: 3,
-        bottom: rules.players.length < 5 ? 1 : 4,
-        right: rules.players.length < 5 ? 5 : 0
-      }
-    case 3:
-      return {
-        top: 2,
-        bottom: 4,
-        right: rules.players.length > 4 ? 5 : 0
-      }
-    case 4:
-      return {
-        top: 4,
-        bottom: 2,
-        right: 5
-      }
-    case 5:
-      return {
-        top: 4,
-        bottom: 2
-      }
+  const margin = {
+    left: 23,
+    right: 2,
+    top: 2,
+    bottom: 3
   }
 
-  return {}
+  if (index === 0 && rules.players.length > 3) {
+    margin.top = 4
+    margin.bottom = 1
+  }
+
+  if (index === 0 && rules.players.length === 5) {
+    margin.top = 5
+    margin.bottom = 1
+  }
+
+  if (index === 0 && rules.players.length === 6) {
+    margin.top = 5
+    margin.bottom = 4
+  }
+
+  return margin
 }
