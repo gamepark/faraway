@@ -11,10 +11,12 @@ import { regionHandLocator } from './RegionHandLocator'
 import { regionLocator } from './RegionLocator'
 import { regionScorePointLocator } from './RegionScorePointLocator'
 import { sanctuaryHandLocator } from './SactuaryHandLocator'
+import { sanctuaryDeckLocator } from './SanctuaryDeckLocator'
 import { sanctuaryScorePointLocator } from './SanctuaryScorePointLocator'
 
 export const Locators: Partial<Record<LocationType, ItemLocator<PlayerId, MaterialType, LocationType>>> = {
   [LocationType.RegionDeck]: regionDeckLocator,
+  [LocationType.SanctuaryDeck]: sanctuaryDeckLocator,
   [LocationType.PlayerRegionHand]: regionHandLocator,
   [LocationType.PlayerSanctuaryHand]: sanctuaryHandLocator,
   [LocationType.PlayerRegionLine]: playerRegionLineLocator,
