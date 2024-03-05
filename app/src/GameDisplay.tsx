@@ -17,9 +17,17 @@ export const GameDisplay: FC<GameDisplayProps> = () => {
     <GameTable { ...tableSize }
                verticalCenter
                margin={{ top: 7, left: 0, right: 0, bottom: 0 }} css={css`//background-color: rgba(255, 255, 255, 0.31)`}>
-      <GameTableNavigation/>
+      <GameTableNavigation css={navigation}/>
       <PlayerPanels/>
     </GameTable>
   </>
 }
+
+const navigation = css`
+  flex-direction: column;
+  top: 45em;
+  right: 2em;
+  left: initial;
+  
+`
 
