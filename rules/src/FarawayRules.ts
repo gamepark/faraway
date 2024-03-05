@@ -97,7 +97,7 @@ export class FarawayRules extends SecretMaterialRules<PlayerId, MaterialType, Lo
       const item = this.material(MaterialType.Sanctuary).getItem(index)!
       const quest: Quest = SanctuaryQuests[item.id]
       if (!quest) continue
-      score += quest.getTotalScore(this.game, index, MaterialType.Region, playerId)
+      score += quest.getTotalScore(this.game, index, MaterialType.Sanctuary, playerId)
     }
 
     return score
