@@ -41,15 +41,15 @@ export const computeBoardIndex = (location: Partial<Location>, rules: MaterialRu
 export const getTableSize = (players: number): { xMin: number, xMax: number, yMin: number, yMax: number } => {
   switch (players) {
     case 3:
-      return { xMin: -30, xMax: 86, yMin: -28, yMax: 39 }
+      return { xMin: -30, xMax: 86, yMin: -24, yMax: 39 }
     case 4:
-      return { xMin: -30, xMax: 86, yMin: -28, yMax: 39 }
+      return { xMin: -30, xMax: 86, yMin: -24, yMax: 39 }
     case 5:
-      return { xMin: -28, xMax: 140, yMin: -30, yMax: 39 }
+      return { xMin: -28, xMax: 140, yMin: -33, yMax: 39 }
     case 6:
-      return { xMin: -28, xMax: 140, yMin: -30, yMax: 39 }
+      return { xMin: -28, xMax: 140, yMin: -33, yMax: 39 }
     default:
       // 2 players
-      return { xMin: -31, xMax: 55, yMin: -28, yMax: 35 }
+      return { xMin: -31, xMax: 55, yMin: -24, yMax: 35 }
   }
 }

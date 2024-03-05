@@ -1,5 +1,4 @@
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react'
 import { LocationType } from '@gamepark/faraway/material/LocationType'
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
 import { LocationContext, LocationDescription, MaterialContext } from '@gamepark/react-game'
@@ -11,10 +10,6 @@ export class PlayerSanctuaryLineDescription extends LocationDescription {
   height = sanctuaryCardDescription.height
   width = sanctuaryCardDescription.width
   borderRadius = sanctuaryCardDescription.borderRadius
-
-  alwaysVisible = true
-
-  extraCss = css`border: 0.05em solid white`
 
   getLocations(context: MaterialContext) {
     const { player } = context

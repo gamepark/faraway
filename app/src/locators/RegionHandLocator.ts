@@ -11,7 +11,7 @@ export class RegionHandLocator extends HandLocator {
     const coordinates = { x: 15, y: 29, z: 0}
     const index = getBoardIndex(location, rules, player)
     const delta = getDeltaForPosition(location, rules, player)
-    const additionaleY = [1, 2, 3].includes(index)? -26: 0
+    const additionaleY = [1, 2, 3].includes(index)? -25: 0
 
     if (rules.game.rule?.id === RuleId.PlaceSanctuary && rules.game.rule?.player === player && location.player === player) coordinates.x += 23.5
     return {

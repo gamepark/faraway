@@ -11,7 +11,7 @@ export class SanctuaryHandLocator extends HandLocator {
     const coordinates = { x: -11, y: 29, z: 0}
     const index = getBoardIndex(location, rules, player)
     const delta = getDeltaForPosition(location, rules, player)
-    const top = [1, 2, 3].includes(index)? -25.5: 0
+    const top = [1, 2, 3].includes(index)? -24.5: 0
 
     if (player && player !== location.player) {
       coordinates.x += 12
@@ -19,7 +19,6 @@ export class SanctuaryHandLocator extends HandLocator {
 
     if (rules.game.rule?.id === RuleId.PlaceSanctuary && rules.game.rule?.player === player && location.player === player) {
       coordinates.x += 14
-      coordinates.y -= 1
     }
 
     return {

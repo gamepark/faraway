@@ -56,31 +56,37 @@ const getMargin = (rules: FarawayRules, player: Player, playerId?: PlayerId) => 
       const smallBottom = rules.players.length === 2
       return {
         top: smallTop? 1: 5,
-        bottom: smallBottom? 1: 3,
+        bottom: smallBottom? 1: 4,
+        left: 3
       }
     case 1:
       return {
-        top: 5,
-        bottom: 1,
+        top: 3,
+        bottom: rules.players.length < 5? 1: 4,
         left: itsMe? 15: 0
       }
     case 2:
       return {
-        top: 5,
-        bottom: 1,
+        top: 3,
+        bottom: rules.players.length < 5? 1: 4,
         right: rules.players.length < 5? 5: 0
       }
     case 3:
       return {
-        top: 3,
-        bottom: 2,
+        top: 2,
+        bottom: 4,
         right: rules.players.length > 4? 5: 0
       }
     case 4:
       return {
-        top: 3,
+        top: 4,
         bottom: 2,
         right: 5
+      }
+    case 5:
+      return {
+        top: 4,
+        bottom: 2
       }
   }
 
