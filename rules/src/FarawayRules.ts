@@ -66,7 +66,6 @@ export class FarawayRules extends SecretMaterialRules<PlayerId, MaterialType, Lo
       [LocationType.PlayerSanctuaryHand]: new PositiveSequenceStrategy(),
       [LocationType.SanctuaryDeck]: new PositiveSequenceStrategy(),
       [LocationType.PlayerSanctuaryLine]: new PositiveSequenceStrategy(),
-      [LocationType.SanctuaryDiscard]: new PositiveSequenceStrategy()
     }
   }
 

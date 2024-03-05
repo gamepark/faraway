@@ -23,7 +23,7 @@ export class PlaceSanctuaryRule extends PlayerTurnRule {
   }
 
   afterItemMove(move: ItemMove) {
-    if (!isMoveItemType(MaterialType.Sanctuary)(move) || move.location.type === LocationType.SanctuaryDiscard) return []
+    if (!isMoveItemType(MaterialType.Sanctuary)(move) || move.location.type === LocationType.SanctuaryDeck) return []
     const moves: MaterialMove[] = []
 
     moves.push(...this.discardHand())
@@ -43,7 +43,7 @@ export class PlaceSanctuaryRule extends PlayerTurnRule {
 
   discardHand() {
     return this.hand.moveItems({
-      type: LocationType.SanctuaryDiscard
+      type: LocationType.SanctuaryDeck
     })
   }
 
