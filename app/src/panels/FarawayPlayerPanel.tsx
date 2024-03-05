@@ -6,7 +6,7 @@ import { MaterialType } from '@gamepark/faraway/material/MaterialType'
 import { PlayerId } from '@gamepark/faraway/PlayerId'
 import { Player } from '@gamepark/react-client'
 import { PlayerPanel, useFocusContext, usePlayerId, useRules } from '@gamepark/react-game'
-import { FC, HTMLAttributes, useCallback } from 'react'
+import { FC, HTMLAttributes, useCallback, useEffect } from 'react'
 import { computeBoardIndex } from '../locators/position/PositionOnTable'
 
 type FarawayPlayerPanelProps = {
@@ -24,7 +24,7 @@ export const FarawayPlayerPanel: FC<FarawayPlayerPanelProps> = (props) => {
       materials: [
         rules.material(MaterialType.Region).player(player.id),
         rules.material(MaterialType.Sanctuary).player(player.id),
-        ...(itsMe ? [rules.material(MaterialType.Region).location(LocationType.Region)]: [])
+        ...(itsMe ? [rules.material(MaterialType.Region).location(LocationType.Region)] : [])
       ],
       staticItems: [],
       locations:
@@ -38,8 +38,15 @@ export const FarawayPlayerPanel: FC<FarawayPlayerPanelProps> = (props) => {
     })
   }, [rules, player])
 
+  useEffect(() => {
+    if (itsMe) {
+      setTimeout(focusPlayer, 3000)
+    }
+
+  }, [itsMe])
+
   return (
-    <PlayerPanel onClick={focusPlayer} playerId={player.id} css={panelStyle} { ...rest} />
+    <PlayerPanel onClick={focusPlayer} playerId={player.id} css={panelStyle} {...rest} />
   )
 }
 
@@ -55,27 +62,27 @@ const getMargin = (rules: FarawayRules, player: Player, playerId?: PlayerId) => 
       const smallTop = rules.players.length <= 5
       const smallBottom = rules.players.length === 2
       return {
-        top: smallTop? 1: 5,
-        bottom: smallBottom? 1: 4,
+        top: smallTop ? 1 : 5,
+        bottom: smallBottom ? 1 : 4,
         left: 3
       }
     case 1:
       return {
         top: 3,
-        bottom: rules.players.length < 5? 1: 4,
-        left: itsMe? 15: 0
+        bottom: rules.players.length < 5 ? 1 : 4,
+        left: itsMe ? 15 : 0
       }
     case 2:
       return {
         top: 3,
-        bottom: rules.players.length < 5? 1: 4,
-        right: rules.players.length < 5? 5: 0
+        bottom: rules.players.length < 5 ? 1 : 4,
+        right: rules.players.length < 5 ? 5 : 0
       }
     case 3:
       return {
         top: 2,
         bottom: 4,
-        right: rules.players.length > 4? 5: 0
+        right: rules.players.length > 4 ? 5 : 0
       }
     case 4:
       return {
@@ -90,7 +97,5 @@ const getMargin = (rules: FarawayRules, player: Player, playerId?: PlayerId) => 
       }
   }
 
-  return {
-
-  }
+  return {}
 }
