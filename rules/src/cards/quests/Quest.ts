@@ -13,9 +13,9 @@ export abstract class Quest {
   constructor(readonly points: number, readonly wonders: Wonder[] = []) {
   }
 
-  getTotalScore(game: MaterialGame, cardIndex: number, playerId: PlayerId) {
+  getTotalScore(game: MaterialGame, cardIndex: number, cardType: MaterialType, playerId: PlayerId) {
     const rules = new FarawayRules(game)
-    const card = rules.material(MaterialType.Region).getItem(cardIndex)!
+    const card = rules.material(cardType).getItem(cardIndex)!
     const locationX = card.location.x!
     const regions = this.getRegions(game, locationX, playerId)
     const sanctuaries = this.getSanctuaries(game, playerId)

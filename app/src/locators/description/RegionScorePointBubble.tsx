@@ -19,7 +19,7 @@ export const RegionScorePointBubble: FC<RegionScorePointBubbleProps> = (props) =
   const item = rules?.material(MaterialType.Region).getItem(location.parent!)!
   const quest: Quest = item.id? quests[item.id]: undefined
   if (!quest) return null
-  const score = quest.getTotalScore(rules.game, location.parent!, item.location.player!)
+  const score = quest.getTotalScore(rules.game, location.parent!, MaterialType.Region, item.location.player!)
   return (
     <SpeechBubble direction={SpeechBubbleDirection.TOP_RIGHT} css={scoreStyle}>
       {score}
