@@ -4,7 +4,7 @@ import { LocationDescription } from '@gamepark/react-game'
 import { SanctuaryScorePointBubble } from './SanctuaryScorePointBubble'
 
 export class SanctuaryScorePointDescription extends LocationDescription {
-  height = 3
+  height = 2
   width = 2
 
   extraCss = css`touch-action: none; pointer-events: none`
