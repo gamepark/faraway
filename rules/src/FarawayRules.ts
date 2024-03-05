@@ -1,5 +1,6 @@
 import {
-  CompetitiveScore, FillGapStrategy,
+  CompetitiveScore,
+  FillGapStrategy,
   hideItemId,
   hideItemIdToOthers,
   HidingStrategy,
@@ -10,11 +11,15 @@ import {
   SecretMaterialRules,
   TimeLimit
 } from '@gamepark/rules-api'
+import { Quest } from './cards/quests/Quest'
+import { RegionQuests } from './cards/RegionQuests'
+import { SanctuaryQuests } from './cards/SanctuaryQuests'
 import { LocationType } from './material/LocationType'
 import { MaterialType } from './material/MaterialType'
 import { PlayerId } from './PlayerId'
 import { ChooseNewRegionCardRule } from './rules/ChooseNewRegionCardRule'
 import { DealSanctuariesRule } from './rules/DealSanctuariesRule'
+import { HideRegionLineRule } from './rules/HideRegionLineRule'
 import { PlaceRegionRule } from './rules/PlaceRegionRule'
 import { PlaceSanctuaryRule } from './rules/PlaceSanctuaryRule'
 import { RefillRegionRule } from './rules/RefillRegionRule'
@@ -44,6 +49,7 @@ export class FarawayRules extends SecretMaterialRules<PlayerId, MaterialType, Lo
     [RuleId.ChooseNewRegion]: ChooseNewRegionCardRule,
     [RuleId.RefillRegion]: RefillRegionRule,
     [RuleId.PlaceSanctuary]: PlaceSanctuaryRule,
+    [RuleId.HideRegionLine]: HideRegionLineRule,
     [RuleId.Scoring]: ScoringRule
 
   }
@@ -76,8 +82,25 @@ export class FarawayRules extends SecretMaterialRules<PlayerId, MaterialType, Lo
     }
   }
 
-  getScore(_playerId: PlayerId) {
-    return 0
+  getScore(playerId: PlayerId) {
+    let score = 0
+    const regionIndexes = this.material(MaterialType.Region).location(LocationType.PlayerRegionHand).player(playerId).getIndexes()
+    for (let index of regionIndexes) {
+      const item = this.material(MaterialType.Region).getItem(index)!
+      const quest: Quest = RegionQuests[item.id]
+      if (!quest) continue
+      score += quest.getTotalScore(this.game, index, playerId)
+    }
+
+    const sanctuariesIndexes = this.material(MaterialType.Sanctuary).location(LocationType.PlayerSanctuaryLine).player(playerId).getIndexes()
+    for (let index of sanctuariesIndexes) {
+      const item = this.material(MaterialType.Sanctuary).getItem(index)!
+      const quest: Quest = SanctuaryQuests[item.id]
+      if (!quest) continue
+      score += quest.getTotalScore(this.game, index, playerId)
+    }
+
+    return score
   }
 
   giveTime(_playerId: PlayerId): number {

@@ -7,5 +7,7 @@ export enum LocationType {
   PlayerRegionLine,
   Region,
   RegionDiscard,
-  SanctuaryDiscard
+  SanctuaryDiscard,
+  RegionScorePoints,
+  SanctuaryScorePoints
 }

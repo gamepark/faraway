@@ -39,13 +39,13 @@ export class DealSanctuariesRule extends MaterialRulesPart {
     const regionClues = sum(
       this
         .getPlayerRegionCards(playerId)
-        .getItems().map((item) => Regions[item.id].clue ?? 0)
+        .getItems().map((item) => Regions[item.id]?.clue ?? 0)
     )
 
     const sanctuaryClues = sum(
       this
         .getPlayerSanctuaryCards(playerId)
-        .getItems().map((item) => Sanctuaries[item.id].clue ?? 0)
+        .getItems().map((item) => Sanctuaries[item.id]?.clue ?? 0)
     )
 
     return 1 + regionClues + sanctuaryClues

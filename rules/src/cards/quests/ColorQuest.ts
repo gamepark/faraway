@@ -1,6 +1,6 @@
-import { MaterialGame } from '@gamepark/rules-api'
-import { PlayerId } from '../../PlayerId'
+import { MaterialItem } from '@gamepark/rules-api'
 import { Color } from '../Color'
+import { getColor } from '../Region'
 import { Wonder } from '../Wonder'
 import { Quest } from './Quest'
 
@@ -9,7 +9,9 @@ export class ColorQuest extends Quest {
     super(points, wonders)
   }
 
-  getScore(_game: MaterialGame, _playerId: PlayerId): number | undefined {
-    return undefined
+  getScore(regions: MaterialItem[], sanctuaries: MaterialItem[]): number | undefined {
+    const regionsWithColor = regions.filter((r) => this.colors.includes(getColor(r.id))).length
+    const sanctuariesWithColor = sanctuaries.filter((s) => this.colors.includes(getColor(s.id))).length
+    return (regionsWithColor + sanctuariesWithColor) * this.points
   }
 }

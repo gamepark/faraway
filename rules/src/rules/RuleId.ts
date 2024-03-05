@@ -5,5 +5,6 @@ export enum RuleId {
   ChooseNewRegion,
   PlaceSanctuary,
   RefillRegion,
+  HideRegionLine,
   Scoring
 }

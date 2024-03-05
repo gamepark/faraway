@@ -1,5 +1,8 @@
 import { Sanctuary } from '@gamepark/faraway/cards/Sanctuary'
-import { CardDescription } from '@gamepark/react-game'
+import { LocationType } from '@gamepark/faraway/material/LocationType'
+import { RuleId } from '@gamepark/faraway/rules/RuleId'
+import { CardDescription, ItemContext } from '@gamepark/react-game'
+import { MaterialItem } from '@gamepark/rules-api'
 import SanctuaryBack from '../images/sanctuary/sanctuary_card_back.jpg'
 import Red1 from '../images/sanctuary/sanctuary_red_1.jpg'
 import Red2 from '../images/sanctuary/sanctuary_red_2.jpg'
@@ -99,6 +102,14 @@ export class SanctuaryCardDescription extends CardDescription {
     [Sanctuary.Gray23]: Gray23,
     [Sanctuary.Gray24]: Gray24,
     [Sanctuary.Gray25]: Gray25,
+  }
+
+  getLocations(item: MaterialItem, context: ItemContext) {
+    if (item.location.type !== LocationType.PlayerSanctuaryLine || (context.rules.game.rule && context.rules.game.rule?.id !== RuleId.Scoring)) return []
+    return [{
+      type: LocationType.SanctuaryScorePoints,
+      parent: context.index
+    }]
   }
 }
 

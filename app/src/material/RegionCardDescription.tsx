@@ -1,5 +1,8 @@
 import { Region } from '@gamepark/faraway/cards/Region'
-import { CardDescription } from '@gamepark/react-game'
+import { LocationType } from '@gamepark/faraway/material/LocationType'
+import { RuleId } from '@gamepark/faraway/rules/RuleId'
+import { CardDescription, ItemContext } from '@gamepark/react-game'
+import { MaterialItem } from '@gamepark/rules-api'
 import Blue13 from '../images/region/region_blue_13.jpg'
 import Blue17 from '../images/region/region_blue_17.jpg'
 import Blue2 from '../images/region/region_blue_2.jpg'
@@ -147,6 +150,14 @@ export class RegionCardDescription extends CardDescription {
     [Region.Yellow59]: Yellow59,
     [Region.Yellow62]: Yellow62,
     [Region.Yellow65]: Yellow65,
+  }
+
+  getLocations(item: MaterialItem, context: ItemContext) {
+    if (item.location.type !== LocationType.PlayerRegionLine || (context.rules.game.rule && context.rules.game.rule?.id !== RuleId.Scoring)) return []
+    return [{
+      type: LocationType.RegionScorePoints,
+      parent: context.index
+    }]
   }
 }
 
