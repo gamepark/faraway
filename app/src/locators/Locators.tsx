@@ -10,7 +10,7 @@ import { regionDiscardLocator } from './RegionDiscardLocator'
 import { regionHandLocator } from './RegionHandLocator'
 import { regionLocator } from './RegionLocator'
 import { regionScorePointLocator } from './RegionScorePointLocator'
-import { sanctuaryHandLocator } from './SactuaryHandLocator'
+import { sanctuaryHandLocator } from './SanctuaryHandLocator'
 import { sanctuaryDeckLocator } from './SanctuaryDeckLocator'
 import { sanctuaryScorePointLocator } from './SanctuaryScorePointLocator'
 

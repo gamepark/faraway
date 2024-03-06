@@ -1,24 +1,35 @@
 /** @jsxImportSource @emotion/react */
-import { RuleId } from '@gamepark/faraway/rules/RuleId'
 import { HandLocator, ItemContext } from '@gamepark/react-game'
 import { Location, MaterialItem } from '@gamepark/rules-api'
 import { getBoardIndex, getDeltaForPosition } from './position/PositionOnTable'
 
 export class SanctuaryHandLocator extends HandLocator {
   delta = { x: -0.04, y: -0.04 }
+
+  getMaxAngle() {
+    return 16
+  }
+
   getCoordinates(location: Location, context: ItemContext) {
     const { player, rules } = context
-    const coordinates = { x: -11, y: 29, z: 0}
+    const coordinates = { x: -11, y: 29, z: 0 }
     const index = getBoardIndex(location, rules, player)
     const delta = getDeltaForPosition(location, rules, player)
-    const top = [1, 2, 3].includes(index)? -24.5: 0
+    const top = [1, 2, 3].includes(index) ? -24.5 : 0
+    const count = this.countItems(location, context)
 
-    if (player && player !== location.player) {
-      coordinates.x += 12
-    }
-
-    if (rules.game.rule?.id === RuleId.PlaceSanctuary && rules.game.rule?.player === player && location.player === player) {
-      coordinates.x += 14
+    if (player === location.player) {
+      coordinates.z = 3
+      if (count >= 6) {
+        coordinates.x += (count - 7) * 2
+      }
+      /*if (count >= 6 && count < 8) {
+        coordinates.x += (count - 8) * 2.2
+      } else if (count > 9) {
+        coordinates.x += (count - 9) * 2.2
+      }*/
+    } else {
+      coordinates.x += 4
     }
 
     return {
@@ -28,22 +39,23 @@ export class SanctuaryHandLocator extends HandLocator {
     }
   }
 
-  getRadius(item: MaterialItem, context: ItemContext): number {
-    const { rules, player } = context
-    if (player && player !== item.location.player) return 40
-    if (rules.game.rule?.id === RuleId.PlaceSanctuary && rules.game.rule?.player === player && item.location.player === player) return 200
-    return 80
+  getRadius(item: MaterialItem, { player }: ItemContext): number {
+    return player === item.location.player ? 200 : 40
   }
 
   getGapMaxAngle(item: MaterialItem, context: ItemContext): number {
-    const { rules, player } = context
-    if (rules.game.rule?.id === RuleId.PlaceSanctuary && rules.game.rule?.player === player && item.location.player === player) return 1.25
-    return 3.1
+    if (context.player === item.location.player) {
+      const count = this.countItems(item.location, context)
+      if (count > 6) {
+        return 1.25 - (count - 6) * 0.01
+      }
+    }
+    return 1.25
   }
 
   getBaseAngle(item: MaterialItem, { rules, player }: ItemContext): number {
     const index = getBoardIndex(item.location, rules, player)
-    return [1, 2, 3].includes(index)? 180: 0
+    return [1, 2, 3].includes(index) ? 180 : 0
   }
 }
 

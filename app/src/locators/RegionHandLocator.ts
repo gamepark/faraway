@@ -2,7 +2,6 @@
 import { getValue } from '@gamepark/faraway/cards/Region'
 import { LocationType } from '@gamepark/faraway/material/LocationType'
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
-import { RuleId } from '@gamepark/faraway/rules/RuleId'
 import { HandLocator, ItemContext, LocationDescription, MaterialContext } from '@gamepark/react-game'
 import { Location, MaterialItem } from '@gamepark/rules-api'
 import { orderBy } from 'lodash'
@@ -13,14 +12,11 @@ export class RegionHandLocator extends HandLocator {
   locationDescription = new RegionHandDescription()
 
   getCoordinates(location: Location, context: ItemContext) {
-    return { ...this.locationDescription.getCoordinates(location, context), z: 0 }
+    return { ...this.locationDescription.getCoordinates(location, context), z: 1 }
   }
 
-  getRadius(item: MaterialItem, context: ItemContext): number {
-    const { rules, player } = context
-    if (player && player !== item.location.player) return 40
-    if (rules.game.rule?.id === RuleId.PlaceSanctuary && rules.game.rule?.player === player && item.location.player === player) return 50
-    return 125
+  getRadius(item: MaterialItem, { player }: ItemContext): number {
+    return item.location.player === player ? 125 : 40
   }
 
   getBaseAngle(item: MaterialItem, { rules, player }: ItemContext): number {
@@ -52,12 +48,18 @@ class RegionHandDescription extends LocationDescription {
 
   getCoordinates(location: Location, context: ItemContext) {
     const { player, rules } = context
-    const coordinates = { x: 15, y: 29 }
+    const coordinates = { x: 11.2, y: 29 }
     const index = getBoardIndex(location, rules, player)
     const delta = getDeltaForPosition(location, rules, player)
     const additionalY = [1, 2, 3].includes(index) ? -25 : 0
 
-    if (rules.game.rule?.id === RuleId.PlaceSanctuary && rules.game.rule?.player === player && location.player === player) coordinates.x += 23.5
+    if (player === location.player) {
+      const sanctuaryHand = context.rules.material(MaterialType.Sanctuary).location(LocationType.PlayerSanctuaryHand).player(player).length
+      if (sanctuaryHand > 6) {
+        coordinates.x += Math.min((sanctuaryHand - 6) * 3.7, 31)
+      }
+    }
+
     return {
       x: coordinates.x + (delta.x ?? 0),
       y: coordinates.y + (delta.y ?? 0) + additionalY,
