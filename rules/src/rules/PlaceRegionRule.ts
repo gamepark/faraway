@@ -6,8 +6,7 @@ import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
 export class PlaceRegionRule extends SimultaneousRule<PlayerId, MaterialType, LocationType> {
-  getLegalMoves(playerId: PlayerId) {
-    if (!this.isTurnToPlay(playerId)) return []
+  getActivePlayerLegalMoves(playerId: PlayerId) {
     return this.getHand(playerId).moveItems({
       type: LocationType.PlayerRegionLine,
       player: playerId,
