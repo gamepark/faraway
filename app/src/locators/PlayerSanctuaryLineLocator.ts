@@ -1,20 +1,19 @@
 /** @jsxImportSource @emotion/react */
-import { GridLocator, ItemContext } from '@gamepark/react-game'
+import { ItemContext, ItemLocator } from '@gamepark/react-game'
 import { MaterialItem } from '@gamepark/rules-api'
 import { sanctuaryCardDescription } from '../material/SanctuaryCardDescription'
 import { PlayerSanctuaryLineDescription } from './description/PlayerSanctuaryLineDescription'
 
-export class PlayerSanctuaryLineLocator extends GridLocator {
-  itemsPerLine = 4
-  itemsGap = { x: -(sanctuaryCardDescription.width + 0.5) }
-  linesGap = { y: sanctuaryCardDescription.height + 0.5 }
-
+export class PlayerSanctuaryLineLocator extends ItemLocator {
   locationDescription = new PlayerSanctuaryLineDescription()
 
-
-  getCoordinates(item: MaterialItem, context: ItemContext) {
-    const { location } = item
-    return this.locationDescription.getSanctuaryCoordinates(location, context)
+  getPosition(item: MaterialItem, context: ItemContext) {
+    const { x, y, z } = this.locationDescription.getSanctuaryCoordinates(item.location, context)
+    return {
+      x: x - Math.floor(item.location.x! / 2) * (sanctuaryCardDescription.width + 0.5),
+      y: y + (item.location.x! % 2) * (sanctuaryCardDescription.height + 0.5),
+      z
+    }
   }
 }
 
