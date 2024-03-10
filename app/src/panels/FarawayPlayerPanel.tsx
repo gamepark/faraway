@@ -13,6 +13,7 @@ import { ScoreHelper } from '@gamepark/faraway/rules/helper/ScoreHelper'
 import { Memory } from '@gamepark/faraway/rules/Memory'
 import { Player, useOptions } from '@gamepark/react-client'
 import { Avatar, Picture, PlayerTimer, SpeechBubbleDirection, useFocusContext, usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
+import { GameSpeed } from '@gamepark/rules-api/dist/TimeLimit'
 import { FC, HTMLAttributes, useCallback, useEffect } from 'react'
 import Player3 from '../images/region/region_blue_9.jpg'
 import Player1 from '../images/region/region_green_11.jpg'
@@ -105,6 +106,7 @@ const PlacedCard: FC<FarawayPlayerPanelProps> = (props) => {
   const rules = useRules<FarawayRules>()!
   const round = rules.remind(Memory.Round)
   const options = useOptions()
+  const speedDisabled = options?.speed !== GameSpeed.RealTime || !player?.time
   const card = rules
     .material(MaterialType.Region)
     .location((l) => l.type === LocationType.PlayerRegionLine && l.x === (round - 1))
@@ -115,7 +117,7 @@ const PlacedCard: FC<FarawayPlayerPanelProps> = (props) => {
   if (!card?.id) return null
   const night = Regions[card.id]?.night === 1
   return (
-    <span css={[data, placedCard, options?.speed && rightAlignment]}>
+    <span css={[data, placedCard, speedDisabled && rightAlignment]}>
       <Picture css={timeMini} src={night? NightMini: DayMini} />
       <span>{getValue(card.id)}</span>
     </span>
