@@ -6,7 +6,7 @@ import { sanctuaryCardDescription } from '../../material/SanctuaryCardDescriptio
 import { getDeltaForPosition } from '../position/PositionOnTable'
 
 export class PlayerSanctuaryLineDescription extends LocationDescription {
-  width = sanctuaryCardDescription.width * 3 + 1
+  width = sanctuaryCardDescription.width * 4 + 1.5
   height = sanctuaryCardDescription.height * 2 + 0.5
   borderRadius = sanctuaryCardDescription.borderRadius
 
