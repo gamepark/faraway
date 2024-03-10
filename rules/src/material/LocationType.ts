@@ -9,5 +9,6 @@ export enum LocationType {
   RegionDiscard,
   RegionScorePoints,
   SanctuaryScorePoints,
-  CardCharacteristicsLocator
+  CardCharacteristics,
+  ScorePad
 }
