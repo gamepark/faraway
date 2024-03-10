@@ -14,6 +14,7 @@ import {
 import { LocationType } from './material/LocationType'
 import { MaterialType } from './material/MaterialType'
 import { PlayerId } from './PlayerId'
+import { ChooseHandCardsRule } from './rules/ChooseHandCardsRule'
 import { ChooseNewRegionCardRule } from './rules/ChooseNewRegionCardRule'
 import { DealSanctuariesRule } from './rules/DealSanctuariesRule'
 import { ScoreHelper } from './rules/helper/ScoreHelper'
@@ -48,7 +49,8 @@ export class FarawayRules extends SecretMaterialRules<PlayerId, MaterialType, Lo
     [RuleId.RefillRegion]: RefillRegionRule,
     [RuleId.PlaceSanctuary]: PlaceSanctuaryRule,
     [RuleId.HideRegionLine]: HideRegionLineRule,
-    [RuleId.Scoring]: ScoringRule
+    [RuleId.Scoring]: ScoringRule,
+    [RuleId.ChooseHandCards]: ChooseHandCardsRule
 
   }
 

@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { RuleId } from '@gamepark/faraway/rules/RuleId'
 import { ComponentType } from 'react'
+import { ChooseHandCardsHeader } from './ChooseHandCardsHeader'
 import { DealSanctuariesHeader } from './DealSanctuariesHeader'
 import { ExplorationHeader } from './ExplorationHeader'
 import { NewRegionHeader } from './NewRegionHeader'
@@ -16,5 +17,6 @@ export const Headers: Partial<Record<RuleId, ComponentType>> = {
   [RuleId.ChooseNewRegion]: NewRegionHeader,
   [RuleId.PlaceSanctuary]: SanctuaryHeader,
   [RuleId.RefillRegion]: RefillHeader,
-  [RuleId.Scoring]: ScoringHeader
+  [RuleId.Scoring]: ScoringHeader,
+  [RuleId.ChooseHandCards]: ChooseHandCardsHeader
 }

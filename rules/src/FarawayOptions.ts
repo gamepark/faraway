@@ -5,6 +5,7 @@ import { OptionsSpec } from '@gamepark/rules-api'
  * The first generic parameter, "{}", can be changed to include game options like variants or expansions.
  */
 export type FarawayOptions = {
+  beginner: boolean
   players: number;
 }
 
@@ -12,4 +13,9 @@ export type FarawayOptions = {
  * This object describes all the options a game can have, and will be used by GamePark website to create automatically forms for you game
  * (forms for friendly games, or forms for matchmaking preferences, for instance).
  */
-export const FarawayOptionsSpec: OptionsSpec<FarawayOptions> = {}
+export const FarawayOptionsSpec: OptionsSpec<FarawayOptions> = {
+  beginner: {
+    label: (t) => t('beginner'),
+    help: (t) => t('beginner.help'),
+    competitiveDisabled: true
+  },}

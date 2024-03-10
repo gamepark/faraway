@@ -6,5 +6,6 @@ export enum RuleId {
   PlaceSanctuary,
   RefillRegion,
   HideRegionLine,
-  Scoring
+  Scoring,
+  ChooseHandCards
 }

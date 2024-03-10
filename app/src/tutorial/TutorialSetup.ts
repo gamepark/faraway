@@ -3,6 +3,7 @@ import { FarawayOptions } from '@gamepark/faraway/FarawayOptions'
 import { FarawaySetup } from '@gamepark/faraway/FarawaySetup'
 import { LocationType } from '@gamepark/faraway/material/LocationType'
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
+import { RuleId } from '@gamepark/faraway/rules/RuleId'
 
 const me = 1
 export class TutorialSetup extends FarawaySetup {
@@ -35,6 +36,10 @@ export class TutorialSetup extends FarawaySetup {
           .deal({ type: LocationType.PlayerRegionHand, player: index + 1 }, 3)
       }
     }
+  }
+
+  start() {
+    this.startSimultaneousRule(RuleId.PlaceRegion)
   }
 
 }

@@ -32,7 +32,7 @@ export class FarawaySetup extends MaterialGameSetup<PlayerId, MaterialType, Loca
   setupPlayers(options: FarawayOptions) {
     const deck = this.material(MaterialType.Region).deck()
     for (let index = 0; index < options.players; index++) {
-      deck.deal({ type: LocationType.PlayerRegionHand, player: index + 1 }, 3)
+      deck.deal({ type: LocationType.PlayerRegionHand, player: index + 1 }, options.beginner? 3: 5)
     }
   }
 
@@ -62,7 +62,11 @@ export class FarawaySetup extends MaterialGameSetup<PlayerId, MaterialType, Loca
     this.material(MaterialType.Sanctuary).shuffle()
   }
 
-  start() {
-    this.startSimultaneousRule(RuleId.PlaceRegion)
+  start(options: FarawayOptions) {
+    if (options.beginner) {
+      this.startSimultaneousRule(RuleId.PlaceRegion)
+    } else {
+      this.startSimultaneousRule(RuleId.ChooseHandCards)
+    }
   }
 }
