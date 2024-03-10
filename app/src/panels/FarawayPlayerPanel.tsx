@@ -11,18 +11,8 @@ import { MaterialType } from '@gamepark/faraway/material/MaterialType'
 import { PlayerId } from '@gamepark/faraway/PlayerId'
 import { ScoreHelper } from '@gamepark/faraway/rules/helper/ScoreHelper'
 import { Memory } from '@gamepark/faraway/rules/Memory'
-import { Player } from '@gamepark/react-client'
-import {
-  Avatar,
-  Picture,
-  PlayerTimer,
-  PlayerTimerDisplay,
-  SpeechBubbleDirection,
-  useFocusContext,
-  usePlayerId,
-  usePlayerName,
-  useRules
-} from '@gamepark/react-game'
+import { Player, useOptions } from '@gamepark/react-client'
+import { Avatar, Picture, PlayerTimer, SpeechBubbleDirection, useFocusContext, usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
 import { FC, HTMLAttributes, useCallback, useEffect } from 'react'
 import Player3 from '../images/region/region_blue_9.jpg'
 import Player1 from '../images/region/region_green_11.jpg'
@@ -79,8 +69,6 @@ export const FarawayPlayerPanel: FC<FarawayPlayerPanelProps> = (props) => {
         <Avatar css={avatarStyle} playerId={playerId} speechBubbleProps={{ direction: SpeechBubbleDirection.BOTTOM_LEFT }}/>
         <h2 css={[nameStyle, data]}>{playerName}</h2>
         <Timer {...props} />
-        <PlayerTimerDisplay customStyle={[() => css`color: lightgray !important;`]} css={[data, timerStyle]}
-                            playerTime={((new Date().getTime() - 7500) - (new Date().getTime()))} playerId={playerId}/>
         <PlacedCard {...props} />
         <Score {...props} />
         <div css={turnToPlay ? day : night}></div>
@@ -116,6 +104,7 @@ const PlacedCard: FC<FarawayPlayerPanelProps> = (props) => {
   const { player } = props
   const rules = useRules<FarawayRules>()!
   const round = rules.remind(Memory.Round)
+  const options = useOptions()
   const card = rules
     .material(MaterialType.Region)
     .location((l) => l.type === LocationType.PlayerRegionLine && l.x === (round - 1))
@@ -126,13 +115,19 @@ const PlacedCard: FC<FarawayPlayerPanelProps> = (props) => {
   if (!card?.id) return null
   const night = Regions[card.id]?.night === 1
   return (
-    <span css={[data, placedCard]}>
+    <span css={[data, placedCard, options?.speed && rightAlignment]}>
       <Picture css={timeMini} src={night? NightMini: DayMini} />
       <span>{getValue(card.id)}</span>
     </span>
   )
 }
 
+const rightAlignment = css`
+  bottom: 0.2em;
+  left: initial;
+  right: 0.25em;
+  font-size: 2.5em;
+`
 const timeMini = css`
   height: 1.05em;
   margin-bottom: -0.17em;
