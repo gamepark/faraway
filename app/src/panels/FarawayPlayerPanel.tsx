@@ -124,29 +124,36 @@ const PlacedCard: FC<FarawayPlayerPanelProps> = (props) => {
 
 
   if (!card?.id) return null
-  const night = Regions[card.id].night === 1
+  const night = Regions[card.id]?.night === 1
   return (
-    <span css={[placedCard, data]}>
-      <Picture css={timeMini} src={night? NightMini: DayMini} /> {getValue(card.id)}
+    <span css={[data, placedCard]}>
+      <Picture css={timeMini} src={night? NightMini: DayMini} />
+      <span>{getValue(card.id)}</span>
     </span>
   )
 }
 
 const timeMini = css`
   height: 1.05em;
-  margin-bottom: -0.15em;
+  margin-bottom: -0.17em;
   border: 0.01em solid white;
-  display: inline-block;
+  //display: inline-block;
   border-radius: 5em;
 `
 
 const placedCard = css`
   position: absolute;
-  width: 3.4em;
+  width: 3.35em;
   font-size: 2.5em;
   bottom: 0.2em;
   left: initial;
-  right: 0.25em;
+  right: 4.7em;
+  display: flex;
+  
+  > span {
+    text-align: right;
+    width: 1.7em;
+  }
 `
 
 const scoreStyle = css`
@@ -212,7 +219,7 @@ const panelStyle = (playerId: PlayerId) => css`
 const data = css`
   color: white;
   background-color: rgba(0, 0, 0, 0.7);
-  padding: 0.1em 0.4em;
+  padding: 0.1em 0.3em;
   border-radius: 0.4em;
   z-index: 2;
 `
@@ -272,6 +279,6 @@ const timerStyle = css`
   position: absolute;
   bottom: 0.2em;
   left: initial;
-  right: 4em;
+  right: 0.25em;
   font-size: 2.5em;
 `
