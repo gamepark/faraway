@@ -83,7 +83,7 @@ const Timer: FC<FarawayPlayerPanelProps> = (props) => {
   const { player } = props
   const rules = useRules<FarawayRules>()!
 
-  if (rules?.isOver()) return null;
+  if (!rules?.isOver()) return null
 
   return <PlayerTimer customStyle={[(playing) => !playing && css`color: lightgray !important;`]} playerId={player.id} css={[timerStyle, data]}/>
 }
@@ -95,8 +95,9 @@ const Score: FC<FarawayPlayerPanelProps> = (props => {
   if (!rules?.isOver()) return null
 
   return (
-    <span css={[timerStyle, data]}>
-      <FontAwesomeIcon icon={faStar} css={scoreStyle} fill="#28B8CE"/> {new ScoreHelper(rules.game, player.id).score}
+    <span css={[placedCard, data]}>
+      <FontAwesomeIcon icon={faStar} css={scoreStyle} fill="#28B8CE"/>
+      <span>{new ScoreHelper(rules.game, player.id).score + 100}</span>
     </span>
   )
 })
@@ -115,10 +116,10 @@ const PlacedCard: FC<FarawayPlayerPanelProps> = (props) => {
 
 
   if (!card?.id) return null
-  const night = Regions[card.id]?.night === 1
+  const night = Regions[card?.id]?.night === 1
   return (
     <span css={[data, placedCard, speedDisabled && rightAlignment]}>
-      <Picture css={timeMini} src={night? NightMini: DayMini} />
+      <Picture css={timeMini} src={night ? NightMini : DayMini}/>
       <span>{getValue(card.id)}</span>
     </span>
   )
@@ -140,13 +141,14 @@ const timeMini = css`
 
 const placedCard = css`
   position: absolute;
-  width: 3.35em;
+  width: 3.5em;
   font-size: 2.5em;
   bottom: 0.2em;
   left: initial;
-  right: 4.7em;
+  right: 0.25em;
   display: flex;
-  
+  height: 1.35em;
+
   > span {
     text-align: right;
     width: 1.7em;
@@ -276,6 +278,6 @@ const timerStyle = css`
   position: absolute;
   bottom: 0.2em;
   left: initial;
-  right: 0.25em;
+  right: 4.1em;
   font-size: 2.5em;
 `
