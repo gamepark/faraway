@@ -35,6 +35,7 @@ export const FarawayPlayerPanel: FC<FarawayPlayerPanelProps> = (props) => {
   const { player, ...rest } = props
   const { setFocus } = useFocusContext()
   const rules = useRules<FarawayRules>()!
+  const isTutorial = !rules || rules.game.tutorialStep !== undefined
   const playerId = usePlayerId()
   const playerName = usePlayerName(player.id)
   const itsMe = playerId && player.id === playerId
@@ -59,15 +60,15 @@ export const FarawayPlayerPanel: FC<FarawayPlayerPanelProps> = (props) => {
   }, [rules, player])
 
   useEffect(() => {
-    if (itsMe && !rules.game.tutorialStep) {
+    if (itsMe && !isTutorial) {
       setTimeout(focusPlayer, 3000)
     }
 
-  }, [itsMe, playerId, setFocus])
+  }, [itsMe, playerId, setFocus, isTutorial])
   return (
     <>
       <div css={[panelPlayerStyle, panelStyle(player.id)]} onClick={focusPlayer} {...rest}>
-        <Avatar css={avatarStyle} playerId={playerId} speechBubbleProps={{ direction: SpeechBubbleDirection.BOTTOM_LEFT }}/>
+        <Avatar css={avatarStyle} playerId={player.id} speechBubbleProps={{ direction: SpeechBubbleDirection.BOTTOM_LEFT }}/>
         <h2 css={[nameStyle, data]}>{playerName}</h2>
         <Timer {...props} />
         <PlacedCard {...props} />
@@ -97,7 +98,7 @@ const Score: FC<FarawayPlayerPanelProps> = (props => {
   return (
     <span css={[placedCard, data]}>
       <FontAwesomeIcon icon={faStar} css={scoreStyle} fill="#28B8CE"/>
-      <span>{new ScoreHelper(rules.game, player.id).score + 100}</span>
+      <span>{new ScoreHelper(rules.game, player.id).score}</span>
     </span>
   )
 })
@@ -115,7 +116,7 @@ const PlacedCard: FC<FarawayPlayerPanelProps> = (props) => {
     .getItem()
 
 
-  if (!card?.id) return null
+  if (!card?.id || !rules?.game.rule) return null
   const night = Regions[card?.id]?.night === 1
   return (
     <span css={[data, placedCard, speedDisabled && rightAlignment]}>
