@@ -110,7 +110,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
         ({
           locations: [
             this
-              .location(LocationType.CardCharacteristicsLocator)
+              .location(LocationType.CardCharacteristics)
               .id(Characteristic.Biome)
               .parent(this.material(game, MaterialType.Region).location((location) => location.type === LocationType.Region && location.x === 0).getIndex())
               .location
@@ -136,7 +136,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
         ({
           locations: [
             this
-              .location(LocationType.CardCharacteristicsLocator)
+              .location(LocationType.CardCharacteristics)
               .id(Characteristic.Time)
               .parent(this.material(game, MaterialType.Region).location((location) => location.type === LocationType.Region && location.x === 0).getIndex())
               .location
@@ -288,7 +288,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
             .getIndexes()
             .map((index) => (
               this
-                .location(LocationType.CardCharacteristicsLocator)
+                .location(LocationType.CardCharacteristics)
                 .id(Characteristic.Time)
                 .parent(index)
                 .location
@@ -313,7 +313,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
         ],
         locations: [
           this
-            .location(LocationType.CardCharacteristicsLocator)
+            .location(LocationType.CardCharacteristics)
             .id(Characteristic.Clue)
             .parent(this.material(game, MaterialType.Region).id(Region.Green8).getIndex())
             .location
