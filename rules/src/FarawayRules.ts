@@ -86,7 +86,7 @@ export class FarawayRules extends SecretMaterialRules<PlayerId, MaterialType, Lo
   }
 
   giveTime(_playerId: PlayerId): number {
-    return 60
+    return 30
   }
 
 }
