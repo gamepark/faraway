@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { LocationType } from '@gamepark/faraway/material/LocationType'
 import { LocationContext, LocationDescription } from '@gamepark/react-game'
-import { Location } from '@gamepark/rules-api/dist/material/location/Location'
+import { Location } from '@gamepark/rules-api'
 import { regionCardDescription } from '../../material/RegionCardDescription'
 
 export class RegionDeckDescription extends LocationDescription {
