@@ -135,7 +135,6 @@ const timeMini = css`
   height: 1.05em;
   margin-bottom: -0.17em;
   border: 0.01em solid white;
-  //display: inline-block;
   border-radius: 5em;
 `
 

@@ -19,10 +19,14 @@ export class FarawaySetup extends MaterialGameSetup<PlayerId, MaterialType, Loca
     this.setupRegions()
     this.setupSanctuaries()
     this.setupPlayers(options)
+    this.setupAvailableRegions(options)
+    this.memorize(Memory.Round, 1)
+  }
+
+  setupAvailableRegions(options: FarawayOptions) {
     const deck = this.material(MaterialType.Region).location(LocationType.RegionDeck).deck()
 
     deck.deal({ type: LocationType.Region }, options.players + 1)
-    this.memorize(Memory.Round, 1)
   }
 
   setupPlayers(options: FarawayOptions) {
@@ -31,6 +35,8 @@ export class FarawaySetup extends MaterialGameSetup<PlayerId, MaterialType, Loca
       deck.deal({ type: LocationType.PlayerRegionHand, player: index + 1 }, 3)
     }
   }
+
+
 
   setupRegions() {
     const cards = regions.map((region) => ({

@@ -3,6 +3,7 @@ import { LocationType } from '@gamepark/faraway/material/LocationType'
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
 import { PlayerId } from '@gamepark/faraway/PlayerId'
 import { ItemLocator } from '@gamepark/react-game'
+import { cardCharacteristicLocator } from './CardCharacteristicLocator'
 import { playerRegionLineLocator } from './PlayerRegionLineLocator'
 import { playerSanctuaryLineLocator } from './PlayerSanctuaryLineLocator'
 import { regionDeckLocator } from './RegionDeckLocator'
@@ -24,5 +25,6 @@ export const Locators: Partial<Record<LocationType, ItemLocator<PlayerId, Materi
   [LocationType.Region]: regionLocator,
   [LocationType.RegionDiscard]: regionDiscardLocator,
   [LocationType.RegionScorePoints]: regionScorePointLocator,
-  [LocationType.SanctuaryScorePoints]: sanctuaryScorePointLocator
+  [LocationType.SanctuaryScorePoints]: sanctuaryScorePointLocator,
+  [LocationType.CardCharacteristicsLocator]: cardCharacteristicLocator
 }

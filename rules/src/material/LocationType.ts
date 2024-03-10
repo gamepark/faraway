@@ -8,5 +8,6 @@ export enum LocationType {
   Region,
   RegionDiscard,
   RegionScorePoints,
-  SanctuaryScorePoints
+  SanctuaryScorePoints,
+  CardCharacteristicsLocator
 }
