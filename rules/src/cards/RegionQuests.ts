@@ -1,4 +1,3 @@
-import { CardDescription } from './CardDescription'
 import { Color } from './Color'
 import { AllColorQuest } from './quests/AllColorQuest'
 import { BrutPointQuest } from './quests/BrutPointQuest'
@@ -6,12 +5,13 @@ import { ChimeraQuest } from './quests/ChimeraQuest'
 import { ClueQuest } from './quests/ClueQuest'
 import { ColorQuest } from './quests/ColorQuest'
 import { NightQuest } from './quests/NightQuest'
+import { Quest } from './quests/Quest'
 import { RockQuest } from './quests/RockQuest'
 import { ThistleQuest } from './quests/ThistleQuest'
 import { Region } from './Region'
 import { Wonder } from './Wonder'
 
-export const RegionQuests: Partial<Record<Region, CardDescription>> = {
+export const RegionQuests: Partial<Record<Region, Quest>> = {
 
   [Region.Red10]: new NightQuest(3),
   [Region.Red14]: new NightQuest(2),

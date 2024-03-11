@@ -10,5 +10,6 @@ export enum LocationType {
   RegionScorePoints,
   SanctuaryScorePoints,
   CardCharacteristics,
-  ScoreSheet
+  ScoreSheet,
+  ScoreSheetBox,
 }
