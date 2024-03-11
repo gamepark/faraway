@@ -227,7 +227,7 @@ const Yellow50: CardDescription = {
   wonders: [Wonder.Rock],
 }
 
-const Yellow53: CardDescription = {
+  const Yellow53: CardDescription = {
   wonders: [Wonder.Chimera],
 }
 

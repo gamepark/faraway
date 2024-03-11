@@ -72,6 +72,7 @@ import Yellow56 from '../images/region/region_yellow_56.jpg'
 import Yellow59 from '../images/region/region_yellow_59.jpg'
 import Yellow62 from '../images/region/region_yellow_62.jpg'
 import Yellow65 from '../images/region/region_yellow_65.jpg'
+import { RegionCardHelp } from './help/RegionCardHelp'
 
 
 export class RegionCardDescription extends CardDescription {
@@ -159,6 +160,8 @@ export class RegionCardDescription extends CardDescription {
       parent: context.index
     }]
   }
+
+  help = RegionCardHelp
 }
 
 export const regionCardDescription = new RegionCardDescription()
