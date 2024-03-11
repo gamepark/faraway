@@ -28,5 +28,5 @@ export const Locators: Partial<Record<LocationType, ItemLocator<PlayerId, Materi
   [LocationType.RegionScorePoints]: regionScorePointLocator,
   [LocationType.SanctuaryScorePoints]: sanctuaryScorePointLocator,
   [LocationType.CardCharacteristics]: cardCharacteristicLocator,
-  [LocationType.ScorePad]: scorePadLocator
+  [LocationType.ScoreSheet]: scorePadLocator
 }
