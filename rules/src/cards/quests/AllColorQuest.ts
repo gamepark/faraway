@@ -2,8 +2,10 @@ import { MaterialItem } from '@gamepark/rules-api'
 import { Color } from '../Color'
 import { getColor } from '../Region'
 import { Quest } from './Quest'
+import { QuestType } from './QuestType'
 
 export class AllColorQuest extends Quest {
+  type = QuestType.AllColor
 
   getScore(regions: MaterialItem[], sanctuaries: MaterialItem[]): number | undefined {
     const red = this.getItemsOfColor(regions, Color.Red) + this.getItemsOfColor(sanctuaries, Color.Red)

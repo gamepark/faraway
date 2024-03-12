@@ -7,8 +7,10 @@ import { PlayerId } from '../../PlayerId'
 import { Regions } from '../Regions'
 import { Sanctuaries } from '../Sanctuaries'
 import { Wonder } from '../Wonder'
+import { QuestType } from './QuestType'
 
 export abstract class Quest {
+  abstract type: QuestType
 
   constructor(readonly points: number, readonly wonders: Wonder[] = []) {
   }

@@ -3,8 +3,10 @@ import sum from 'lodash/sum'
 import { Regions } from '../Regions'
 import { Sanctuaries } from '../Sanctuaries'
 import { Quest } from './Quest'
+import { QuestType } from './QuestType'
 
 export class NightQuest extends Quest {
+  type = QuestType.Night
 
   getScore(regions: MaterialItem[], sanctuaries: MaterialItem[]): number | undefined {
     const nightRegions = regions.map((r) => Regions[r.id]?.night ?? 0)

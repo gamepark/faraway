@@ -3,8 +3,10 @@ import sum from 'lodash/sum'
 import { Regions } from '../Regions'
 import { Sanctuaries } from '../Sanctuaries'
 import { Quest } from './Quest'
+import { QuestType } from './QuestType'
 
 export class ClueQuest extends Quest {
+  type = QuestType.Clue
 
   getScore(regions: MaterialItem[], sanctuaries: MaterialItem[]): number | undefined {
     const regionClues = regions.map((r) => Regions[r.id]?.clue ?? 0)

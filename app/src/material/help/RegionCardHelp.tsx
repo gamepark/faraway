@@ -3,6 +3,7 @@ import { css } from '@emotion/react'
 import { CardDescription } from '@gamepark/faraway/cards/CardDescription'
 import { Color } from '@gamepark/faraway/cards/Color'
 import { getColor, getValue, Region } from '@gamepark/faraway/cards/Region'
+import { RegionQuests } from '@gamepark/faraway/cards/RegionQuests'
 import { Regions } from '@gamepark/faraway/cards/Regions'
 import { Wonder } from '@gamepark/faraway/cards/Wonder'
 import { FarawayRules } from '@gamepark/faraway/FarawayRules'
@@ -20,6 +21,7 @@ import summer from '../../images/icon/summer.jpg'
 import thistle from '../../images/icon/thistle.png'
 import winter from '../../images/icon/winter.jpg'
 import nightIcon from '../../images/time/night.png'
+import { QuestHelp } from './QuestHelp'
 
 export const RegionCardHelp = ({ item }: MaterialHelpProps) => {
   const { t } = useTranslation()
@@ -63,7 +65,19 @@ const RegionHelp = ({ region }: { region: Region }) => {
   const number = getValue(region)
   const color = getColor(region)
   const { night, clue, wonders } = Regions[region] as CardDescription
+  const quest = RegionQuests[region]
   return <>
+    {quest && <p css={alignIcon}>
+      <strong>{t('help.quest')}</strong>
+      {' '}
+      {!!quest.wonders?.length &&
+        <Trans defaults="help.quest.prerequisite" values={{ quantity: quest.wonders.length }}>
+          <>{quest.wonders.map(wonder => <Picture src={wonderIcon[wonder]}/>)}</>
+        </Trans>
+      }
+      {' '}
+      <QuestHelp quest={quest}/>
+    </p>}
     <p><strong>{t('help.time', { number })}</strong></p>
     <p><em>{t('help.time.detail')}</em></p>
     {night &&

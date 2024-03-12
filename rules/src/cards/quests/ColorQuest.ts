@@ -3,8 +3,11 @@ import { Color } from '../Color'
 import { getColor } from '../Region'
 import { Wonder } from '../Wonder'
 import { Quest } from './Quest'
+import { QuestType } from './QuestType'
 
 export class ColorQuest extends Quest {
+  type = QuestType.Color
+
   constructor(readonly points: number, readonly colors: Color[], readonly wonders: Wonder[] = []) {
     super(points, wonders)
   }
