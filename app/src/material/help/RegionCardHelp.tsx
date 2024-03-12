@@ -64,7 +64,7 @@ const RegionHelp = ({ region }: { region: Region }) => {
   const { t } = useTranslation()
   const number = getValue(region)
   const color = getColor(region)
-  const { night, clue, wonders } = Regions[region] as CardDescription
+  const { night, clue, wonders } = Regions[region] ?? {} as CardDescription
   const quest = RegionQuests[region]
   return <>
     {quest && <p css={alignIcon}>
