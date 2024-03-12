@@ -5,8 +5,12 @@ import { Color } from '@gamepark/faraway/cards/Color'
 import { getColor, getValue, Region } from '@gamepark/faraway/cards/Region'
 import { Regions } from '@gamepark/faraway/cards/Regions'
 import { Wonder } from '@gamepark/faraway/cards/Wonder'
-import { MaterialHelpProps, Picture } from '@gamepark/react-game'
+import { FarawayRules } from '@gamepark/faraway/FarawayRules'
+import { LocationType } from '@gamepark/faraway/material/LocationType'
+import { MaterialType } from '@gamepark/faraway/material/MaterialType'
+import { MaterialHelpProps, Picture, usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
 import { Trans, useTranslation } from 'react-i18next'
+import { Location } from '../../../../../workshop/packages/rules-api'
 import autumn from '../../images/icon/autumn.jpg'
 import chimera from '../../images/icon/chimera.png'
 import clueIcon from '../../images/icon/clue.png'
@@ -22,8 +26,36 @@ export const RegionCardHelp = ({ item }: MaterialHelpProps) => {
   const number = item.id ? getValue(item.id) : ''
   return <>
     <h2>{t('help.region', { number })}</h2>
+    {item.location && <RegionLocation location={item.location}/>}
     {item.id && <RegionHelp region={item.id}/>}
   </>
+}
+
+const RegionLocation = ({ location }: { location: Location }) => {
+  const { t } = useTranslation()
+  const rules = useRules<FarawayRules>()
+  const playerId = usePlayerId()
+  const player = usePlayerName(location.player)
+  switch (location.type) {
+    case LocationType.RegionDeck:
+      return <p>{t('help.region.deck', { number: rules?.material(MaterialType.Region).location(LocationType.RegionDeck).length ?? 0 })}</p>
+    case LocationType.PlayerRegionHand:
+      if (location.player === playerId) {
+        return <p>{t('help.region.hand.you')}</p>
+      } else {
+        return <p>{t('help.region.hand.player', { player })}</p>
+      }
+    case LocationType.PlayerRegionLine:
+      if (location.player === playerId) {
+        return <p>{t('help.region.placed.you')}</p>
+      } else {
+        return <p>{t('help.region.placed.player', { player })}</p>
+      }
+    case LocationType.RegionDiscard:
+      return <p>{t('help.region.discard', { number: rules?.material(MaterialType.Region).location(LocationType.RegionDiscard).length ?? 0 })}</p>
+    default:
+      return null
+  }
 }
 
 const RegionHelp = ({ region }: { region: Region }) => {
