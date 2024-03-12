@@ -1,5 +1,6 @@
 import { isEnumValue } from '@gamepark/rules-api'
 import { Color } from './Color'
+import { Sanctuary } from './Sanctuary'
 
 export enum Region {
   // RED
@@ -81,8 +82,8 @@ export enum Region {
 
 export const regions = Object.values(Region).filter(isEnumValue)
 
-export const getColor = (region: Region): Color => Math.floor(region / 100) + 1
-export const getValue = (region: Region): number => (region % 100)
+export const getColor = (region: Region | Sanctuary): Color => Math.floor(region / 100) + 1
+export const getValue = (region: Region | Sanctuary): number => (region % 100)
 
 export const isNight = (region: Region): boolean => {
   const value = getValue(region)

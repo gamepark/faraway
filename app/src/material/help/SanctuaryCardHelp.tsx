@@ -2,9 +2,10 @@
 import { css } from '@emotion/react'
 import { CardDescription } from '@gamepark/faraway/cards/CardDescription'
 import { Color } from '@gamepark/faraway/cards/Color'
-import { getColor, getValue, Region } from '@gamepark/faraway/cards/Region'
-import { RegionQuests } from '@gamepark/faraway/cards/RegionQuests'
-import { Regions } from '@gamepark/faraway/cards/Regions'
+import { getColor } from '@gamepark/faraway/cards/Region'
+import { Sanctuaries } from '@gamepark/faraway/cards/Sanctuaries'
+import { Sanctuary } from '@gamepark/faraway/cards/Sanctuary'
+import { SanctuaryQuests } from '@gamepark/faraway/cards/SanctuaryQuests'
 import { Wonder } from '@gamepark/faraway/cards/Wonder'
 import { FarawayRules } from '@gamepark/faraway/FarawayRules'
 import { LocationType } from '@gamepark/faraway/material/LocationType'
@@ -23,71 +24,60 @@ import winter from '../../images/icon/winter.jpg'
 import nightIcon from '../../images/time/night.png'
 import { QuestHelp } from './QuestHelp'
 
-export const RegionCardHelp = ({ item }: MaterialHelpProps) => {
+export const SanctuaryCardHelp = ({ item }: MaterialHelpProps) => {
   const { t } = useTranslation()
-  const number = item.id ? getValue(item.id) : ''
   return <>
-    <h2>{t('help.region', { number })}</h2>
-    {item.location && <RegionLocation location={item.location}/>}
-    {item.id && <RegionHelp region={item.id}/>}
+    <h2>{t('help.sanctuary')}</h2>
+    {item.location && <SanctuaryLocation location={item.location}/>}
+    {item.id && <SanctuaryHelp sanctuary={item.id}/>}
   </>
 }
 
-const RegionLocation = ({ location }: { location: Location }) => {
+const SanctuaryLocation = ({ location }: { location: Location }) => {
   const { t } = useTranslation()
   const rules = useRules<FarawayRules>()
   const playerId = usePlayerId()
   const player = usePlayerName(location.player)
   switch (location.type) {
-    case LocationType.RegionDeck:
-      return <p>{t('help.region.deck', { number: rules?.material(MaterialType.Region).location(LocationType.RegionDeck).length ?? 0 })}</p>
-    case LocationType.PlayerRegionHand:
+    case LocationType.SanctuaryDeck:
+      return <p>{t('help.sanctuary.deck', { number: rules?.material(MaterialType.Sanctuary).location(LocationType.SanctuaryDeck).length ?? 0 })}</p>
+    case LocationType.PlayerSanctuaryHand:
       if (location.player === playerId) {
-        return <p>{t('help.region.hand.you')}</p>
+        return <p>{t('help.sanctuary.hand.you')}</p>
       } else {
-        return <p>{t('help.region.hand.player', { player })}</p>
+        return <p>{t('help.sanctuary.hand.player', { player })}</p>
       }
-    case LocationType.PlayerRegionLine:
+    case LocationType.PlayerSanctuaryLine:
       if (location.player === playerId) {
-        return <p>{t('help.region.placed.you')}</p>
+        return <p>{t('help.sanctuary.placed.you')}</p>
       } else {
-        return <p>{t('help.region.placed.player', { player })}</p>
+        return <p>{t('help.sanctuary.placed.player', { player })}</p>
       }
-    case LocationType.RegionDiscard:
-      return <p>{t('help.region.discard', { number: rules?.material(MaterialType.Region).location(LocationType.RegionDiscard).length ?? 0 })}</p>
     default:
       return null
   }
 }
 
-const RegionHelp = ({ region }: { region: Region }) => {
+const SanctuaryHelp = ({ sanctuary }: { sanctuary: Sanctuary }) => {
   const { t } = useTranslation()
-  const number = getValue(region)
-  const color = getColor(region)
-  const { night, clue, wonders } = Regions[region] as CardDescription
-  const quest = RegionQuests[region]
+  const color = getColor(sanctuary)
+  const { night, clue, wonders } = (Sanctuaries[sanctuary] ?? {}) as CardDescription
+  const quest = SanctuaryQuests[sanctuary]
   return <>
     {quest && <p css={alignIcon}>
       <strong>{t('help.quest')}</strong>
       {' '}
-      {!!quest.wonders?.length && <>
-        <Trans defaults="help.quest.prerequisite" values={{ quantity: quest.wonders.length }}>
-          <>{quest.wonders.map((wonder, index) => <Picture key={index} src={wonderIcon[wonder]}/>)}</>
-        </Trans>
-        {' '}
-      </>
-      }
       <QuestHelp quest={quest}/>
     </p>}
-    <p><strong>{t('help.time', { number })}</strong></p>
-    <p><em>{t('help.time.detail')}</em></p>
     {night &&
       <p css={alignIcon}>
         <Picture src={nightIcon}/>&nbsp;{t('help.night')}
       </p>
     }
-    <p css={alignIcon}><Picture css={css`border-radius: 20%;`} src={biomeIcon[color]}/>&nbsp;<strong>{t(`biome.${color}`)}</strong></p>
-    <p><em>{t('help.biome')}</em></p>
+    {color < 5 && <>
+      <p css={alignIcon}><Picture css={css`border-radius: 20%;`} src={biomeIcon[color]}/>&nbsp;<strong>{t(`biome.${color}`)}</strong></p>
+      <p><em>{t('help.biome')}</em></p>
+    </>}
     {clue &&
       <p css={alignIcon}>
         <Picture src={clueIcon}/>&nbsp;<Trans defaults="help.clue"><strong/></Trans>

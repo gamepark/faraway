@@ -50,6 +50,7 @@ import Gray22 from '../images/sanctuary/sanctuary_gray_22.jpg'
 import Gray23 from '../images/sanctuary/sanctuary_gray_23.jpg'
 import Gray24 from '../images/sanctuary/sanctuary_gray_24.jpg'
 import Gray25 from '../images/sanctuary/sanctuary_gray_25.jpg'
+import { SanctuaryCardHelp } from './help/SanctuaryCardHelp'
 
 export class SanctuaryCardDescription extends CardDescription {
   height = 7
@@ -115,6 +116,8 @@ export class SanctuaryCardDescription extends CardDescription {
       parent: context.index
     }]
   }
+
+  help = SanctuaryCardHelp
 }
 
 export const sanctuaryCardDescription = new SanctuaryCardDescription()
