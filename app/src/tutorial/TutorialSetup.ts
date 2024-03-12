@@ -1,4 +1,4 @@
-import { getValue, Region } from '@gamepark/faraway/cards/Region'
+import { Region } from '@gamepark/faraway/cards/Region'
 import { FarawayOptions } from '@gamepark/faraway/FarawayOptions'
 import { FarawaySetup } from '@gamepark/faraway/FarawaySetup'
 import { LocationType } from '@gamepark/faraway/material/LocationType'
@@ -32,7 +32,7 @@ export class TutorialSetup extends FarawaySetup {
           .deal({ type: LocationType.PlayerRegionHand, player: index + 1 }, 3)
       } else {
         deck
-          .filter((item) => getValue(item.id) > 8 && item.id !== Region.Yellow27)
+          .filter((item) => [Region.Green67, Region.Red52, Region.Yellow62].includes(item.id))
           .deal({ type: LocationType.PlayerRegionHand, player: index + 1 }, 3)
       }
     }

@@ -20,7 +20,7 @@ const me = 1
 const opponent = 2
 
 export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationType> {
-  version = 3
+  version = 4
   options = { players: 2 }
   setup = new TutorialSetup()
 
@@ -83,7 +83,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
       move: {
         player: opponent,
         filter: (move, game) => {
-          const firstCard = this.material(game, MaterialType.Region).location(LocationType.PlayerRegionHand).player(opponent).limit(1)
+          const firstCard = this.material(game, MaterialType.Region).location(LocationType.PlayerRegionHand).id(Region.Green67).player(opponent)
           return isMoveItemType(MaterialType.Region)(move) && move.itemIndex === firstCard.getIndex()
         },
         interrupt: (move) => isEndPlayerTurn(move) && move.player === opponent
@@ -234,6 +234,10 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
     {
       move: {
         player: opponent,
+        filter: (move, game) => {
+          const firstCard = this.material(game, MaterialType.Region).location(LocationType.PlayerRegionHand).id(Region.Red52).player(opponent)
+          return isMoveItemType(MaterialType.Region)(move) && move.itemIndex === firstCard.getIndex()
+        },
         interrupt: (move) => isMoveItemType(MaterialType.Sanctuary)(move)
       }
     },
