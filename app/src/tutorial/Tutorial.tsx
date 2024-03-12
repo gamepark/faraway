@@ -61,7 +61,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
       focus: (game) =>
         ({
           materials: [
-            this.material(game, MaterialType.Region).player(me).id(Region.Green8)
+            this.material(game, MaterialType.Region).player(me).id(Region.Blue6)
           ],
           locations: [
             this.location(LocationType.PlayerRegionLine).player(me).x(0).location
@@ -74,7 +74,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
       move: {
         player: me,
         filter: (move, game) => {
-          const firstCard = this.material(game, MaterialType.Region).player(me).id(Region.Green8)
+          const firstCard = this.material(game, MaterialType.Region).player(me).id(Region.Blue6)
           return isMoveItemType(MaterialType.Region)(move) && move.itemIndex === firstCard.getIndex()
         }
       }
@@ -261,13 +261,13 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.scoring"><strong/><i/></Trans>,
+        text: () => <Trans defaults="tuto.scoring"><strong/><i/><span css={resource(Rock)}/></Trans>,
         position: { y: -17, x: 0 }
       },
       focus: (game) => ({
         materials: [
           this.material(game, MaterialType.Region).player(me).id(Region.Blue21),
-          this.material(game, MaterialType.Region).player(me).id(Region.Green8)
+          this.material(game, MaterialType.Region).player(me).id(Region.Blue6)
         ],
         margin: {
           top: 9
@@ -283,7 +283,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
         ({
           materials: [
             this.material(game, MaterialType.Region).player(me).id(Region.Blue21),
-            this.material(game, MaterialType.Region).player(me).id(Region.Green8)
+            this.material(game, MaterialType.Region).player(me).id(Region.Blue6)
           ],
           locations: this
             .material(game, MaterialType.Region)
@@ -313,13 +313,13 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
       },
       focus: (game) => ({
         materials: [
-          this.material(game, MaterialType.Region).player(me).id(Region.Green8)
+          this.material(game, MaterialType.Region).player(me).id(Region.Blue6)
         ],
         locations: [
           this
             .location(LocationType.CardCharacteristics)
             .id(Characteristic.Clue)
-            .parent(this.material(game, MaterialType.Region).id(Region.Green8).getIndex())
+            .parent(this.material(game, MaterialType.Region).id(Region.Blue6).getIndex())
             .location
         ],
         margin: {
