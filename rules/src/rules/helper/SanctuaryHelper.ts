@@ -53,8 +53,6 @@ export class SanctuaryHelper extends MaterialRulesPart {
   }
 
   get previousCardValue() {
-    console.log(this.regionCards
-      .location((location) => location.x === (this.round - 2)))
     return getValue(
       this.regionCards
         .location((location) => location.x === (this.round - 2))
