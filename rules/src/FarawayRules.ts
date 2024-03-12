@@ -11,6 +11,7 @@ import {
   SecretMaterialRules,
   TimeLimit
 } from '@gamepark/rules-api'
+import { getValue } from './cards/Region'
 import { LocationType } from './material/LocationType'
 import { MaterialType } from './material/MaterialType'
 import { PlayerId } from './PlayerId'
@@ -83,6 +84,15 @@ export class FarawayRules extends SecretMaterialRules<PlayerId, MaterialType, Lo
 
   getScore(playerId: PlayerId) {
     return new ScoreHelper(this.game, playerId).score
+  }
+
+  getTieBreaker(tieBreaker: number, playerId: PlayerId): number | undefined {
+    if (tieBreaker === 1) {
+      // If there is a tie, the player with the minimum card value wins the game
+      const minCard = this.material(MaterialType.Region).location(LocationType.PlayerRegionLine).player(playerId).minBy((item) => getValue(item.id)).getItem()!
+      return 100 - getValue(minCard.id)
+    }
+    return
   }
 
   giveTime(_playerId: PlayerId): number {
