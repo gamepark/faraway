@@ -2,6 +2,9 @@
   "en": {
     "translation": {
       "Name": "Faraway",
+      "header.choose-hand.you": "You must discard {count, plural, one{# card} other{# cards}} from your hand",
+      "header.choose-hand.players": "Players must discard cards from their hand",
+      "header.choose-hand.player": "{player} must discard {count, plural, one{# card} other{# cards}} from his hand",
       "header.explore.you": "You must explore a Region",
       "header.explore.players": "Players must explore a Region",
       "header.explore.player": "{player} must explore a Region",
@@ -68,9 +71,6 @@
       "tuto.sanctuary.why": "Sanctuaries are interesting, because at the end of the game they count for all Regions, and all Regions count for Sanctuary quests.",
       "tuto.region.draw.2": "Now choose a new Region card and add it to your hand.",
       "tuto.end": "This is a new round.\nAt any time, you can click on the cards for a reminder of the associated rules.\n<0>You can also click on the score sheet for an explanation of the final countdown, when you retrace your steps at the end of your exploration.</0>\nNow it's your turn to play, good luck!",
-      "header.choose-hand.you": "You must discard {count, plural, one{# card} other{# cards}} from your hand",
-      "header.choose-hand.players": "Players must discard cards from their hand",
-      "header.choose-hand.player": "{player} must discard {count, plural, one{# card} other{# cards}} from his hand",
       "Menu": "Menu",
       "OK": "OK",
       "Validate": "Validate",
@@ -185,6 +185,9 @@
   "fr": {
     "translation": {
       "Name": "Faraway",
+      "header.choose-hand.you": "Vous devez défausser {count, plural, one{# carte} other{# cartes}} de votre main",
+      "header.choose-hand.players": "Les joueurs doivent défausser des cartes de leur main",
+      "header.choose-hand.player": "{player} doit défausser {count, plural, one{# carte} other{# cartes}} de sa main",
       "header.explore.you": "Vous devez explorer une Région",
       "header.explore.players": "Les joueurs doivent explorer une Région",
       "header.explore.player": "{player} doit explorer une Région",
@@ -251,9 +254,6 @@
       "tuto.sanctuary.why": "Les Sanctuaires sont intéressants, car à la fin de la partie ils comptent pour toutes les Régions, et toutes les Régions comptent pour les quêtes de Sanctuaires.",
       "tuto.region.draw.2": "À présent, choisissez une nouvelle carte Région et ajoutez la à votre main",
       "tuto.end": "C'est un nouveau tour.\nÀ tout moment, vous pouvez cliquer sur les cartes pour un rappel des règles associées.\n<0>Vous pouvez aussi cliquez sur la feuille de score pour avoir l'explication du décompte final, lorsque vous revenez sur vos pas à la fin de votre exploration.</0>\nÀ vous de jouer à présent, bonne chance !",
-      "header.choose-hand.you": "Vous devez défausser {count, plural, one{# carte} other{# cartes}} de votre main",
-      "header.choose-hand.players": "Les joueurs doivent défausser des cartes de leur main",
-      "header.choose-hand.player": "{player} doit défausser {count, plural, one{# carte} other{# cartes}} de sa main",
       "Menu": "Menu",
       "OK": "OK",
       "Validate": "Valider",
