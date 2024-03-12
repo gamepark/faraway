@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { CardDescription } from '@gamepark/faraway/cards/CardDescription'
 import { Color } from '@gamepark/faraway/cards/Color'
 import { getColor } from '@gamepark/faraway/cards/Region'
 import { Sanctuaries } from '@gamepark/faraway/cards/Sanctuaries'
@@ -61,7 +60,7 @@ const SanctuaryLocation = ({ location }: { location: Location }) => {
 const SanctuaryHelp = ({ sanctuary }: { sanctuary: Sanctuary }) => {
   const { t } = useTranslation()
   const color = getColor(sanctuary)
-  const { night, clue, wonders } = (Sanctuaries[sanctuary] ?? {}) as CardDescription
+  const { night, clue, wonders } = Sanctuaries[sanctuary] ?? {}
   const quest = SanctuaryQuests[sanctuary]
   return <>
     {quest && <p css={alignIcon}>

@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { CardDescription } from '@gamepark/faraway/cards/CardDescription'
 import { Color } from '@gamepark/faraway/cards/Color'
 import { getColor, getValue, Region } from '@gamepark/faraway/cards/Region'
 import { RegionQuests } from '@gamepark/faraway/cards/RegionQuests'
@@ -64,7 +63,7 @@ const RegionHelp = ({ region }: { region: Region }) => {
   const { t } = useTranslation()
   const number = getValue(region)
   const color = getColor(region)
-  const { night, clue, wonders } = Regions[region] ?? {} as CardDescription
+  const { night, clue, wonders } = Regions[region] ?? {}
   const quest = RegionQuests[region]
   return <>
     {quest && <p css={alignIcon}>
