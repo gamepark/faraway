@@ -22,7 +22,7 @@ export class ScoreSheetBoxDescription extends LocationDescription {
 
 const ScoreDisplay = ({ location }: { location: Location }) => {
   if (location.y === 0) {
-    return <Avatar css={avatarStyle} playerId={location.player}/>
+    return <Avatar css={avatarStyle} playerId={location.x}/>
   } else {
     return <span css={location.y === 10 ? totalStyle(location.id) : scoreStyle}>{location.id}</span>
   }
