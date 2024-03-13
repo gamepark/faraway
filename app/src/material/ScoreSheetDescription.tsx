@@ -32,7 +32,7 @@ export class ScoreSheetDescription extends FlatMaterialDescription {
       const regionQuest = RegionQuests[region.id!]
       locations.push({
         type: LocationType.ScoreSheetBox,
-        id: regionQuest?.getTotalScore(rules.game, index, MaterialType.Region, region.location.player!) ?? '',
+        id: regionQuest?.getTotalScore(rules.game, index, MaterialType.Region, region.location.player!) ?? '/',
         parent: 0,
         x: region.location.player,
         y: 8 - region.location.x!
