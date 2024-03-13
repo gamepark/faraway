@@ -18,3 +18,7 @@ export const icon = (image: string) => css`
   margin-bottom: -0.4em;
   display:inline-block; 
 `
+
+export const radius = (percent: number) => css`
+  border-radius: ${percent}%;
+`

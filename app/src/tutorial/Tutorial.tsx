@@ -1,19 +1,21 @@
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react'
 import { Region } from '@gamepark/faraway/cards/Region'
 import { LocationType } from '@gamepark/faraway/material/LocationType'
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
 import { PlayerId } from '@gamepark/faraway/PlayerId'
-import { MaterialTutorial, Picture, TutorialStep } from '@gamepark/react-game'
+import { MaterialTutorial, TutorialStep } from '@gamepark/react-game'
 import { isEndPlayerTurn, isMoveItemType } from '@gamepark/rules-api'
 import { Trans } from 'react-i18next'
 import Clue from '../images/icon/clue.png'
 import Rock from '../images/icon/rock.png'
 import Day from '../images/time/day.png'
 import Night from '../images/time/night.png'
-import Biome from '../images/tutorial/biomes.jpg'
 import { Characteristic } from '../locators/CardCharacteristicLocator'
-import { icon, resource } from '../style'
+import { icon, radius, resource } from '../style'
+import City from '../images/icon/City.jpg'
+import Desert from '../images/icon/Desert.jpg'
+import Forest from '../images/icon/Forest.jpg'
+import River from '../images/icon/River.jpg'
 import { TutorialSetup } from './TutorialSetup'
 
 const me = 1
@@ -29,18 +31,18 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
   steps: TutorialStep[] = [
     {
       popup: {
-        text: () => <Trans defaults="tuto.welcome"><strong /></Trans>
+        text: () => <Trans defaults="tuto.welcome"><strong/></Trans>
       }
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.goal"><strong /><i/></Trans>
+        text: () => <Trans defaults="tuto.goal"><strong/><i/></Trans>
       }
     },
     {
       popup: {
         text: () => <Trans defaults="tuto.region"><strong/><i/></Trans>,
-        position: { x: 0, y: -7}
+        position: { x: 0, y: -7 }
       },
       focus: (game) => ({
         materials: [
@@ -98,11 +100,15 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
     },
     {
       popup: {
-        text: () => (
-          <Trans defaults="tuto.biome">
-            <strong />
-            <Picture src={Biome} css={biomeStyle} />
-          </Trans>
+        text: (t) => (
+          <>
+            <Trans defaults="tuto.biome"><strong/></Trans>
+            <br/><span css={[icon(Forest), radius(20)]}/> {t('biome.1')}<br/>
+            <br/><span css={[icon(River), radius(20)]}/> {t('biome.2')}<br/>
+            <br/><span css={[icon(Desert), radius(20)]}/> {t('biome.3')}<br/>
+            <br/><span css={[icon(City), radius(20)]}/> {t('biome.4')}<br/>
+            <br/><Trans defaults="tuto.biome.quest"><strong/></Trans>
+          </>
         ),
         position: { x: 30, y: 0 }
       },
@@ -119,7 +125,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
             right: 17,
             top: 3
           }
-        }),
+        })
     },
     {
       popup: {
@@ -144,7 +150,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
           margin: {
             right: 17
           }
-        }),
+        })
     },
     {
       popup: {
@@ -163,7 +169,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
           margin: {
             top: 7.5
           }
-        }),
+        })
     },
     {
       popup: {
@@ -203,7 +209,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
           </Trans>
         ),
         position: { x: 0, y: -5 }
-      },
+      }
     },
     {
       popup: {
@@ -272,7 +278,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
         margin: {
           top: 9
         }
-      }),
+      })
     },
     {
       popup: {
@@ -300,7 +306,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
           margin: {
             top: 9
           }
-        }),
+        })
     },
     {
       popup: {
@@ -344,7 +350,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
         margin: {
           top: 7
         }
-      }),
+      })
     },
     {
       popup: {
@@ -422,22 +428,16 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
         margin: {
           right: 15
         }
-      }),
+      })
     },
     {
       popup: {
         text: () => <Trans defaults="tuto.end">
           <strong/>
           <i/>
-        </Trans>,
+        </Trans>
       }
     }
 
   ]
 }
-
-const biomeStyle = css`
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
-  width: 100%;
-`
