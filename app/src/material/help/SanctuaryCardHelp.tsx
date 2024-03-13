@@ -9,25 +9,26 @@ import { Wonder } from '@gamepark/faraway/cards/Wonder'
 import { FarawayRules } from '@gamepark/faraway/FarawayRules'
 import { LocationType } from '@gamepark/faraway/material/LocationType'
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
-import { MaterialHelpProps, Picture, usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
-import { Location } from '@gamepark/rules-api'
+import { MaterialHelpProps, Picture, PlayMoveButton, useLegalMove, usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
+import { isMoveItemType, Location, MoveItem } from '@gamepark/rules-api'
 import { Trans, useTranslation } from 'react-i18next'
-import autumn from '../../images/icon/City.jpg'
 import chimera from '../../images/icon/chimera.png'
+import autumn from '../../images/icon/City.jpg'
 import clueIcon from '../../images/icon/clue.png'
-import rock from '../../images/icon/rock.png'
-import spring from '../../images/icon/River.jpg'
-import summer from '../../images/icon/Forest.jpg'
-import thistle from '../../images/icon/thistle.png'
 import winter from '../../images/icon/Desert.jpg'
+import summer from '../../images/icon/Forest.jpg'
+import spring from '../../images/icon/River.jpg'
+import rock from '../../images/icon/rock.png'
+import thistle from '../../images/icon/thistle.png'
 import nightIcon from '../../images/time/night.png'
 import { QuestHelp } from './QuestHelp'
 
-export const SanctuaryCardHelp = ({ item }: MaterialHelpProps) => {
+export const SanctuaryCardHelp = ({ item, itemIndex }: MaterialHelpProps) => {
   const { t } = useTranslation()
   return <>
     <h2>{t('help.sanctuary')}</h2>
     {item.location && <SanctuaryLocation location={item.location}/>}
+    {itemIndex !== undefined && <SanctuaryButton itemIndex={itemIndex}/>}
     {item.id && <SanctuaryHelp sanctuary={item.id}/>}
   </>
 }
@@ -55,6 +56,13 @@ const SanctuaryLocation = ({ location }: { location: Location }) => {
     default:
       return null
   }
+}
+
+const SanctuaryButton = ({ itemIndex }: { itemIndex: number }) => {
+  const { t } = useTranslation()
+  const move = useLegalMove<MoveItem>(move => isMoveItemType(MaterialType.Sanctuary)(move) && move.itemIndex === itemIndex)
+  if (!move) return null
+  return <p><PlayMoveButton move={move}>{t('button.place')}</PlayMoveButton></p>
 }
 
 const SanctuaryHelp = ({ sanctuary }: { sanctuary: Sanctuary }) => {
