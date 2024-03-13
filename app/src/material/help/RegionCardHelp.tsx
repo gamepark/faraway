@@ -22,13 +22,13 @@ import thistle from '../../images/icon/thistle.png'
 import nightIcon from '../../images/time/night.png'
 import { QuestHelp } from './QuestHelp'
 
-export const RegionCardHelp = ({ item, itemIndex }: MaterialHelpProps) => {
+export const RegionCardHelp = ({ item, itemIndex, closeDialog }: MaterialHelpProps) => {
   const { t } = useTranslation()
   const number = item.id ? getValue(item.id) : ''
   return <>
     <h2>{t('help.region', { number })}</h2>
     {item.location && <RegionLocation location={item.location}/>}
-    {itemIndex !== undefined && <RegionButton itemIndex={itemIndex}/>}
+    {itemIndex !== undefined && <RegionButton itemIndex={itemIndex} closeDialog={closeDialog}/>}
     {item.id && <RegionHelp region={item.id}/>}
   </>
 }
@@ -60,11 +60,23 @@ const RegionLocation = ({ location }: { location: Location }) => {
   }
 }
 
-const RegionButton = ({ itemIndex }: { itemIndex: number }) => {
+const RegionButton = ({ itemIndex, closeDialog }: { itemIndex: number, closeDialog: () => void }) => {
   const { t } = useTranslation()
   const move = useLegalMove<MoveItem>(move => isMoveItemType(MaterialType.Region)(move) && move.itemIndex === itemIndex)
   if (!move) return null
-  return <p><PlayMoveButton move={move}>{t(move.location.type === LocationType.PlayerRegionLine ? 'button.place' : 'button.pick')}</PlayMoveButton></p>
+  return <p><PlayMoveButton move={move} onPlay={closeDialog}>{t(getMoveRegionCardButtonText(move.location.type))}</PlayMoveButton></p>
+}
+
+const getMoveRegionCardButtonText = (destination?: LocationType) => {
+  switch (destination) {
+    case LocationType.RegionDeck:
+      return 'button.discard'
+    case LocationType.PlayerRegionLine:
+      return 'button.place'
+    case LocationType.PlayerRegionHand:
+    default:
+      return 'button.pick'
+  }
 }
 
 const RegionHelp = ({ region }: { region: Region }) => {

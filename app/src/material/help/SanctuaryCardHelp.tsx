@@ -23,12 +23,12 @@ import thistle from '../../images/icon/thistle.png'
 import nightIcon from '../../images/time/night.png'
 import { QuestHelp } from './QuestHelp'
 
-export const SanctuaryCardHelp = ({ item, itemIndex }: MaterialHelpProps) => {
+export const SanctuaryCardHelp = ({ item, itemIndex, closeDialog }: MaterialHelpProps) => {
   const { t } = useTranslation()
   return <>
     <h2>{t('help.sanctuary')}</h2>
     {item.location && <SanctuaryLocation location={item.location}/>}
-    {itemIndex !== undefined && <SanctuaryButton itemIndex={itemIndex}/>}
+    {itemIndex !== undefined && <SanctuaryButton itemIndex={itemIndex} closeDialog={closeDialog}/>}
     {item.id && <SanctuaryHelp sanctuary={item.id}/>}
   </>
 }
@@ -58,11 +58,11 @@ const SanctuaryLocation = ({ location }: { location: Location }) => {
   }
 }
 
-const SanctuaryButton = ({ itemIndex }: { itemIndex: number }) => {
+const SanctuaryButton = ({ itemIndex, closeDialog }: { itemIndex: number, closeDialog: () => void }) => {
   const { t } = useTranslation()
   const move = useLegalMove<MoveItem>(move => isMoveItemType(MaterialType.Sanctuary)(move) && move.itemIndex === itemIndex)
   if (!move) return null
-  return <p><PlayMoveButton move={move}>{t('button.place')}</PlayMoveButton></p>
+  return <p><PlayMoveButton move={move} onPlay={closeDialog}>{t('button.place')}</PlayMoveButton></p>
 }
 
 const SanctuaryHelp = ({ sanctuary }: { sanctuary: Sanctuary }) => {
