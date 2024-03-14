@@ -24,6 +24,7 @@ export class FarawaySetup extends MaterialGameSetup<PlayerId, MaterialType, Loca
   }
 
   setupAvailableRegions(options: FarawayOptions) {
+    if (!options.beginner) return
     const deck = this.material(MaterialType.Region).location(LocationType.RegionDeck).deck()
 
     deck.deal({ type: LocationType.Region }, options.players + 1)
