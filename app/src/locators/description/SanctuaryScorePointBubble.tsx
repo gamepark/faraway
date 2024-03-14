@@ -7,6 +7,7 @@ import { MaterialType } from '@gamepark/faraway/material/MaterialType'
 import { useRules } from '@gamepark/react-game'
 import { Location } from '@gamepark/rules-api'
 import { FC } from 'react'
+import fame from '../../images/icon/fame.png'
 
 type SanctuaryScorePointBubbleProps = {
   location: Location
@@ -28,12 +29,15 @@ export const SanctuaryScorePointBubble: FC<SanctuaryScorePointBubbleProps> = (pr
 }
 
 const scoreStyle = css`
-  background-color: white;
+  background-image: url(${fame});
+  background-size: cover;
+  width: 100%;
+  height: 100%;
   color: black;
+  font-weight: bold;
+  font-size: 1.2em;
   display: flex;
   align-items: center;
   justify-content: center;
-  filter: drop-shadow(0.15em 0.15em black);
-  border-radius: 0.4em;
-  padding: 0.2em 0.4em;
+  filter: drop-shadow(0.1em 0.1em black);
 `

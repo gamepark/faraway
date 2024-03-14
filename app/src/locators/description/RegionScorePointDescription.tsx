@@ -4,8 +4,8 @@ import { LocationDescription } from '@gamepark/react-game'
 import { RegionScorePointBubble } from './RegionScorePointBubble'
 
 export class RegionScorePointDescription extends LocationDescription {
-  height = 3
-  width = 3
+  height = 2.2
+  width = 2.2
 
   extraCss = css`touch-action: none; pointer-events: none`
 
