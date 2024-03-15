@@ -68,12 +68,12 @@ export const FarawayPlayerPanel: FC<FarawayPlayerPanelProps> = (props) => {
   return (
     <>
       <div css={[panelPlayerStyle, panelStyle(player.id)]} onClick={focusPlayer} {...rest}>
+        <div css={turnToPlay ? day : night}></div>
         <Avatar css={avatarStyle} playerId={player.id} speechBubbleProps={{ direction: SpeechBubbleDirection.BOTTOM_LEFT }}/>
         <h2 css={[nameStyle, data]}>{playerName}</h2>
         <Timer {...props} />
         <PlacedCard {...props} />
         <Score {...props} />
-        <div css={turnToPlay ? day : night}></div>
       </div>
 
     </>
@@ -257,9 +257,20 @@ const day = css`
   height: 7.9em;
   width: 8.4em;
   background-size: contain;
-  z-index: 2;
   background-image: url(${Day});
   background-repeat: no-repeat;
+
+  &:after {
+    content: ' ';
+    position: absolute;
+    top: 36%;
+    left: 0;
+    width: 2.1em;
+    height: 2.1em;
+    background-image: url(${DayMini});
+    background-size: cover;
+    z-index: 2;
+  }
 `
 
 const night = css`
@@ -269,9 +280,21 @@ const night = css`
   height: 7.9em;
   width: 8.4em;
   background-size: contain;
-  z-index: 2;
   background-image: url(${Night});
-  background-repeat: no-repeat
+  background-repeat: no-repeat;
+  
+  &:after {
+    content: ' ';
+    position: absolute;
+    top: 37%;
+    right: 0;
+    width: 1.8em;
+    height: 1.8em;
+    background-image: url(${NightMini});
+    background-size: cover;
+    z-index: 2;
+  }
+}
 `
 
 const timerStyle = css`
