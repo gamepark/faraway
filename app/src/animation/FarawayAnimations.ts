@@ -14,8 +14,9 @@ farawayAnimations.when()
   .duration(0.5)
 
 farawayAnimations.when()
-  .move((move) => isMoveItemType(MaterialType.Sanctuary)(move) && move.location.type === LocationType.SanctuaryDeck)
-  .duration(0.8)
+  .move((move) => isMoveItemType(MaterialType.Sanctuary)(move)
+    && (move.location.type === LocationType.SanctuaryDeck || move.location.type === LocationType.PlayerSanctuaryHand))
+  .duration(0.3)
 
 farawayAnimations.when()
   .move(isShuffle)
