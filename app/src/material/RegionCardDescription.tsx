@@ -1,8 +1,9 @@
 import { Region } from '@gamepark/faraway/cards/Region'
 import { LocationType } from '@gamepark/faraway/material/LocationType'
+import { MaterialType } from '@gamepark/faraway/material/MaterialType'
 import { RuleId } from '@gamepark/faraway/rules/RuleId'
 import { CardDescription, ItemContext } from '@gamepark/react-game'
-import { MaterialItem } from '@gamepark/rules-api'
+import { isMoveItemType, MaterialItem, MaterialMove } from '@gamepark/rules-api'
 import Blue13 from '../images/region/region_blue_13.jpg'
 import Blue17 from '../images/region/region_blue_17.jpg'
 import Blue2 from '../images/region/region_blue_2.jpg'
@@ -150,7 +151,7 @@ export class RegionCardDescription extends CardDescription {
     [Region.Yellow56]: Yellow56,
     [Region.Yellow59]: Yellow59,
     [Region.Yellow62]: Yellow62,
-    [Region.Yellow65]: Yellow65,
+    [Region.Yellow65]: Yellow65
   }
 
   getLocations(item: MaterialItem, context: ItemContext) {
@@ -159,6 +160,11 @@ export class RegionCardDescription extends CardDescription {
       type: LocationType.RegionScorePoints,
       parent: context.index
     }]
+  }
+
+  canShortClick(move: MaterialMove, context: ItemContext) {
+    return isMoveItemType(MaterialType.Region)(move) && move.itemIndex === context.index && move.location.type === LocationType.PlayerRegionHand
+      || super.canShortClick(move, context)
   }
 
   help = RegionCardHelp
