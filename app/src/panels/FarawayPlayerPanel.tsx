@@ -84,7 +84,7 @@ const Timer: FC<FarawayPlayerPanelProps> = (props) => {
   const { player } = props
   const rules = useRules<FarawayRules>()!
 
-  if (!rules?.isOver()) return null
+  if (rules?.isOver()) return null
 
   return <PlayerTimer customStyle={[(playing) => !playing && css`color: lightgray !important;`]} playerId={player.id} css={[timerStyle, data]}/>
 }
@@ -282,7 +282,7 @@ const night = css`
   background-size: contain;
   background-image: url(${Night});
   background-repeat: no-repeat;
-  
+
   &:after {
     content: ' ';
     position: absolute;
