@@ -44,7 +44,8 @@ export const FarawayPlayerPanel: FC<FarawayPlayerPanelProps> = (props) => {
     setFocus({
       materials: [
         ...(itsMe ? [rules.material(MaterialType.Region).location(LocationType.Region)] : []),
-        ...(itsMe ? [rules.material(MaterialType.Region).location(LocationType.PlayerRegionHand).player(playerId)] : [])
+        ...(itsMe ? [rules.material(MaterialType.Region).location(LocationType.RegionDeck).maxBy((item) => item.location.x!)] : []),
+        ...(itsMe ? [rules.material(MaterialType.Region).location(LocationType.PlayerRegionHand).player(playerId)] : []),
       ],
       staticItems: [],
       locations:
