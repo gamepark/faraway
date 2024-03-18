@@ -47,13 +47,15 @@ export const FarawayPlayerPanel: FC<FarawayPlayerPanelProps> = (props) => {
         ...(itsMe ? [rules.material(MaterialType.Region).location(LocationType.PlayerRegionHand).player(playerId)] : []),
       ],
       staticItems: [],
-      locations:
-        Array.from(Array(8))
+      locations: [
+        ...Array.from(Array(8))
           .map((_, x) => ({
             type: LocationType.PlayerRegionLine,
             player: player.id,
             x: x
           })),
+        ...(itsMe? [{ type: LocationType.RegionDeck }]: [])
+      ],
       margin: getMargin(rules, player, playerId),
       animationTime: 500
     })
@@ -228,7 +230,7 @@ const getMargin = (rules: FarawayRules, player: Player, playerId?: PlayerId) => 
   const margin = {
     left: 23,
     right: 2,
-    top: 2,
+    top: 0,
     bottom: 3
   }
 
