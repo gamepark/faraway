@@ -21,9 +21,10 @@ export class ChooseNewRegionCardRule extends PlayerTurnRule {
     if (!isMoveItemType(MaterialType.Region)(move)) return []
     if (isShuffle(move)) return []
 
+    // Shuffle hand after chaging the rule in order to prevent game from highlighting
     return [
+      this.rules().startRule(RuleId.PlaceSanctuary),
       this.hand.shuffle(),
-      this.rules().startRule(RuleId.PlaceSanctuary)
     ]
   }
 
