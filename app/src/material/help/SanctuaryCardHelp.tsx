@@ -81,7 +81,7 @@ const SanctuaryHelp = ({ sanctuary }: { sanctuary: Sanctuary }) => {
         <Picture src={nightIcon}/>&nbsp;{t('help.night')}
       </p>
     }
-    {color < 5 && <>
+    {color !== Color.Gray && <>
       <p css={alignIcon}><Picture css={css`border-radius: 20%;`} src={biomeIcon[color]}/>&nbsp;<strong>{t(`biome.${color}`)}</strong></p>
       <p><em>{t('help.biome')}</em></p>
     </>}
