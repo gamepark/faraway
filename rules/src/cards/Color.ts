@@ -5,7 +5,6 @@ export enum Color {
   Green,
   Blue,
   Yellow,
-  Gray
 }
 
-export const colors = Object.values(Color).filter((c) => c === Color.Gray && isEnumValue(c))
+export const colors = Object.values(Color).filter(isEnumValue)

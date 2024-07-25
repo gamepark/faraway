@@ -18,4 +18,5 @@ export const FarawayOptionsSpec: OptionsSpec<FarawayOptions> = {
     label: (t) => t('beginner'),
     help: (t) => t('beginner.help'),
     competitiveDisabled: true
-  },}
+  }
+}
