@@ -1568,10 +1568,10 @@
   resolved "https://registry.yarnpkg.com/@gamepark/avataaars/-/avataaars-2.2.0.tgz#7bc2b8246d847d8f66b67935d0ab247a7cceb477"
   integrity sha512-3rTwo+v87EO/GHcHjmpTqRcOdbh5MbO2Vv27xIGWdT3H2+SFSGlMwSCnn7kDQv+rQJzfg5C2gRe6XImiKcYlxA==
 
-"@gamepark/react-client@~6.23.3":
-  version "6.23.3"
-  resolved "https://registry.yarnpkg.com/@gamepark/react-client/-/react-client-6.23.3.tgz#dbd4b41f8522acdfd0dc26597e7ff83dae355a23"
-  integrity sha512-e+p74D6UIXcCnfIyCxOxxDkNhurYYLzBXIIMgA7ZSYmNGn/NSubPJbPoX2yXBVkJiK0k33etb1JNpbD2ZNDT6g==
+"@gamepark/react-client@~6.23.4":
+  version "6.23.4"
+  resolved "https://registry.yarnpkg.com/@gamepark/react-client/-/react-client-6.23.4.tgz#7eb781f6a0265f12c69c90ca3db5d8ac43dc5913"
+  integrity sha512-77zNrhsQy9O7/7W3wL3rNJxca0Mos1tKXCwdJcyFhmvDL7jlyi58I/XHTM2/pPpmqcF1ksNlfgu7nOeqTyvw6Q==
   dependencies:
     "@harelpls/use-pusher" "^7.2.1"
     assert "^2.0.0"
@@ -1580,10 +1580,10 @@
     pusher-js "^7.0.0"
     redux "^4.2.1"
 
-"@gamepark/react-game@~6.23.3":
-  version "6.23.3"
-  resolved "https://registry.yarnpkg.com/@gamepark/react-game/-/react-game-6.23.3.tgz#f39f6dff91ff000c0eb9c6d02e20687085aabba3"
-  integrity sha512-5AVgKwHY7lZmajA5ZXFy0MzE3okOeF+QbBI7FHVqaTkWBvQ1/IfIUYC9GnoVq4o/ZorK4kyFJ27Us5I47c15Ww==
+"@gamepark/react-game@~6.23.4":
+  version "6.23.4"
+  resolved "https://registry.yarnpkg.com/@gamepark/react-game/-/react-game-6.23.4.tgz#48d81dc8e4e5455c665ab3d900eddf4e20b8a09d"
+  integrity sha512-vcHpe1/7QHETTrDy3YvzPqf9mzpPJ7SlbyMbSbMAqL1HmlhzL2utbqHTsEAm4UoDRzUj/WqPNl+WeDX+U59vvw==
   dependencies:
     "@apollo/client" "^3.5.0"
     "@datadog/browser-logs" "^4.42.0"
@@ -1593,7 +1593,7 @@
     "@fortawesome/free-solid-svg-icons" "^6.4.0"
     "@fortawesome/react-fontawesome" "^0.2.0"
     "@gamepark/avataaars" "^2.2.0"
-    "@gamepark/react-client" "~6.23.3"
+    "@gamepark/react-client" "~6.23.4"
     "@gamepark/rules-api" "~6.23.3"
     dayjs "^1.11.7"
     emotion-normalize "^11.0.1"
