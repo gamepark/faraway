@@ -22,7 +22,7 @@ const me = 1
 const opponent = 2
 
 export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationType> {
-  version = 4
+  version = 5
   options = { players: 2 }
   setup = new TutorialSetup()
 
