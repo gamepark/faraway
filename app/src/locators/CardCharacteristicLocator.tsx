@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
-import { Locator, LocationDescription } from '@gamepark/react-game'
+import { LocationDescription, Locator } from '@gamepark/react-game'
 import { Location } from '@gamepark/rules-api'
 import { regionCardDescription } from '../material/RegionCardDescription'
 
@@ -10,16 +10,15 @@ export enum Characteristic {
 
 class CardCharacteristicDescription extends LocationDescription {
 
-  getBorderRadius(location: Location) {
-    if (location.id === Characteristic.Time) return 1
-    if (location.id === Characteristic.Clue) return 0.3
+  getBorderRadius(characteristic: Characteristic) {
+    if (characteristic === Characteristic.Time) return 1
+    if (characteristic === Characteristic.Clue) return 0.3
     return 0
   }
 
-
-  getSize(location: Location) {
-    if (location.id === Characteristic.Time) return { height: 1.9, width: 1.9 }
-    if (location.id === Characteristic.Clue) return { height: 1.2, width: 1.4 }
+  getSize(characteristic: Characteristic) {
+    if (characteristic === Characteristic.Time) return { height: 1.9, width: 1.9 }
+    if (characteristic === Characteristic.Clue) return { height: 1.2, width: 1.4 }
     return { height: 2.7, width: regionCardDescription.width }
   }
 }
