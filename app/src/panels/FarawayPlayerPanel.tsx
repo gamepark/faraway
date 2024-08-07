@@ -11,9 +11,8 @@ import { MaterialType } from '@gamepark/faraway/material/MaterialType'
 import { PlayerId } from '@gamepark/faraway/PlayerId'
 import { ScoreHelper } from '@gamepark/faraway/rules/helper/ScoreHelper'
 import { Memory } from '@gamepark/faraway/rules/Memory'
-import { Player, useOptions } from '@gamepark/react-client'
+import { Player } from '@gamepark/react-client'
 import { Avatar, Picture, PlayerTimer, SpeechBubbleDirection, useFocusContext, usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
-import { GameSpeed } from '@gamepark/rules-api'
 import { FC, HTMLAttributes, useCallback, useEffect } from 'react'
 import Player3 from '../images/region/region_blue_9.jpg'
 import Player1 from '../images/region/region_green_11.jpg'
@@ -35,7 +34,7 @@ export const FarawayPlayerPanel: FC<FarawayPlayerPanelProps> = (props) => {
   const { player, ...rest } = props
   const { setFocus } = useFocusContext()
   const rules = useRules<FarawayRules>()!
-  const isTutorial = !rules || rules.game.tutorialStep !== undefined
+  const isTutorial = !rules || rules.game.tutorial !== undefined
   const playerId = usePlayerId()
   const playerName = usePlayerName(player.id)
   const itsMe = playerId && player.id === playerId
@@ -44,7 +43,7 @@ export const FarawayPlayerPanel: FC<FarawayPlayerPanelProps> = (props) => {
     setFocus({
       materials: [
         ...(itsMe ? [rules.material(MaterialType.Region).location(LocationType.Region)] : []),
-        ...(itsMe ? [rules.material(MaterialType.Region).location(LocationType.PlayerRegionHand).player(playerId)] : []),
+        ...(itsMe ? [rules.material(MaterialType.Region).location(LocationType.PlayerRegionHand).player(playerId)] : [])
       ],
       staticItems: [],
       locations: [
@@ -54,7 +53,7 @@ export const FarawayPlayerPanel: FC<FarawayPlayerPanelProps> = (props) => {
             player: player.id,
             x: x
           })),
-        ...(itsMe? [{ type: LocationType.RegionDeck }]: [])
+        ...(itsMe ? [{ type: LocationType.RegionDeck }] : [])
       ],
       margin: getMargin(rules, player, playerId),
       animationTime: 500
@@ -105,12 +104,10 @@ const Score: FC<FarawayPlayerPanelProps> = (props => {
   )
 })
 
-const PlacedCard: FC<FarawayPlayerPanelProps> = (props) => {
-  const { player } = props
+const PlacedCard: FC<FarawayPlayerPanelProps> = ({ player }) => {
   const rules = useRules<FarawayRules>()!
   const round = rules.remind(Memory.Round)
-  const options = useOptions()
-  const speedDisabled = options?.speed !== GameSpeed.RealTime || !player?.time
+  const speedDisabled = player.time?.availableTime === undefined
   const card = rules
     .material(MaterialType.Region)
     .location((l) => l.type === LocationType.PlayerRegionLine && l.x === (round - 1))
