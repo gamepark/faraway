@@ -1,4 +1,4 @@
-import { isEnumValue } from '@gamepark/rules-api'
+import { getEnumValues } from '@gamepark/rules-api'
 
 export enum Sanctuary {
   // RED
@@ -57,4 +57,4 @@ export enum Sanctuary {
   Gray25,
 }
 
-export const sanctuaries = Object.values(Sanctuary).filter(isEnumValue)
+export const sanctuaries = getEnumValues(Sanctuary)
