@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
-import { ItemLocator, LocationDescription } from '@gamepark/react-game'
+import { Locator, LocationDescription } from '@gamepark/react-game'
 import { Location } from '@gamepark/rules-api'
 import { regionCardDescription } from '../material/RegionCardDescription'
 
@@ -26,7 +26,7 @@ class CardCharacteristicDescription extends LocationDescription {
 
 export const cardCharacteristicDescription = new CardCharacteristicDescription()
 
-export class CardCharacteristicLocator extends ItemLocator {
+export class CardCharacteristicLocator extends Locator {
   locationDescription = cardCharacteristicDescription
   parentItemType = MaterialType.Region
 

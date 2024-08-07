@@ -1,8 +1,8 @@
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
-import { ItemLocator } from '@gamepark/react-game'
+import { Locator } from '@gamepark/react-game'
 import { SanctuaryScorePointDescription } from './description/SanctuaryScorePointDescription'
 
-export class SanctuaryScorePointLocator extends ItemLocator {
+export class SanctuaryScorePointLocator extends Locator {
   locationDescription = new SanctuaryScorePointDescription()
   parentItemType = MaterialType.Sanctuary
 

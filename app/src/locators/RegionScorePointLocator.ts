@@ -1,10 +1,10 @@
 import { Region } from '@gamepark/faraway/cards/Region'
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
-import { ItemLocator, MaterialContext } from '@gamepark/react-game'
+import { Locator, MaterialContext } from '@gamepark/react-game'
 import { Location } from '@gamepark/rules-api'
 import { RegionScorePointDescription } from './description/RegionScorePointDescription'
 
-export class RegionScorePointLocator extends ItemLocator {
+export class RegionScorePointLocator extends Locator {
   locationDescription = new RegionScorePointDescription()
   parentItemType = MaterialType.Region
 
