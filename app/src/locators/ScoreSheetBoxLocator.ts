@@ -1,9 +1,9 @@
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
-import { ItemLocator } from '@gamepark/react-game'
+import { Locator } from '@gamepark/react-game'
 import { Location } from '@gamepark/rules-api'
 import { ScoreSheetBoxDescription } from './description/ScoreSheetBoxDescription'
 
-export class ScoreSheetBoxLocator extends ItemLocator {
+export class ScoreSheetBoxLocator extends Locator {
   locationDescription = new ScoreSheetBoxDescription()
   parentItemType = MaterialType.Region
 

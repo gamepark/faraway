@@ -1,10 +1,10 @@
 /** @jsxImportSource @emotion/react */
-import { ItemContext, ItemLocator } from '@gamepark/react-game'
+import { ItemContext, Locator } from '@gamepark/react-game'
 import { MaterialItem } from '@gamepark/rules-api'
 import { sanctuaryCardDescription } from '../material/SanctuaryCardDescription'
 import { PlayerSanctuaryLineDescription } from './description/PlayerSanctuaryLineDescription'
 
-export class PlayerSanctuaryLineLocator extends ItemLocator {
+export class PlayerSanctuaryLineLocator extends Locator {
   locationDescription = new PlayerSanctuaryLineDescription()
 
   getPosition(item: MaterialItem, context: ItemContext) {

@@ -1,10 +1,10 @@
 /** @jsxImportSource @emotion/react */
-import { GridLocator, ItemContext } from '@gamepark/react-game'
+import { FlexLocator, ItemContext } from '@gamepark/react-game'
 import { MaterialItem } from '@gamepark/rules-api'
 import { regionCardDescription } from '../material/RegionCardDescription'
 import { PlayerRegionLineDescription } from './description/PlayerRegionLineDescription'
 
-export class PlayerRegionLineLocator extends GridLocator {
+export class PlayerRegionLineLocator extends FlexLocator {
   itemsPerLine = 4
   itemsGap = { x: regionCardDescription.width + 0.5 }
   linesGap = { y: regionCardDescription.height + 0.5 }
