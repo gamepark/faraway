@@ -11,6 +11,10 @@ import { getBoardIndex, getDeltaForPosition } from './position/PositionOnTable'
 export class RegionHandLocator extends HandLocator {
   locationDescription = new RegionHandDescription()
 
+  getLocations({ player }: MaterialContext): Location[] {
+    return player ? [{ type: LocationType.PlayerRegionHand, player }] : []
+  }
+
   isClockwise() {
     return false
   }
@@ -45,10 +49,6 @@ class RegionHandDescription extends LocationDescription {
   width = regionCardDescription.width * 3
   height = regionCardDescription.height + 2
   borderRadius = regionCardDescription.borderRadius
-
-  getLocations({ player }: MaterialContext): Location[] {
-    return player ? [{ type: LocationType.PlayerRegionHand, player }] : []
-  }
 
   getCoordinates(location: Location, context: ItemContext) {
     const { player, rules } = context

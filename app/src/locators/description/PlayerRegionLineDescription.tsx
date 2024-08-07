@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { LocationType } from '@gamepark/faraway/material/LocationType'
-import { LocationContext, LocationDescription, MaterialContext } from '@gamepark/react-game'
+import { LocationContext, LocationDescription } from '@gamepark/react-game'
 import { Coordinates, Location } from '@gamepark/rules-api'
 import { regionCardDescription } from '../../material/RegionCardDescription'
 import { getDeltaForPosition } from '../position/PositionOnTable'
@@ -14,16 +13,6 @@ export class PlayerRegionLineDescription extends LocationDescription {
   alwaysVisible = true
 
   extraCss = css`border: 0.05em solid white`
-
-  getLocations(context: MaterialContext) {
-    const { rules } = context
-    return rules.players.flatMap((p) => Array.from(Array(8))
-      .map((_, x) => ({
-        type: LocationType.PlayerRegionLine,
-        player: p,
-        x: x
-      })))
-  }
 
   getCoordinates(location: Location, context: LocationContext): Coordinates | undefined {
     const baseCoordinates = this.getRegionCoordinates(location, context)
