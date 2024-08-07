@@ -29,13 +29,6 @@ export class PlayerRegionLineLocator extends FlexLocator {
       z: 0.05
     }
   }
-
-  // TODO: allow to hide card on location but not in modal
-  getRotations(item: MaterialItem, context: ItemContext): string[] {
-    const rotateZ = this.getRotateZ(item, context)
-    const rotations =  !item.location.rotation? ['rotateY(180deg)']: (context.material[context.type]?.getRotations(item, context) ?? [])
-    return rotateZ ? [`rotateZ(${rotateZ}${this.rotationUnit})`, ...rotations] : rotations
-  }
 }
 
 export const playerRegionLineLocator = new PlayerRegionLineLocator()
