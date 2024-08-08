@@ -162,10 +162,8 @@ export class RegionCardDescription extends CardDescription {
     }]
   }
 
-  getItemTransform(item: MaterialItem, context: ItemContext): string[] {
-    const transform = super.getItemTransform(item, context)
-    if (item.location.type === LocationType.PlayerRegionLine && !item.location.rotation && !this.isFlipped(item, context)) transform.push('rotateY(180deg)')
-    return transform
+  isFlippedOnTable(item: MaterialItem, context: ItemContext) {
+    return this.isFlipped(item, context) || (item.location.type === LocationType.PlayerRegionLine && !item.location.rotation)
   }
 
   canShortClick(move: MaterialMove, context: ItemContext) {
