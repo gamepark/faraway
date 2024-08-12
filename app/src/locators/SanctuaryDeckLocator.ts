@@ -2,7 +2,6 @@
 import { DeckLocator } from '@gamepark/react-game'
 
 export class SanctuaryDeckLocator extends DeckLocator {
-  delta = { x: -0.04, y: -0.04 }
   coordinates = { x: -17.5, y: 4, z: 0}
 }
 

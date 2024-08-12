@@ -19,16 +19,16 @@ export class RegionHandLocator extends HandLocator {
     return false
   }
 
-  getCoordinates(location: Location, context: ItemContext) {
+  getHandCoordinates(location: Location, context: ItemContext) {
     return { ...this.locationDescription.getCoordinates(location, context), z: 1 }
   }
 
-  getRadius(item: MaterialItem, { player }: ItemContext): number {
-    return item.location.player === player ? 125 : 40
+  getRadius(location: Location, { player }: ItemContext): number {
+    return location.player === player ? 125 : 40
   }
 
-  getBaseAngle(item: MaterialItem, { rules, player }: ItemContext): number {
-    const index = getBoardIndex(item.location, rules, player)
+  getBaseAngle(location: Location, { rules, player }: ItemContext): number {
+    const index = getBoardIndex(location, rules, player)
     return [1, 2, 3].includes(index) ? 180 : 0
   }
 

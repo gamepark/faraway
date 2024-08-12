@@ -1,14 +1,15 @@
 /** @jsxImportSource @emotion/react */
 import { LocationType } from '@gamepark/faraway/material/LocationType'
-import { FlexLocator, ItemContext, MaterialContext } from '@gamepark/react-game'
-import { MaterialItem } from '@gamepark/rules-api'
+import { FlexLocator, LocationContext, MaterialContext } from '@gamepark/react-game'
+import { Location } from '@gamepark/rules-api'
 import { regionCardDescription } from '../material/RegionCardDescription'
 import { PlayerRegionLineDescription } from './description/PlayerRegionLineDescription'
+import { getDeltaForPosition } from './position/PositionOnTable'
 
 export class PlayerRegionLineLocator extends FlexLocator {
-  itemsPerLine = 4
-  itemsGap = { x: regionCardDescription.width + 0.5 }
-  linesGap = { y: regionCardDescription.height + 0.5 }
+  lineSize = 4
+  gap = { x: regionCardDescription.width + 0.5 }
+  lineGap = { y: regionCardDescription.height + 0.5 }
 
   locationDescription = new PlayerRegionLineDescription()
 
@@ -22,12 +23,10 @@ export class PlayerRegionLineLocator extends FlexLocator {
       })))
   }
 
-  getCoordinates(item: MaterialItem, context: ItemContext) {
-    const { location } = item
-    return {
-      ...this.locationDescription.getRegionCoordinates(location, context),
-      z: 0.05
-    }
+  getOriginCoordinates(location: Location, context: LocationContext) {
+    const { player, rules } = context
+    const { x = 0, y = 0 } = getDeltaForPosition(location, rules, player)
+    return { x, y: y + 13 }
   }
 }
 

@@ -1,18 +1,14 @@
 /** @jsxImportSource @emotion/react */
 import { DeckLocator, ItemContext } from '@gamepark/react-game'
-import { Coordinates, MaterialItem } from '@gamepark/rules-api'
+import { Location } from '@gamepark/rules-api'
 import { regionCardDescription } from '../material/RegionCardDescription'
 import { regionDeckLocator } from './RegionDeckLocator'
 
 export class RegionDiscardLocator extends DeckLocator {
-  delta = { x: -0.04, y: -0.04 }
-
-  getCoordinates(item: MaterialItem, context: ItemContext): Coordinates {
-    const deckCoordinates = { ...regionDeckLocator.getCoordinates(item, context) }
+  getOriginCoordinates(location: Location, context: ItemContext) {
+    const { x = 0, y } = regionDeckLocator.getOriginCoordinates(location, context)
     const playersCount = context.rules.players.length
-    deckCoordinates.x += ((regionCardDescription.width + 0.5) * (playersCount + 2.5))
-    deckCoordinates.z = 0
-    return deckCoordinates
+    return { x: x + (regionCardDescription.width + 0.5) * (playersCount + 2.5), y, z: 0 }
   }
 
   rotateZ = 90
