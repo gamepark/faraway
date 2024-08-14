@@ -18,7 +18,7 @@ export class PlayerSanctuaryLineLocator extends FlexLocator {
 
   getOriginCoordinates(location: Location, context: LocationContext) {
     const { x = 0, y = 0 } = getPlayerBoardPosition(context, location.player)
-    return { x: x - 7.5, y: y + 13, z: 0 }
+    return { x: x - 7.5, y: y + 13 }
   }
 }
 

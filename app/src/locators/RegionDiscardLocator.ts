@@ -8,7 +8,7 @@ export class RegionDiscardLocator extends DeckLocator {
   getOriginCoordinates(location: Location, context: ItemContext) {
     const { x = 0, y } = regionDeckLocator.getOriginCoordinates(location, context)
     const playersCount = context.rules.players.length
-    return { x: x + (regionCardDescription.width + 0.5) * (playersCount + 2.5), y, z: 0 }
+    return { x: x + (regionCardDescription.width + 0.5) * (playersCount + 2.5), y }
   }
 
   rotateZ = 90
