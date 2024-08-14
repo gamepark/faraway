@@ -6,7 +6,7 @@ import { HandLocator, ItemContext, LocationDescription, MaterialContext } from '
 import { Location, MaterialItem } from '@gamepark/rules-api'
 import { orderBy } from 'lodash'
 import { regionCardDescription } from '../material/RegionCardDescription'
-import { getBoardIndex, getDeltaForPosition } from './position/PositionOnTable'
+import { getPlayerBoardPosition, getPlayerIndex } from './position/PositionOnTable'
 
 export class RegionHandLocator extends HandLocator {
   locationDescription = new RegionHandDescription()
@@ -27,8 +27,8 @@ export class RegionHandLocator extends HandLocator {
     return location.player === player ? 125 : 40
   }
 
-  getBaseAngle(location: Location, { rules, player }: ItemContext): number {
-    const index = getBoardIndex(location, rules, player)
+  getBaseAngle(location: Location, context: ItemContext): number {
+    const index = getPlayerIndex(context, location.player)
     return [1, 2, 3].includes(index) ? 180 : 0
   }
 
@@ -51,10 +51,10 @@ class RegionHandDescription extends LocationDescription {
   borderRadius = regionCardDescription.borderRadius
 
   getCoordinates(location: Location, context: ItemContext) {
-    const { player, rules } = context
+    const { player } = context
     const coordinates = { x: 11.2, y: 29 }
-    const index = getBoardIndex(location, rules, player)
-    const delta = getDeltaForPosition(location, rules, player)
+    const index = getPlayerIndex(context, location.player)
+    const delta = getPlayerBoardPosition(context, location.player)
     const additionalY = [1, 2, 3].includes(index) ? -25 : 0
 
     if (player === location.player) {

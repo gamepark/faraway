@@ -4,7 +4,7 @@ import { FlexLocator, LocationContext, MaterialContext } from '@gamepark/react-g
 import { Location } from '@gamepark/rules-api'
 import { sanctuaryCardDescription } from '../material/SanctuaryCardDescription'
 import { PlayerSanctuaryLineDescription } from './description/PlayerSanctuaryLineDescription'
-import { getDeltaForPosition } from './position/PositionOnTable'
+import { getPlayerBoardPosition } from './position/PositionOnTable'
 
 export class PlayerSanctuaryLineLocator extends FlexLocator {
   gap = { y: sanctuaryCardDescription.height + 0.5 }
@@ -16,8 +16,8 @@ export class PlayerSanctuaryLineLocator extends FlexLocator {
     return player ? [{ type: LocationType.PlayerSanctuaryLine, player }] : []
   }
 
-  getOriginCoordinates(location: Location, { player, rules }: LocationContext) {
-    const { x = 0, y = 0 } = getDeltaForPosition(location, rules, player)
+  getOriginCoordinates(location: Location, context: LocationContext) {
+    const { x = 0, y = 0 } = getPlayerBoardPosition(context, location.player)
     return { x: x - 7.5, y: y + 13, z: 0 }
   }
 }

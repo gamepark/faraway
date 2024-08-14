@@ -4,7 +4,7 @@ import { FlexLocator, LocationContext, MaterialContext } from '@gamepark/react-g
 import { Location } from '@gamepark/rules-api'
 import { regionCardDescription } from '../material/RegionCardDescription'
 import { PlayerRegionLineDescription } from './description/PlayerRegionLineDescription'
-import { getDeltaForPosition } from './position/PositionOnTable'
+import { getPlayerBoardPosition } from './position/PositionOnTable'
 
 export class PlayerRegionLineLocator extends FlexLocator {
   lineSize = 4
@@ -24,8 +24,7 @@ export class PlayerRegionLineLocator extends FlexLocator {
   }
 
   getOriginCoordinates(location: Location, context: LocationContext) {
-    const { player, rules } = context
-    const { x = 0, y = 0 } = getDeltaForPosition(location, rules, player)
+    const { x = 0, y = 0 } = getPlayerBoardPosition(context, location.player)
     return { x, y: y + 13 }
   }
 }

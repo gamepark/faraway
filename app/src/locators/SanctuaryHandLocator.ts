@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { HandLocator, ItemContext } from '@gamepark/react-game'
 import { Location } from '@gamepark/rules-api'
-import { getBoardIndex, getDeltaForPosition } from './position/PositionOnTable'
+import { getPlayerBoardPosition, getPlayerIndex } from './position/PositionOnTable'
 
 export class SanctuaryHandLocator extends HandLocator {
   getMaxAngle() {
@@ -9,14 +9,13 @@ export class SanctuaryHandLocator extends HandLocator {
   }
 
   getHandCoordinates(location: Location, context: ItemContext) {
-    const { player, rules } = context
     const coordinates = { x: -11, y: 29, z: 0 }
-    const index = getBoardIndex(location, rules, player)
-    const delta = getDeltaForPosition(location, rules, player)
+    const index = getPlayerIndex(context, location.player)
+    const delta = getPlayerBoardPosition(context, location.player)
     const top = [1, 2, 3].includes(index) ? -24.5 : 0
     const count = this.countItems(location, context)
 
-    if (player === location.player) {
+    if (context.player === location.player) {
       coordinates.z = 3
       if (count >= 6) {
         coordinates.x += (count - 7) * 2
@@ -51,8 +50,8 @@ export class SanctuaryHandLocator extends HandLocator {
     return 1.25
   }
 
-  getBaseAngle(location: Location, { rules, player }: ItemContext): number {
-    const index = getBoardIndex(location, rules, player)
+  getBaseAngle(location: Location, context: ItemContext): number {
+    const index = getPlayerIndex(context, location.player)
     return [1, 2, 3].includes(index) ? 180 : 0
   }
 }

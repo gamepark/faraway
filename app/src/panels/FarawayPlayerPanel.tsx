@@ -12,7 +12,18 @@ import { PlayerId } from '@gamepark/faraway/PlayerId'
 import { ScoreHelper } from '@gamepark/faraway/rules/helper/ScoreHelper'
 import { Memory } from '@gamepark/faraway/rules/Memory'
 import { Player } from '@gamepark/react-client'
-import { Avatar, Picture, PlayerTimer, SpeechBubbleDirection, useFocusContext, usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
+import {
+  Avatar,
+  getRelativePlayerIndex,
+  MaterialContext,
+  Picture,
+  PlayerTimer,
+  SpeechBubbleDirection,
+  useFocusContext,
+  useMaterialContext,
+  usePlayerName,
+  useRules
+} from '@gamepark/react-game'
 import { FC, HTMLAttributes, useCallback, useEffect } from 'react'
 import Player3 from '../images/region/region_blue_9.jpg'
 import Player1 from '../images/region/region_green_11.jpg'
@@ -24,7 +35,6 @@ import DayMini from '../images/time/day-mini.png'
 import Day from '../images/time/day.png'
 import NightMini from '../images/time/night-mini.png'
 import Night from '../images/time/night.png'
-import { computeBoardIndex } from '../locators/position/PositionOnTable'
 
 type FarawayPlayerPanelProps = {
   player: Player
@@ -33,9 +43,9 @@ type FarawayPlayerPanelProps = {
 export const FarawayPlayerPanel: FC<FarawayPlayerPanelProps> = (props) => {
   const { player, ...rest } = props
   const { setFocus } = useFocusContext()
-  const rules = useRules<FarawayRules>()!
+  const context = useMaterialContext()
+  const { rules, player: playerId } = context
   const isTutorial = !rules || rules.game.tutorial !== undefined
-  const playerId = usePlayerId()
   const playerName = usePlayerName(player.id)
   const itsMe = playerId && player.id === playerId
   const turnToPlay = rules.isTurnToPlay(player.id)
@@ -55,7 +65,7 @@ export const FarawayPlayerPanel: FC<FarawayPlayerPanelProps> = (props) => {
           })),
         ...(itsMe ? [{ type: LocationType.RegionDeck }] : [])
       ],
-      margin: getMargin(rules, player, playerId),
+      margin: getMargin(player, context),
       animationTime: 500
     })
   }, [rules, player])
@@ -222,8 +232,9 @@ const data = css`
   z-index: 2;
 `
 
-const getMargin = (rules: FarawayRules, player: Player, playerId?: PlayerId) => {
-  const index = computeBoardIndex({ player: player.id }, rules, playerId)
+const getMargin = (player: Player, context: MaterialContext) => {
+  const players = context.rules.players.length
+  const index = getRelativePlayerIndex(context, { player: player.id }.player)
   const margin = {
     left: 23,
     right: 2,
@@ -231,17 +242,17 @@ const getMargin = (rules: FarawayRules, player: Player, playerId?: PlayerId) => 
     bottom: 3
   }
 
-  if (index === 0 && rules.players.length > 3) {
+  if (index === 0 && players > 3) {
     margin.top = 4
     margin.bottom = 1
   }
 
-  if (index === 0 && rules.players.length === 5) {
+  if (index === 0 && players === 5) {
     margin.top = 5
     margin.bottom = 1
   }
 
-  if (index === 0 && rules.players.length === 6) {
+  if (index === 0 && players === 6) {
     margin.top = 5
     margin.bottom = 4
   }

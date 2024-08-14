@@ -1,8 +1,8 @@
-import { PlayerId } from '@gamepark/faraway/PlayerId'
-import { Coordinates, Location, MaterialRules } from '@gamepark/rules-api'
+import { getRelativePlayerIndex, MaterialContext } from '@gamepark/react-game'
+import { Coordinates } from '@gamepark/rules-api'
 
-export const getDeltaForPosition = (location: Location, rules: MaterialRules, player?: PlayerId): Partial<Coordinates> => {
-  const index = getBoardIndex(location, rules, player)
+export const getPlayerBoardPosition = (context: MaterialContext, player?: number): Partial<Coordinates> => {
+  const index = getPlayerIndex(context, player)
   switch (index) {
     case 1:
       return { y: -26 }
@@ -13,30 +13,22 @@ export const getDeltaForPosition = (location: Location, rules: MaterialRules, pl
     case 4:
       return { x: 110 }
     case 5:
-      return { y: 0, x: 55}
+      return { y: 0, x: 55 }
   }
 
   return {}
 }
 
 
-export const getBoardIndex = (location: Partial<Location>, rules: MaterialRules, player?: PlayerId) => {
-  switch (rules.players.length) {
+export const getPlayerIndex = (context: MaterialContext, player?: number) => {
+  switch (context.rules.players.length) {
     case 4:
-      return [0,1,2,5][computeBoardIndex(location, rules, player)]
+      return [0, 1, 2, 5][getRelativePlayerIndex(context, player)]
     default:
-      return computeBoardIndex(location, rules, player)
+      return getRelativePlayerIndex(context, player)
   }
 }
 
-
-export const computeBoardIndex = (location: Partial<Location>, rules: MaterialRules, player?: PlayerId) => {
-  if (!player) return rules.players.indexOf(location.player!)
-  if (player && player === location.player) return 0
-  const remainingPlayers = rules.players.filter((p) => p !== player)
-  if (remainingPlayers.length === 1) return 1
-  return remainingPlayers.indexOf(location.player!) + 1
-}
 
 export const getTableSize = (players: number): { xMin: number, xMax: number, yMin: number, yMax: number } => {
   switch (players) {
