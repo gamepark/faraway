@@ -9,31 +9,23 @@ export class SanctuaryHandLocator extends HandLocator {
   }
 
   getHandCoordinates(location: Location, context: ItemContext) {
-    const coordinates = { x: -11, y: 29, z: 0 }
-    const index = getPlayerIndex(context, location.player)
-    const delta = getPlayerBoardPosition(context, location.player)
-    const top = [1, 2, 3].includes(index) ? -24.5 : 0
+    const { player } = context
+    let { x = 0, y = 0 } = getPlayerBoardPosition(context, location.player)
+    x -= 11
+    y += 29
+
     const count = this.countItems(location, context)
-
-    if (context.player === location.player) {
-      coordinates.z = 3
-      if (count >= 6) {
-        coordinates.x += (count - 7) * 2
-      }
-      /*if (count >= 6 && count < 8) {
-        coordinates.x += (count - 8) * 2.2
-      } else if (count > 9) {
-        coordinates.x += (count - 9) * 2.2
-      }*/
-    } else {
-      coordinates.x += 4
+    if (player !== location.player) {
+      x += 4
+    } else if (count >= 6) {
+      x += (count - 7) * 2
     }
 
-    return {
-      x: coordinates.x + (delta.x ?? 0),
-      y: coordinates.y + (delta.y ?? 0) + top,
-      z: coordinates.z
+    if ([1, 2, 3].includes(getPlayerIndex(context, location.player))) {
+      y -= 24.5
     }
+
+    return { x: x, y: y, z: 3 }
   }
 
   getRadius(location: Location, { player }: ItemContext): number {
