@@ -14,7 +14,7 @@ export class RefillRegionRule extends MaterialRulesPart {
       moves.push(...this.drawRegionCardsMoves)
     }
 
-    moves.push(this.rules().startSimultaneousRule(RuleId.PlaceRegion))
+    moves.push(this.startSimultaneousRule(RuleId.PlaceRegion))
     return moves
   }
 

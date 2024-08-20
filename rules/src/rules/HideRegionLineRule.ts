@@ -7,7 +7,7 @@ export class HideRegionLineRule extends MaterialRulesPart {
   onRuleStart() {
     const moves: MaterialMove[] = []
     moves.push(this.lineCards.moveItemsAtOnce({ rotation: false }))
-    moves.push(this.rules().startRule(RuleId.Scoring))
+    moves.push(this.startRule(RuleId.Scoring))
     return moves
   }
 

@@ -19,13 +19,13 @@ export class ChooseHandCardsRule extends SimultaneousRule {
     const player = item.location.player!
     if (this.getHand(player).length > 4) return []
 
-    return [this.rules().endPlayerTurn(player)]
+    return [this.endPlayerTurn(player)]
   }
 
   getMovesAfterPlayersDone(): MaterialMove<number, number, number>[] {
     const moves: MaterialMove[] = []
     moves.push(this.material(MaterialType.Region).location(LocationType.RegionDeck).shuffle())
-    moves.push(this.rules().startSimultaneousRule(RuleId.PlaceRegion))
+    moves.push(this.startSimultaneousRule(RuleId.PlaceRegion))
     return moves
   }
 

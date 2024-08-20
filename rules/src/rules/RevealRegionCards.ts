@@ -6,7 +6,7 @@ export class RevealRegionCards extends MaterialRulesPart {
   onRuleStart() {
     return [
       ...this.hiddenRegionCards.rotateItems(true),
-      this.rules().startRule(RuleId.DealSanctuaries)
+      this.startRule(RuleId.DealSanctuaries)
     ]
   }
 

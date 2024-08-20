@@ -13,7 +13,7 @@ export class DealSanctuariesRule extends MaterialRulesPart {
       moves.push(...new SanctuaryHelper(this.game, deck, player).sanctuariesToDrawn)
     }
 
-    moves.push(this.rules().startPlayerTurn(RuleId.ChooseNewRegion, new RoundHelper(this.game).firstPlayer))
+    moves.push(this.startPlayerTurn(RuleId.ChooseNewRegion, new RoundHelper(this.game).firstPlayer))
     return moves
   }
 

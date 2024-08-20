@@ -13,7 +13,7 @@ export class ScoringRule extends MaterialRulesPart {
           .rotateItems(true)
       )
     }
-    moves.push(this.rules().endGame())
+    moves.push(this.endGame())
     return moves
   }
 

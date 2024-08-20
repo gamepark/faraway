@@ -20,11 +20,11 @@ export class PlaceRegionRule extends SimultaneousRule<PlayerId, MaterialType, Lo
 
   afterItemMove(move: ItemMove) {
     if (!isMoveItemType(MaterialType.Region)(move)) return []
-    return [this.rules().endPlayerTurn(move.location.player!)]
+    return [this.endPlayerTurn(move.location.player!)]
   }
 
   getMovesAfterPlayersDone(): MaterialMove<PlayerId, MaterialType, LocationType>[] {
-    return [this.rules().startRule(RuleId.RevealRegions)]
+    return [this.startRule(RuleId.RevealRegions)]
   }
 
   getHand(playerId: PlayerId) {

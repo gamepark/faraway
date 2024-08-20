@@ -6,7 +6,7 @@ import { RuleId } from './RuleId'
 export class ChooseNewRegionCardRule extends PlayerTurnRule {
 
   onRuleStart() {
-    if (!this.getPlayerMoves().length) return [this.rules().startRule(RuleId.PlaceSanctuary)]
+    if (!this.getPlayerMoves().length) return [this.startRule(RuleId.PlaceSanctuary)]
     return []
   }
   getPlayerMoves() {
@@ -23,7 +23,7 @@ export class ChooseNewRegionCardRule extends PlayerTurnRule {
 
     // Shuffle hand after changing the rule in order to prevent game from highlighting
     return [
-      this.rules().startRule(RuleId.PlaceSanctuary),
+      this.startRule(RuleId.PlaceSanctuary),
       this.hand.shuffle(),
     ]
   }
