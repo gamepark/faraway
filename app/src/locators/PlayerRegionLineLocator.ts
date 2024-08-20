@@ -23,7 +23,7 @@ export class PlayerRegionLineLocator extends FlexLocator {
       })))
   }
 
-  getOriginCoordinates(location: Location, context: LocationContext) {
+  getCoordinates(location: Location, context: LocationContext) {
     const { x = 0, y = 0 } = getPlayerBoardPosition(context, location.player)
     return { x, y: y + 13 }
   }

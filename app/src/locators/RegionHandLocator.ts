@@ -19,7 +19,7 @@ export class RegionHandLocator extends HandLocator {
     return false
   }
 
-  getHandCoordinates(location: Location, context: ItemContext) {
+  getCoordinates(location: Location, context: ItemContext) {
     const { player } = context
     let { x = 0, y = 0 } = getPlayerBoardPosition(context, location.player)
     x += 11.2
