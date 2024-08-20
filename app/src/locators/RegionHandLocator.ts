@@ -2,19 +2,12 @@
 import { getValue } from '@gamepark/faraway/cards/Region'
 import { LocationType } from '@gamepark/faraway/material/LocationType'
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
-import { HandLocator, ItemContext, MaterialContext } from '@gamepark/react-game'
+import { HandLocator, ItemContext } from '@gamepark/react-game'
 import { Location, MaterialItem } from '@gamepark/rules-api'
 import { orderBy } from 'lodash'
-import { RegionHandDescription } from './description/RegionHandDescription'
 import { getPlayerBoardPosition, getPlayerIndex } from './position/PositionOnTable'
 
 export class RegionHandLocator extends HandLocator {
-  locationDescription = new RegionHandDescription()
-
-  getLocations({ player }: MaterialContext): Location[] {
-    return player ? [{ type: LocationType.PlayerRegionHand, player }] : []
-  }
-
   isClockwise() {
     return false
   }

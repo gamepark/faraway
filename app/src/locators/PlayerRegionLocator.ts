@@ -3,15 +3,15 @@ import { LocationType } from '@gamepark/faraway/material/LocationType'
 import { FlexLocator, LocationContext, MaterialContext } from '@gamepark/react-game'
 import { Location } from '@gamepark/rules-api'
 import { regionCardDescription } from '../material/RegionCardDescription'
-import { PlayerRegionLineDescription } from './description/PlayerRegionLineDescription'
+import { PlayerRegionAreaDescription } from './description/PlayerRegionAreaDescription'
 import { getPlayerBoardPosition } from './position/PositionOnTable'
 
-export class PlayerRegionLineLocator extends FlexLocator {
+export class PlayerRegionLocator extends FlexLocator {
   lineSize = 4
   gap = { x: regionCardDescription.width + 0.5 }
   lineGap = { y: regionCardDescription.height + 0.5 }
 
-  locationDescription = new PlayerRegionLineDescription()
+  locationDescription = new PlayerRegionAreaDescription()
 
   getLocations(context: MaterialContext) {
     const { rules } = context
@@ -29,4 +29,4 @@ export class PlayerRegionLineLocator extends FlexLocator {
   }
 }
 
-export const playerRegionLineLocator = new PlayerRegionLineLocator()
+export const playerRegionLocator = new PlayerRegionLocator()

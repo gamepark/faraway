@@ -2,29 +2,27 @@
 import { LocationType } from '@gamepark/faraway/material/LocationType'
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
 import { PlayerId } from '@gamepark/faraway/PlayerId'
-import { Locator } from '@gamepark/react-game'
+import { DeckLocator, ListLocator, Locator } from '@gamepark/react-game'
+import { regionCardDescription } from '../material/RegionCardDescription'
 import { cardCharacteristicLocator } from './CardCharacteristicLocator'
-import { playerRegionLineLocator } from './PlayerRegionLineLocator'
-import { playerSanctuaryLineLocator } from './PlayerSanctuaryLineLocator'
-import { regionDeckLocator } from './RegionDeckLocator'
+import { playerRegionLocator } from './PlayerRegionLocator'
+import { playerSanctuaryLocator } from './PlayerSanctuaryLocator'
 import { regionDiscardLocator } from './RegionDiscardLocator'
 import { regionHandLocator } from './RegionHandLocator'
-import { regionLocator } from './RegionLocator'
 import { regionScorePointLocator } from './RegionScorePointLocator'
-import { sanctuaryDeckLocator } from './SanctuaryDeckLocator'
 import { sanctuaryHandLocator } from './SanctuaryHandLocator'
 import { sanctuaryScorePointLocator } from './SanctuaryScorePointLocator'
 import { scoreSheetBoxLocator } from './ScoreSheetBoxLocator'
 import { scoreSheetLocator } from './ScoreSheetLocator'
 
 export const Locators: Partial<Record<LocationType, Locator<PlayerId, MaterialType, LocationType>>> = {
-  [LocationType.RegionDeck]: regionDeckLocator,
-  [LocationType.SanctuaryDeck]: sanctuaryDeckLocator,
+  [LocationType.RegionDeck]: new DeckLocator({ coordinates: { x: -10, y: 4 } }),
+  [LocationType.SanctuaryDeck]: new DeckLocator({ coordinates: { x: -17.5, y: 4 } }),
   [LocationType.PlayerRegionHand]: regionHandLocator,
   [LocationType.PlayerSanctuaryHand]: sanctuaryHandLocator,
-  [LocationType.PlayerRegionLine]: playerRegionLineLocator,
-  [LocationType.PlayerSanctuaryLine]: playerSanctuaryLineLocator,
-  [LocationType.Region]: regionLocator,
+  [LocationType.PlayerRegionLine]: playerRegionLocator,
+  [LocationType.PlayerSanctuaryLine]: playerSanctuaryLocator,
+  [LocationType.Region]: new ListLocator({ coordinates: { x: -2.5, y: 4 }, gap: { x: regionCardDescription.width + 0.5 } }),
   [LocationType.RegionDiscard]: regionDiscardLocator,
   [LocationType.RegionScorePoints]: regionScorePointLocator,
   [LocationType.SanctuaryScorePoints]: sanctuaryScorePointLocator,
