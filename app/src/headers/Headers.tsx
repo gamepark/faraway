@@ -18,5 +18,6 @@ export const Headers: Partial<Record<RuleId, ComponentType>> = {
   [RuleId.PlaceSanctuary]: SanctuaryHeader,
   [RuleId.RefillRegion]: RefillHeader,
   [RuleId.Scoring]: ScoringHeader,
+  [RuleId.HideRegionLine]: ScoringHeader,
   [RuleId.ChooseHandCards]: ChooseHandCardsHeader
 }
