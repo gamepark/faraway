@@ -5,10 +5,7 @@ import { SanctuaryScorePointDescription } from './description/SanctuaryScorePoin
 export class SanctuaryScorePointLocator extends Locator {
   locationDescription = new SanctuaryScorePointDescription()
   parentItemType = MaterialType.Sanctuary
-
-  getPositionOnParent() {
-    return { x: 50, y: 45 }
-  }
+  positionOnParent = { x: 50, y: 45 }
 }
 
 export const sanctuaryScorePointLocator = new SanctuaryScorePointLocator()

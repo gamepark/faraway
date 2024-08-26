@@ -8,9 +8,7 @@ import { orderBy } from 'lodash'
 import { getPlayerBoardPosition, getPlayerIndex } from './position/PositionOnTable'
 
 export class RegionHandLocator extends HandLocator {
-  isClockwise() {
-    return false
-  }
+  clockwise = false
 
   getCoordinates(location: Location, context: ItemContext) {
     const { player } = context

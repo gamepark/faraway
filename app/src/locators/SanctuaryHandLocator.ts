@@ -4,9 +4,7 @@ import { Location } from '@gamepark/rules-api'
 import { getPlayerBoardPosition, getPlayerIndex } from './position/PositionOnTable'
 
 export class SanctuaryHandLocator extends HandLocator {
-  getMaxAngle() {
-    return 16
-  }
+  maxAngle = 16
 
   getCoordinates(location: Location, context: ItemContext) {
     const { player } = context
