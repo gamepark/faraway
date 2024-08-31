@@ -1,6 +1,6 @@
 {
   "name": "@gamepark/faraway-app",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": true,
   "description": "The user interface of Faraway adaptation for Game Park",
   "author": "Romain Fromi <romain@game-park.com> (https://game-park.com/)",
