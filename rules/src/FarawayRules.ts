@@ -89,7 +89,8 @@ export class FarawayRules extends SecretMaterialRules<PlayerId, MaterialType, Lo
   getTieBreaker(tieBreaker: number, playerId: PlayerId): number | undefined {
     if (tieBreaker === 1) {
       // If there is a tie, the player with the minimum card value wins the game
-      const minCard = this.material(MaterialType.Region).location(LocationType.PlayerRegionLine).player(playerId).minBy((item) => getValue(item.id)).getItem()!
+      const minCard = this.material(MaterialType.Region).location(LocationType.PlayerRegionLine).player(playerId).minBy((item) => getValue(item.id)).getItem()
+      if (!minCard) return 0
       return 100 - getValue(minCard.id)
     }
     return
