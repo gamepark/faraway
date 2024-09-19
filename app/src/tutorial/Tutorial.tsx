@@ -382,31 +382,15 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
           <strong/>
           <i/>
         </Trans>,
-        position: { y: -20, x: -5 }
+        position: { y: 0, x: 15 }
       },
       focus: (game) => ({
         materials: [
           this.material(game, MaterialType.Sanctuary).player(me).location(LocationType.PlayerSanctuaryHand)
         ],
+        scale: 0.7,
         margin: {
           top: 7
-        }
-      })
-    },
-    {
-      focus: (game) => ({
-        materials: [
-          this.material(game, MaterialType.Sanctuary).player(me).location(LocationType.PlayerSanctuaryHand)
-        ],
-        locations: [
-          this
-            .location(LocationType.PlayerSanctuaryLine)
-            .player(me)
-            .location
-        ],
-        margin: {
-          top: 2,
-          bottom: 2
         }
       }),
       move: {

@@ -2,12 +2,14 @@
 import { getValue } from '@gamepark/faraway/cards/Region'
 import { LocationType } from '@gamepark/faraway/material/LocationType'
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
-import { HandLocator, ItemContext } from '@gamepark/react-game'
+import { DropAreaDescription, HandLocator, ItemContext } from '@gamepark/react-game'
 import { Location, MaterialItem } from '@gamepark/rules-api'
 import { orderBy } from 'lodash'
 import { getPlayerBoardPosition, getPlayerIndex } from './position/PositionOnTable'
 
 export class RegionHandLocator extends HandLocator {
+  locationDescription = new DropAreaDescription({ width: 20, height: 8, borderRadius: 0.4 })
+
   clockwise = false
 
   getCoordinates(location: Location, context: ItemContext) {
