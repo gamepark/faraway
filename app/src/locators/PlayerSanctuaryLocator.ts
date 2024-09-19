@@ -13,6 +13,10 @@ export class PlayerSanctuaryLocator extends FlexLocator {
     const { x = 0, y = 0 } = getPlayerBoardPosition(context, location.player)
     return { x: x - 7.5, y: y + 13 }
   }
+
+  getHoverTransform() {
+    return ['translateZ(10em)', 'scale(2)']
+  }
 }
 
 export const playerSanctuaryLocator = new PlayerSanctuaryLocator()

@@ -2,13 +2,13 @@
 import { LocationType } from '@gamepark/faraway/material/LocationType'
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
 import { PlayerId } from '@gamepark/faraway/PlayerId'
-import { DeckLocator, ListLocator, Locator } from '@gamepark/react-game'
-import { regionCardDescription } from '../material/RegionCardDescription'
+import { DeckLocator, Locator } from '@gamepark/react-game'
 import { cardCharacteristicLocator } from './CardCharacteristicLocator'
 import { playerRegionLocator } from './PlayerRegionLocator'
 import { playerSanctuaryLocator } from './PlayerSanctuaryLocator'
 import { regionDiscardLocator } from './RegionDiscardLocator'
 import { regionHandLocator } from './RegionHandLocator'
+import { regionLocator } from './RegionLocator'
 import { regionScorePointLocator } from './RegionScorePointLocator'
 import { sanctuaryHandLocator } from './SanctuaryHandLocator'
 import { sanctuaryScorePointLocator } from './SanctuaryScorePointLocator'
@@ -22,7 +22,7 @@ export const Locators: Partial<Record<LocationType, Locator<PlayerId, MaterialTy
   [LocationType.PlayerSanctuaryHand]: sanctuaryHandLocator,
   [LocationType.PlayerRegionLine]: playerRegionLocator,
   [LocationType.PlayerSanctuaryLine]: playerSanctuaryLocator,
-  [LocationType.Region]: new ListLocator({ coordinates: { x: -2.5, y: 4 }, gap: { x: regionCardDescription.width + 0.5 } }),
+  [LocationType.Region]: regionLocator,
   [LocationType.RegionDiscard]: regionDiscardLocator,
   [LocationType.RegionScorePoints]: regionScorePointLocator,
   [LocationType.SanctuaryScorePoints]: sanctuaryScorePointLocator,

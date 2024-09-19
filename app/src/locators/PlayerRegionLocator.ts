@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { LocationType } from '@gamepark/faraway/material/LocationType'
 import { FlexLocator, LocationContext, MaterialContext } from '@gamepark/react-game'
-import { Location } from '@gamepark/rules-api'
+import { Location, MaterialItem } from '@gamepark/rules-api'
 import { regionCardDescription } from '../material/RegionCardDescription'
 import { PlayerRegionAreaDescription } from './description/PlayerRegionAreaDescription'
 import { getPlayerBoardPosition } from './position/PositionOnTable'
@@ -26,6 +26,10 @@ export class PlayerRegionLocator extends FlexLocator {
   getCoordinates(location: Location, context: LocationContext) {
     const { x = 0, y = 0 } = getPlayerBoardPosition(context, location.player)
     return { x, y: y + 13 }
+  }
+
+  getHoverTransform(item: MaterialItem) {
+    return item.id !== undefined ? ['translateZ(10em)', 'scale(2)'] : []
   }
 }
 
