@@ -44,7 +44,7 @@ export class RegionHandLocator extends HandLocator {
     if (item.location.player === player) {
       const hand = rules.material(MaterialType.Region).location(LocationType.PlayerRegionHand)
       const coins = hand.player(player)
-      const sorted = orderBy(coins.getIndexes(), (index) => -getValue(hand.getItem(index)!.id))
+      const sorted = orderBy(coins.getIndexes(), (index) => -getValue(hand.getItem(index).id))
       return sorted.indexOf(index)
     } else {
       return item.location.x!

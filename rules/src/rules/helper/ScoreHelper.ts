@@ -20,7 +20,7 @@ export class ScoreHelper extends MaterialRulesPart {
     let score = 0
     const sanctuariesIndexes = this.material(MaterialType.Sanctuary).location(LocationType.PlayerSanctuaryLine).player(this.player).getIndexes()
     for (let index of sanctuariesIndexes) {
-      const item = this.material(MaterialType.Sanctuary).getItem(index)!
+      const item = this.material(MaterialType.Sanctuary).getItem(index)
       const quest: Quest = SanctuaryQuests[item.id]
       if (!quest) continue
       score += quest.getTotalScore(this.game, index, MaterialType.Sanctuary, this.player)
@@ -33,7 +33,7 @@ export class ScoreHelper extends MaterialRulesPart {
     let score = 0
     const regionIndexes = this.material(MaterialType.Region).location(LocationType.PlayerRegionLine).player(this.player).getIndexes()
     for (let index of regionIndexes) {
-      const item = this.material(MaterialType.Region).getItem(index)!
+      const item = this.material(MaterialType.Region).getItem(index)
       const quest: Quest = RegionQuests[item.id]
       if (!quest) continue
       score += quest.getTotalScore(this.game, index, MaterialType.Region, this.player)

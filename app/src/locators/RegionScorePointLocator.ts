@@ -9,7 +9,7 @@ export class RegionScorePointLocator extends Locator {
   parentItemType = MaterialType.Region
 
   getPositionOnParent(location: Location, context: MaterialContext) {
-    const region = context.rules.material(MaterialType.Region).getItem(location.parent!)?.id
+    const region = context.rules.material(MaterialType.Region).getItem(location.parent!).id
     return { x: RegionScoreX[region] ?? 60, y: RegionScoreY[region] ?? 35 }
   }
 }

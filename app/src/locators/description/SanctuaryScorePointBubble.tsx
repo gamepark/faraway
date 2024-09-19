@@ -17,7 +17,7 @@ export const SanctuaryScorePointBubble: FC<SanctuaryScorePointBubbleProps> = (pr
   const { location } = props
   const quests = SanctuaryQuests
   const rules = useRules<FarawayRules>()!
-  const item = rules?.material(MaterialType.Sanctuary).getItem(location.parent!)!
+  const item = rules?.material(MaterialType.Sanctuary).getItem(location.parent!)
   const quest: Quest = item.id? quests[item.id]: undefined
   if (!quest) return null
   const score = quest.getTotalScore(rules.game, location.parent!, MaterialType.Sanctuary, item.location.player!)

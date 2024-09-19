@@ -15,7 +15,7 @@ export class ChooseHandCardsRule extends SimultaneousRule {
   beforeItemMove(move: ItemMove) {
     if (!isMoveItemType(MaterialType.Region)(move)) return []
 
-    const item = this.material(MaterialType.Region).getItem(move.itemIndex)!
+    const item = this.material(MaterialType.Region).getItem(move.itemIndex)
     const player = item.location.player!
     if (this.getHand(player).length > 4) return []
 

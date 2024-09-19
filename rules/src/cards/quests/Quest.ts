@@ -17,7 +17,7 @@ export abstract class Quest {
 
   getTotalScore(game: MaterialGame, cardIndex: number, cardType: MaterialType, playerId: PlayerId) {
     const rules = new FarawayRules(game)
-    const card = rules.material(cardType).getItem(cardIndex)!
+    const card = rules.material(cardType).getItem(cardIndex)
     const locationX = card.location.x!
     const regions = this.getRegions(game, cardType === MaterialType.Sanctuary? undefined: locationX, playerId)
     const sanctuaries = this.getSanctuaries(game, playerId)

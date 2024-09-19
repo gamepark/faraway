@@ -17,7 +17,7 @@ export const RegionScorePointBubble: FC<RegionScorePointBubbleProps> = (props) =
   const { location } = props
   const quests = RegionQuests
   const rules = useRules<FarawayRules>()!
-  const item = rules?.material(MaterialType.Region).getItem(location.parent!)!
+  const item = rules?.material(MaterialType.Region).getItem(location.parent!)
   const quest: Quest = item.id ? quests[item.id] : undefined
   if (!quest) return null
   const score = quest.getTotalScore(rules.game, location.parent!, MaterialType.Region, item.location.player!)
