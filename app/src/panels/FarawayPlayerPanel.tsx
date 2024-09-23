@@ -51,10 +51,11 @@ export const FarawayPlayerPanel: FC<FarawayPlayerPanelProps> = (props) => {
   const turnToPlay = rules.isTurnToPlay(player.id)
   const focusPlayer = useCallback(() => {
     setFocus({
-      materials: [
-        ...(itsMe ? [rules.material(MaterialType.Region).location(LocationType.Region)] : []),
-        ...(itsMe ? [rules.material(MaterialType.Region).location(LocationType.PlayerRegionHand).player(playerId)] : [])
-      ],
+      materials: itsMe ? [
+        rules.material(MaterialType.Region).location(LocationType.Region),
+        rules.material(MaterialType.Region).location(LocationType.PlayerRegionHand).player(playerId),
+        rules.material(MaterialType.Region).location(LocationType.RegionDeck).deck().limit(1)
+      ] : [],
       staticItems: [],
       locations: [
         ...Array.from(Array(8))
@@ -62,8 +63,7 @@ export const FarawayPlayerPanel: FC<FarawayPlayerPanelProps> = (props) => {
             type: LocationType.PlayerRegionLine,
             player: player.id,
             x: x
-          })),
-        ...(itsMe ? [{ type: LocationType.RegionDeck }] : [])
+          }))
       ],
       margin: getMargin(player, context),
       animationTime: 500
