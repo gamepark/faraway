@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { HandLocator, ItemContext } from '@gamepark/react-game'
-import { Location } from '@gamepark/rules-api'
+import { Location, MaterialItem } from '@gamepark/rules-api'
 import { getPlayerBoardPosition, getPlayerIndex } from './position/PositionOnTable'
 
 export class SanctuaryHandLocator extends HandLocator {
@@ -43,6 +43,10 @@ export class SanctuaryHandLocator extends HandLocator {
   getBaseAngle(location: Location, context: ItemContext): number {
     const index = getPlayerIndex(context, location.player)
     return [1, 2, 3].includes(index) ? 180 : 0
+  }
+
+  getHoverTransform(item: MaterialItem, context: ItemContext) {
+    return super.getHoverTransform(item, context).concat('translateY(-1em)')
   }
 }
 

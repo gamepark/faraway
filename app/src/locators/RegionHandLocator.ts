@@ -52,6 +52,10 @@ export class RegionHandLocator extends HandLocator {
       return item.location.x!
     }
   }
+
+  getHoverTransform(item: MaterialItem, context: ItemContext) {
+    return super.getHoverTransform(item, context).concat('translateY(-1em)')
+  }
 }
 
 export const regionHandLocator = new RegionHandLocator()
