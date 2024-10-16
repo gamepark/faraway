@@ -1,6 +1,6 @@
 import { MaterialGameSetup } from '@gamepark/rules-api'
 import { regions } from './cards/Region'
-import { sanctuaries } from './cards/Sanctuary'
+import { baseGameSanctuaries } from './cards/Sanctuary'
 import { FarawayOptions } from './FarawayOptions'
 import { FarawayRules } from './FarawayRules'
 import { LocationType } from './material/LocationType'
@@ -52,7 +52,7 @@ export class FarawaySetup extends MaterialGameSetup<PlayerId, MaterialType, Loca
   }
 
   setupSanctuaries() {
-    const cards = sanctuaries.map((sanctuary) => ({
+    const cards = baseGameSanctuaries.map((sanctuary) => ({
       id: sanctuary,
       location: {
         type: LocationType.SanctuaryDeck

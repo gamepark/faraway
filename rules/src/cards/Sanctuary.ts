@@ -55,6 +55,16 @@ export enum Sanctuary {
   Gray23,
   Gray24,
   Gray25,
+
+  RedExp1 = 1001,
+  GreenExp1 = 1101,
+  BlueExp1 = 1201,
+  YellowExp1 = 1301,
+  GrayExp1 = 1401,
+  GrayExp2 = 1402,
+  GrayExp3 = 1403,
+  GrayExp4 = 1404
 }
 
 export const sanctuaries = getEnumValues(Sanctuary)
+export const baseGameSanctuaries = sanctuaries.filter(s => s < 1000)
