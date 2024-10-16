@@ -78,14 +78,21 @@ export enum Region {
   Yellow59 = 359,
   Yellow62 = 362,
   Yellow65 = 365,
+
+  // Expansion
+  RedExp69 = 1069,
+  GreenExp71 = 1171,
+  BlueExp75 = 1275,
+  YellowExp73 = 1373,
+  GrayExp0 = 1400,
+  GrayExp70 = 1470,
+  GrayExp72 = 1472,
+  GrayExp74 = 1474,
+  GrayExp76 = 1476
 }
 
 export const regions = getEnumValues(Region)
+export const baseGameRegions = regions.filter(r => r < 1000)
 
 export const getColor = (region: Region | Sanctuary): Color => Math.floor(region / 100) + 1
 export const getValue = (region: Region | Sanctuary): number => (region % 100)
-
-export const isNight = (region: Region): boolean => {
-  const value = getValue(region)
-  return value <= 40 && value >= 20
-}

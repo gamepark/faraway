@@ -21,7 +21,13 @@ import Blue64 from '../images/region/region_blue_64.jpg'
 import Blue66 from '../images/region/region_blue_66.jpg'
 import Blue68 from '../images/region/region_blue_68.jpg'
 import Blue9 from '../images/region/region_blue_9.jpg'
+import BlueExp75 from '../images/region/region_blue_exp_75.jpg'
 import RegionBack from '../images/region/region_card_back.jpg'
+import GrayExp0 from '../images/region/region_gray_exp_0.jpg'
+import GrayExp70 from '../images/region/region_gray_exp_70.jpg'
+import GrayExp72 from '../images/region/region_gray_exp_72.jpg'
+import GrayExp74 from '../images/region/region_gray_exp_74.jpg'
+import GrayExp76 from '../images/region/region_gray_exp_76.jpg'
 import Green11 from '../images/region/region_green_11.jpg'
 import Green15 from '../images/region/region_green_15.jpg'
 import Green18 from '../images/region/region_green_18.jpg'
@@ -39,6 +45,7 @@ import Green61 from '../images/region/region_green_61.jpg'
 import Green63 from '../images/region/region_green_63.jpg'
 import Green67 from '../images/region/region_green_67.jpg'
 import Green8 from '../images/region/region_green_8.jpg'
+import GreenExp71 from '../images/region/region_green_exp_71.jpg'
 import Red1 from '../images/region/region_red_1.jpg'
 import Red10 from '../images/region/region_red_10.jpg'
 import Red14 from '../images/region/region_red_14.jpg'
@@ -56,6 +63,7 @@ import Red48 from '../images/region/region_red_48.jpg'
 import Red52 from '../images/region/region_red_52.jpg'
 import Red57 from '../images/region/region_red_57.jpg'
 import Red7 from '../images/region/region_red_7.jpg'
+import RedExp69 from '../images/region/region_red_exp_69.jpg'
 import Yellow12 from '../images/region/region_yellow_12.jpg'
 import Yellow25 from '../images/region/region_yellow_25.jpg'
 import Yellow27 from '../images/region/region_yellow_27.jpg'
@@ -73,8 +81,8 @@ import Yellow56 from '../images/region/region_yellow_56.jpg'
 import Yellow59 from '../images/region/region_yellow_59.jpg'
 import Yellow62 from '../images/region/region_yellow_62.jpg'
 import Yellow65 from '../images/region/region_yellow_65.jpg'
+import YellowExp73 from '../images/region/region_yellow_exp_73.jpg'
 import { RegionCardHelp } from './help/RegionCardHelp'
-
 
 export class RegionCardDescription extends CardDescription {
   height = 7
@@ -151,7 +159,18 @@ export class RegionCardDescription extends CardDescription {
     [Region.Yellow56]: Yellow56,
     [Region.Yellow59]: Yellow59,
     [Region.Yellow62]: Yellow62,
-    [Region.Yellow65]: Yellow65
+    [Region.Yellow65]: Yellow65,
+
+    //Expansion
+    [Region.RedExp69]: RedExp69,
+    [Region.GreenExp71]: GreenExp71,
+    [Region.BlueExp75]: BlueExp75,
+    [Region.YellowExp73]: YellowExp73,
+    [Region.GrayExp0]: GrayExp0,
+    [Region.GrayExp70]: GrayExp70,
+    [Region.GrayExp72]: GrayExp72,
+    [Region.GrayExp74]: GrayExp74,
+    [Region.GrayExp76]: GrayExp76,
   }
 
   getLocations(item: MaterialItem, context: ItemContext) {
