@@ -53,8 +53,8 @@ import Gray25 from '../images/sanctuary/sanctuary_gray_25.jpg'
 import { SanctuaryCardHelp } from './help/SanctuaryCardHelp'
 
 export class SanctuaryCardDescription extends CardDescription {
-  height = 7
-  width = 4.53
+  height = 6.8
+  width = 4.4
 
   backImage = SanctuaryBack
 
