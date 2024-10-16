@@ -8,6 +8,7 @@ import { NightQuest } from './quests/NightQuest'
 import { Quest } from './quests/Quest'
 import { RockQuest } from './quests/RockQuest'
 import { ThistleQuest } from './quests/ThistleQuest'
+import { WonderSetQuest } from './quests/WonderSetQuest'
 import { Region } from './Region'
 import { Wonder } from './Wonder'
 
@@ -73,7 +74,16 @@ export const RegionQuests: Partial<Record<Region, Quest>> = {
   [Region.Yellow56]: new ColorQuest(4, [Color.Blue], [Wonder.Chimera, Wonder.Chimera, Wonder.Rock]),
   [Region.Yellow59]: new ColorQuest(3, [Color.Yellow, Color.Red], [Wonder.Chimera, Wonder.Chimera, Wonder.Chimera, Wonder.Rock]),
   [Region.Yellow62]: new ColorQuest(3, [Color.Yellow, Color.Blue], [Wonder.Thistle, Wonder.Thistle, Wonder.Thistle]),
-  [Region.Yellow65]: new ColorQuest(3, [Color.Yellow, Color.Green], [Wonder.Thistle, Wonder.Thistle, Wonder.Thistle])
+  [Region.Yellow65]: new ColorQuest(3, [Color.Yellow, Color.Green], [Wonder.Thistle, Wonder.Thistle, Wonder.Thistle]),
 
+  // Expansion
+  [Region.RedExp69]: new WonderSetQuest(7),
+  [Region.GrayExp70]: new BrutPointQuest(6),
+  [Region.GreenExp71]: new WonderSetQuest(7),
+  [Region.GrayExp72]: new BrutPointQuest(26, [Wonder.Chimera, Wonder.Chimera, Wonder.Chimera, Wonder.Chimera, Wonder.Chimera]),
+  [Region.YellowExp73]: new ColorQuest(5, [Color.Gray], [Wonder.Thistle, Wonder.Thistle, Wonder.Thistle, Wonder.Thistle]),
+  [Region.GrayExp74]: new WonderSetQuest(7),
+  [Region.BlueExp75]: new BrutPointQuest(28, [Wonder.Rock, Wonder.Rock, Wonder.Rock, Wonder.Rock, Wonder.Rock, Wonder.Rock]),
+  [Region.GrayExp76]: new ColorQuest(4, [Color.Gray], [Wonder.Rock, Wonder.Rock, Wonder.Chimera, Wonder.Chimera, Wonder.Thistle, Wonder.Thistle])
 }
 

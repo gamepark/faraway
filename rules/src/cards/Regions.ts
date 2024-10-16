@@ -16,58 +16,58 @@ const Red7: CardDescription = {
 }
 
 const Red14: CardDescription = {
-  wonders: [Wonder.Thistle],
+  wonders: [Wonder.Thistle]
 }
 
 const Red16: CardDescription = {
-  wonders: [Wonder.Chimera],
+  wonders: [Wonder.Chimera]
 }
 
 const Red19: CardDescription = {
-  wonders: [Wonder.Thistle],
+  wonders: [Wonder.Thistle]
 }
 
 const Red23: CardDescription = {
   night: 1,
-  wonders: [Wonder.Chimera, Wonder.Rock],
+  wonders: [Wonder.Chimera, Wonder.Rock]
 }
 
 const Red26: CardDescription = {
   night: 1,
-  wonders: [Wonder.Chimera],
+  wonders: [Wonder.Chimera]
 }
 
 const Red28: CardDescription = {
   night: 1,
-  wonders: [Wonder.Rock],
+  wonders: [Wonder.Rock]
 }
 
 const Red30: CardDescription = {
   night: 1,
-  wonders: [Wonder.Rock],
+  wonders: [Wonder.Rock]
 }
 
 const Red32: CardDescription = {
   night: 1,
-  wonders: [Wonder.Chimera, Wonder.Rock],
+  wonders: [Wonder.Chimera, Wonder.Rock]
 }
 
 const Red36: CardDescription = {
-  night: 1,
+  night: 1
 }
 
 const Red39: CardDescription = {
   night: 1,
-  wonders: [Wonder.Thistle, Wonder.Rock],
+  wonders: [Wonder.Thistle, Wonder.Rock]
 }
 
 const Red48: CardDescription = {
-  wonders: [Wonder.Chimera],
+  wonders: [Wonder.Chimera]
 }
 
 
 const Green5: CardDescription = {
-  wonders: [Wonder.Chimera],
+  wonders: [Wonder.Chimera]
 }
 
 const Green8: CardDescription = {
@@ -76,60 +76,60 @@ const Green8: CardDescription = {
 }
 
 const Green15: CardDescription = {
-  clue: 1,
+  clue: 1
 }
 
 const Green18: CardDescription = {
-  wonders: [Wonder.Chimera],
+  wonders: [Wonder.Chimera]
 }
 
 const Green20: CardDescription = {
   night: 1,
-  clue: 1,
+  clue: 1
 }
 
 const Green22: CardDescription = {
   night: 1,
-  clue: 1,
+  clue: 1
 }
 
 const Green34: CardDescription = {
   night: 1,
-  wonders: [Wonder.Chimera],
+  wonders: [Wonder.Chimera]
 }
 
 const Green38: CardDescription = {
   night: 1,
-  wonders: [Wonder.Rock],
+  wonders: [Wonder.Rock]
 }
 
 const Green41: CardDescription = {
-  wonders: [Wonder.Thistle],
+  wonders: [Wonder.Thistle]
 }
 
 const Green45: CardDescription = {
-  wonders: [Wonder.Rock],
+  wonders: [Wonder.Rock]
 }
 
 const Green54: CardDescription = {
-  wonders: [Wonder.Chimera],
+  wonders: [Wonder.Chimera]
 }
 
 const Green58: CardDescription = {
-  clue: 1,
+  clue: 1
 }
 
 const Green61: CardDescription = {
-  wonders: [Wonder.Thistle],
+  wonders: [Wonder.Thistle]
 }
 
 
 const Green63: CardDescription = {
-  clue: 1,
+  clue: 1
 }
 
 const Green67: CardDescription = {
-  clue: 1,
+  clue: 1
 }
 
 const Blue2: CardDescription = {
@@ -142,49 +142,49 @@ const Blue6: CardDescription = {
 }
 
 const Blue17: CardDescription = {
-  wonders: [Wonder.Rock],
+  wonders: [Wonder.Rock]
 }
 
 const Blue21: CardDescription = {
-  night: 1,
+  night: 1
 }
 
 const Blue24: CardDescription = {
   night: 1,
-  wonders: [Wonder.Rock],
+  wonders: [Wonder.Rock]
 }
 
 const Blue40: CardDescription = {
-  night: 1,
+  night: 1
 }
 
 const Blue43: CardDescription = {
-  wonders: [Wonder.Rock],
+  wonders: [Wonder.Rock]
 }
 
 const Blue46: CardDescription = {
-  clue: 1,
+  clue: 1
 }
 
 const Blue49: CardDescription = {
-  clue: 1,
+  clue: 1
 }
 
 const Blue51: CardDescription = {
-  wonders: [Wonder.Rock],
+  wonders: [Wonder.Rock]
 }
 
 const Blue55: CardDescription = {
   clue: 1,
-  wonders: [Wonder.Rock],
+  wonders: [Wonder.Rock]
 }
 
 const Blue60: CardDescription = {
-  clue: 1,
+  clue: 1
 }
 
 const Blue64: CardDescription = {
-  clue: 1,
+  clue: 1
 }
 
 const Yellow12: CardDescription = {
@@ -193,60 +193,100 @@ const Yellow12: CardDescription = {
 }
 
 const Yellow25: CardDescription = {
-  night: 1,
+  night: 1
 }
 
 const Yellow27: CardDescription = {
-  night: 1,
+  night: 1
 }
 
 const Yellow29: CardDescription = {
   night: 1,
-  wonders: [Wonder.Thistle],
+  wonders: [Wonder.Thistle]
 }
 
 const Yellow31: CardDescription = {
-  night: 1,
+  night: 1
 }
 
 const Yellow33: CardDescription = {
   night: 1,
-  clue: 1,
+  clue: 1
 }
 
 const Yellow35: CardDescription = {
   night: 1,
-  wonders: [Wonder.Chimera],
+  wonders: [Wonder.Chimera]
 }
 
 const Yellow37: CardDescription = {
-  night: 1,
+  night: 1
 }
 
 const Yellow50: CardDescription = {
-  wonders: [Wonder.Rock],
+  wonders: [Wonder.Rock]
 }
 
-  const Yellow53: CardDescription = {
-  wonders: [Wonder.Chimera],
+const Yellow53: CardDescription = {
+  wonders: [Wonder.Chimera]
 }
 
 const Yellow56: CardDescription = {
-  wonders: [Wonder.Thistle],
+  wonders: [Wonder.Thistle]
 }
 
 const Yellow59: CardDescription = {
-  clue: 1,
+  clue: 1
 }
 
 const Yellow62: CardDescription = {
-  clue: 1,
+  clue: 1
 }
 
 const Yellow65: CardDescription = {
-  clue: 1,
+  clue: 1
 }
 
+const GrayExp0: CardDescription = {
+  wonders: [Wonder.Chimera, Wonder.Rock, Wonder.Thistle]
+}
+
+const RedExp69: CardDescription = {
+  clue: 1
+}
+
+const GrayExp70: CardDescription = {
+  clue: 1
+}
+
+const GreenExp71: CardDescription = {
+  night: 1,
+  wonders: [Wonder.Rock]
+}
+
+const GrayExp72: CardDescription = {
+  night: 1,
+  clue: 1
+}
+
+const YellowExp73: CardDescription = {
+  night: 1,
+  wonders: [Wonder.Chimera]
+}
+
+const GrayExp74: CardDescription = {
+  night: 1,
+  wonders: [Wonder.Thistle]
+}
+
+const BlueExp75: CardDescription = {
+  night: 1,
+  clue: 1
+}
+
+const GrayExp76: CardDescription = {
+  night: 1
+}
 
 export const Regions: Partial<Record<Region, CardDescription>> = {
   [Region.Red1]: Red1,
@@ -308,5 +348,14 @@ export const Regions: Partial<Record<Region, CardDescription>> = {
   [Region.Yellow62]: Yellow62,
   [Region.Yellow65]: Yellow65,
 
-
+  // Expansion
+  [Region.GrayExp0]: GrayExp0,
+  [Region.RedExp69]: RedExp69,
+  [Region.GrayExp70]: GrayExp70,
+  [Region.GreenExp71]: GreenExp71,
+  [Region.GrayExp72]: GrayExp72,
+  [Region.YellowExp73]: YellowExp73,
+  [Region.GrayExp74]: GrayExp74,
+  [Region.BlueExp75]: BlueExp75,
+  [Region.GrayExp76]: GrayExp76
 }

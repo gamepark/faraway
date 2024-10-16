@@ -1,3 +1,3 @@
 export enum QuestType {
-  Clue, Chimera, Rock, Thistle, Color, AllColor, Night, BrutPoints
+  Clue, Chimera, Rock, Thistle, Color, AllColor, Night, BrutPoints, WonderSet
 }
