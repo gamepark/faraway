@@ -8,6 +8,7 @@ import { NightQuest } from './quests/NightQuest'
 import { Quest } from './quests/Quest'
 import { RockQuest } from './quests/RockQuest'
 import { ThistleQuest } from './quests/ThistleQuest'
+import { WonderSetQuest } from './quests/WonderSetQuest'
 import { Sanctuary } from './Sanctuary'
 
 export const SanctuaryQuests: Partial<Record<Sanctuary, Quest>> = {
@@ -38,4 +39,13 @@ export const SanctuaryQuests: Partial<Record<Sanctuary, Quest>> = {
   [Sanctuary.Gray20]: new RockQuest(1),
   [Sanctuary.Gray21]: new ChimeraQuest(1),
   [Sanctuary.Gray22]: new ThistleQuest(1),
+
+  // Expansion
+  [Sanctuary.RedExp1]: new WonderSetQuest(3),
+  [Sanctuary.GreenExp1]: new WonderSetQuest(3),
+  [Sanctuary.BlueExp1]: new ColorQuest(2, [Color.Gray]),
+  [Sanctuary.YellowExp1]: new ColorQuest(1, [Color.Gray]),
+  [Sanctuary.GrayExp2]: new WonderSetQuest(3),
+  [Sanctuary.GrayExp3]: new ColorQuest(1, [Color.Gray]),
+  [Sanctuary.GrayExp4]: new ColorQuest(1, [Color.Gray])
 }

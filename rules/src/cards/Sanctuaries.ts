@@ -16,7 +16,7 @@ const Red4: CardDescription = {
 }
 
 const Red5: CardDescription = {
-  night: 1,
+  night: 1
 }
 
 const Green2: CardDescription = {
@@ -73,35 +73,35 @@ const Gray10: CardDescription = {
 }
 
 const Gray15: CardDescription = {
-  clue: 1,
+  clue: 1
 }
 
 const Gray16: CardDescription = {
-  wonders: [Wonder.Rock],
+  wonders: [Wonder.Rock]
 }
 
 const Gray17: CardDescription = {
-  wonders: [Wonder.Chimera],
+  wonders: [Wonder.Chimera]
 }
 
 const Gray18: CardDescription = {
-  wonders: [Wonder.Rock],
+  wonders: [Wonder.Rock]
 }
 
 const Gray19: CardDescription = {
-  clue: 1,
+  clue: 1
 }
 
 const Gray20: CardDescription = {
-  wonders: [Wonder.Rock],
+  wonders: [Wonder.Rock]
 }
 
 const Gray21: CardDescription = {
-  wonders: [Wonder.Chimera],
+  wonders: [Wonder.Chimera]
 }
 
 const Gray22: CardDescription = {
-  wonders: [Wonder.Thistle],
+  wonders: [Wonder.Thistle]
 }
 
 const Gray23: CardDescription = {
@@ -116,6 +116,26 @@ const Gray24: CardDescription = {
 
 const Gray25: CardDescription = {
   night: 1,
+  wonders: [Wonder.Thistle]
+}
+
+const YellowExp1: CardDescription = {
+  night: 1
+}
+
+const GrayExp1: CardDescription = {
+  wonders: [Wonder.Rock, Wonder.Rock]
+}
+
+const GrayExp2: CardDescription = {
+  clue: 1
+}
+
+const GrayExp3: CardDescription = {
+  wonders: [Wonder.Chimera]
+}
+
+const GrayExp4: CardDescription = {
   wonders: [Wonder.Thistle]
 }
 
@@ -147,4 +167,11 @@ export const Sanctuaries: Partial<Record<Sanctuary, CardDescription>> = {
   [Sanctuary.Gray23]: Gray23,
   [Sanctuary.Gray24]: Gray24,
   [Sanctuary.Gray25]: Gray25,
+
+  // Expansion
+  [Sanctuary.YellowExp1]: YellowExp1,
+  [Sanctuary.GrayExp1]: GrayExp1,
+  [Sanctuary.GrayExp2]: GrayExp2,
+  [Sanctuary.GrayExp3]: GrayExp3,
+  [Sanctuary.GrayExp4]: GrayExp4
 }
