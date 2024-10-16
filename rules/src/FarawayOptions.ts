@@ -1,4 +1,4 @@
-import { OptionsSpec } from '@gamepark/rules-api'
+import { OptionsSpec, OptionsValidationError } from '@gamepark/rules-api'
 
 /**
  * This is the type of object that the game receives when a new game is started.
@@ -6,7 +6,8 @@ import { OptionsSpec } from '@gamepark/rules-api'
  */
 export type FarawayOptions = {
   beginner: boolean
-  players: number;
+  expansion1: boolean
+  players: number
 }
 
 /**
@@ -15,8 +16,20 @@ export type FarawayOptions = {
  */
 export const FarawayOptionsSpec: OptionsSpec<FarawayOptions> = {
   beginner: {
-    label: (t) => t('beginner'),
-    help: (t) => t('beginner.help'),
+    label: t => t('beginner'),
+    help: t => t('beginner.help'),
     competitiveDisabled: true
+  },
+  expansion1: {
+    label: t => t('expansion1'),
+    help: t => t('expansion1.help'),
+    subscriberRequired: true
+  },
+  validate: (options, t) => {
+    if (!options.expansion1) {
+      if (options.players && options.players > 5) {
+        throw new OptionsValidationError(t('7.players.requires.expansion'), ['expansion1', 'players'])
+      }
+    }
   }
 }

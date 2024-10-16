@@ -1,6 +1,6 @@
 import { MaterialGameSetup } from '@gamepark/rules-api'
-import { baseGameRegions } from './cards/Region'
-import { baseGameSanctuaries } from './cards/Sanctuary'
+import { baseGameRegions, regions } from './cards/Region'
+import { baseGameSanctuaries, sanctuaries } from './cards/Sanctuary'
 import { FarawayOptions } from './FarawayOptions'
 import { FarawayRules } from './FarawayRules'
 import { LocationType } from './material/LocationType'
@@ -16,31 +16,16 @@ export class FarawaySetup extends MaterialGameSetup<PlayerId, MaterialType, Loca
   Rules = FarawayRules
 
   setupMaterial(options: FarawayOptions) {
-    this.setupRegions()
-    this.setupSanctuaries()
+    this.setupRegions(options)
+    this.setupSanctuaries(options)
     this.setupPlayers(options)
     this.setupAvailableRegions(options)
     this.memorize(Memory.Round, 1)
   }
 
-  setupAvailableRegions(options: FarawayOptions) {
-    if (!options.beginner) return
-    const deck = this.material(MaterialType.Region).location(LocationType.RegionDeck).deck()
-
-    deck.deal({ type: LocationType.Region }, options.players + 1)
-  }
-
-  setupPlayers(options: FarawayOptions) {
-    const deck = this.material(MaterialType.Region).deck()
-    for (let index = 0; index < options.players; index++) {
-      deck.deal({ type: LocationType.PlayerRegionHand, player: index + 1 }, options.beginner? 3: 5)
-    }
-  }
-
-
-
-  setupRegions() {
-    const cards = baseGameRegions.map((region) => ({
+  setupRegions(options: FarawayOptions) {
+    const playedRegions = options.expansion1 ? regions : baseGameRegions
+    const cards = playedRegions.map(region => ({
       id: region,
       location: {
         type: LocationType.RegionDeck
@@ -51,8 +36,9 @@ export class FarawaySetup extends MaterialGameSetup<PlayerId, MaterialType, Loca
     this.material(MaterialType.Region).shuffle()
   }
 
-  setupSanctuaries() {
-    const cards = baseGameSanctuaries.map((sanctuary) => ({
+  setupSanctuaries(options: FarawayOptions) {
+    const playedSanctuaries = options.expansion1 ? sanctuaries : baseGameSanctuaries
+    const cards = playedSanctuaries.map((sanctuary) => ({
       id: sanctuary,
       location: {
         type: LocationType.SanctuaryDeck
@@ -61,6 +47,19 @@ export class FarawaySetup extends MaterialGameSetup<PlayerId, MaterialType, Loca
 
     this.material(MaterialType.Sanctuary).createItems(cards)
     this.material(MaterialType.Sanctuary).shuffle()
+  }
+
+  setupPlayers(options: FarawayOptions) {
+    const deck = this.material(MaterialType.Region).deck()
+    for (const player of this.players) {
+      deck.deal({ type: LocationType.PlayerRegionHand, player }, options.beginner ? 3 : 5)
+    }
+  }
+
+  setupAvailableRegions(options: FarawayOptions) {
+    if (!options.beginner) return
+    const deck = this.material(MaterialType.Region).location(LocationType.RegionDeck).deck()
+    deck.deal({ type: LocationType.Region }, options.players + 1)
   }
 
   start(options: FarawayOptions) {
