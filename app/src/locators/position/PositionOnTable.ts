@@ -11,9 +11,13 @@ export const getPlayerBoardPosition = (context: MaterialContext, player?: number
     case 3:
       return { y: -26, x: 110 }
     case 4:
-      return { x: 110 }
+      return { y: -26, x: 165 }
     case 5:
-      return { y: 0, x: 55 }
+      return { x: 165 }
+    case 6:
+      return { x: 110 }
+    case 7:
+      return { x: 55 }
   }
 
   return {}
@@ -23,7 +27,10 @@ export const getPlayerBoardPosition = (context: MaterialContext, player?: number
 export const getPlayerIndex = (context: MaterialContext, player?: number) => {
   switch (context.rules.players.length) {
     case 4:
-      return [0, 1, 2, 5][getRelativePlayerIndex(context, player)]
+      return [0, 1, 2, 7][getRelativePlayerIndex(context, player)]
+    case 5:
+    case 6:
+      return [0, 1, 2, 3, 6, 7][getRelativePlayerIndex(context, player)]
     default:
       return getRelativePlayerIndex(context, player)
   }
@@ -40,6 +47,8 @@ export const getTableSize = (players: number): { xMin: number, xMax: number, yMi
       return { xMin: -27, xMax: 140, yMin: -33, yMax: 39 }
     case 6:
       return { xMin: -27, xMax: 140, yMin: -33, yMax: 39 }
+    case 7:
+      return { xMin: -27, xMax: 194, yMin: -33, yMax: 39 }
     default:
       // 2 players
       return { xMin: -27, xMax: 53, yMin: -24, yMax: 35 }

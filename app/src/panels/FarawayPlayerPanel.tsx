@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { faStar } from '@fortawesome/free-solid-svg-icons/faStar'
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { getValue } from '@gamepark/faraway/cards/Region'
 import { Regions } from '@gamepark/faraway/cards/Regions'
@@ -26,6 +25,7 @@ import {
 } from '@gamepark/react-game'
 import { FC, HTMLAttributes, useCallback, useEffect } from 'react'
 import Player3 from '../images/region/region_blue_9.jpg'
+import Player7 from '../images/region/region_gray_exp_76.jpg'
 import Player1 from '../images/region/region_green_11.jpg'
 import Player4 from '../images/region/region_red_57.jpg'
 import Player2 from '../images/region/region_yellow_27.jpg'
@@ -203,7 +203,8 @@ const PlayerBackground = [
   Player3,
   Player4,
   Player5,
-  Player6
+  Player6,
+  Player7
 ]
 
 const panelStyle = (playerId: PlayerId) => css`

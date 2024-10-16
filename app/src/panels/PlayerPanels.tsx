@@ -32,35 +32,74 @@ const panelPosition = (players: number, index: number) => css`
   ${getPanelPosition(players, index)};
 `
 
+const bottomRight = css`
+  bottom: 1em;
+  right: 1em;
+`
+
+const bottomLeft = css`
+  bottom: 1em;
+  left: 1em;
+`
+
+const topRight = css`
+  top: 8.5em;
+  right: 1em;
+`
+
+const topLeft = css`
+  top: 8.5em;
+  left: 1em;
+`
+
+const topCenter = css`
+  top: 8.5em;
+  left: calc(50dvw - 14em);
+`
+
+const bottomCenter = css`
+  bottom: 1em;
+  left: calc(50dvw - 14em);
+`
+
+const topCenterLeft = css`
+  top: 8.5em;
+  left: calc(40dvw - 14em);
+`
+
+const topCenterRight = css`
+  top: 8.5em;
+  left: calc(67dvw - 14em);
+`
+
+const bottomCenterLeft = css`
+  bottom: 1em;
+  left: calc(40dvw - 14em);
+`
+
+const bottomCenterRight = css`
+  bottom: 1em;
+  left: calc(67dvw - 14em);
+`
+
 const getPanelPosition = (players: number, index: number) => {
   switch (index) {
     case 0:
-      if (players < 3) return css`bottom: 1em;
-        right: 1em`
-      return css`bottom: 1em;
-        left: 1em`
+      return players < 3 ? bottomRight : bottomLeft
     case 1:
-      if (players < 3) return css`top: 8.5em;
-        right: 1em`
-      return css`top: 8.5em;
-        left: 1em`
+      return players < 3 ? topRight : topLeft
     case 2:
-      if (players < 5) return css`top: 8.5em;
-        right: 1em`
-      return css`top: 8.5em;
-        left: calc(50dvw - 14em)`
+      return players < 5 ? topRight : players < 7 ? topCenter : topCenterLeft
     case 3:
-      return css`top: 8.5em;
-        right: 1em`
+      return players < 7 ? topRight : topCenterRight
     case 4:
-      return css`bottom: 1em;
-        right: 1em`
+      return topRight
     case 5:
-      if (players < 5) return css`bottom: 1em;
-        right: 1em`
-      return css`bottom: 1em;
-        left: calc(50dvw - 14em)`
+      return bottomRight
+    case 6:
+      return players < 7 ? bottomRight : bottomCenterRight
+    case 7:
     default:
-      return
+      return players < 5 ? bottomRight : players < 7 ? bottomCenter : bottomCenterLeft
   }
 }
