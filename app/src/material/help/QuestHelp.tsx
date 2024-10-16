@@ -30,6 +30,8 @@ export const QuestHelp = ({ quest }: { quest: Quest }) => {
       return <Trans defaults="help.quest.night" values={{ points: quest.points }}><em/></Trans>
     case QuestType.BrutPoints:
       return <Trans defaults="help.quest.points" values={{ points: quest.points }}><em/></Trans>
+    case QuestType.WonderSet:
+      return <Trans defaults="help.quest.wonder-set" values={{ points: quest.points }}><em/></Trans>
 
   }
 }
