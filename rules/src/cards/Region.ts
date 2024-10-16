@@ -94,5 +94,5 @@ export enum Region {
 export const regions = getEnumValues(Region)
 export const baseGameRegions = regions.filter(r => r < 1000)
 
-export const getColor = (region: Region | Sanctuary): Color => Math.floor(region / 100) + 1
+export const getColor = (region: Region | Sanctuary): Color => Math.floor((region % 1000) / 100) + 1
 export const getValue = (region: Region | Sanctuary): number => (region % 100)

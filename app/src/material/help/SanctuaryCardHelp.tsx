@@ -17,6 +17,7 @@ import autumn from '../../images/icon/City.jpg'
 import clueIcon from '../../images/icon/clue.png'
 import winter from '../../images/icon/Desert.jpg'
 import summer from '../../images/icon/Forest.jpg'
+import MysticHeaven from '../../images/icon/MysticHeaven.jpg'
 import spring from '../../images/icon/River.jpg'
 import rock from '../../images/icon/rock.png'
 import thistle from '../../images/icon/thistle.png'
@@ -81,10 +82,10 @@ const SanctuaryHelp = ({ sanctuary }: { sanctuary: Sanctuary }) => {
         <Picture src={nightIcon}/>&nbsp;{t('help.night')}
       </p>
     }
-    {color !== Color.Gray && <>
+    <>
       <p css={alignIcon}><Picture css={css`border-radius: 20%;`} src={biomeIcon[color]}/>&nbsp;<strong>{t(`biome.${color}`)}</strong></p>
       <p><em>{t('help.biome')}</em></p>
-    </>}
+    </>
     {clue &&
       <p css={alignIcon}>
         <Picture src={clueIcon}/>&nbsp;<Trans defaults="help.clue"><strong/></Trans>
@@ -102,7 +103,8 @@ const biomeIcon = {
   [Color.Green]: spring,
   [Color.Red]: summer,
   [Color.Yellow]: autumn,
-  [Color.Blue]: winter
+  [Color.Blue]: winter,
+  [Color.Gray]: MysticHeaven
 }
 
 const wonderIcon = {

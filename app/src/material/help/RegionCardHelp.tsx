@@ -16,6 +16,7 @@ import autumn from '../../images/icon/City.jpg'
 import clueIcon from '../../images/icon/clue.png'
 import winter from '../../images/icon/Desert.jpg'
 import summer from '../../images/icon/Forest.jpg'
+import MysticHeaven from '../../images/icon/MysticHeaven.jpg'
 import spring from '../../images/icon/River.jpg'
 import rock from '../../images/icon/rock.png'
 import thistle from '../../images/icon/thistle.png'
@@ -124,7 +125,8 @@ const biomeIcon = {
   [Color.Green]: spring,
   [Color.Red]: summer,
   [Color.Yellow]: autumn,
-  [Color.Blue]: winter
+  [Color.Blue]: winter,
+  [Color.Gray]: MysticHeaven
 }
 
 const wonderIcon = {
