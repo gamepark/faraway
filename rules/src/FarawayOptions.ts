@@ -23,7 +23,7 @@ export const FarawayOptionsSpec: OptionsSpec<FarawayOptions> = {
   expansion1: {
     label: t => t('expansion1'),
     help: t => t('expansion1.help'),
-    subscriberRequired: true
+    subscriberRequired: false
   },
   validate: (options, t) => {
     if (!options.expansion1) {
