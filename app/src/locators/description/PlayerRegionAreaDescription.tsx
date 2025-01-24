@@ -8,5 +8,5 @@ export class PlayerRegionAreaDescription extends DropAreaDescription {
     super(regionCardDescription)
   }
 
-  extraCss = css`border: 0.05em solid white;`
+  extraCss = css`background-color: rgba(255, 255, 255, 0.2);`
 }
