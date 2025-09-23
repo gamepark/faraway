@@ -2,6 +2,7 @@
   "name": "@gamepark/faraway",
   "version": "1.1.1",
   "description": "The rules of Faraway adapted for Game Park",
+  "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
