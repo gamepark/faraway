@@ -1,5 +1,4 @@
-/** @jsxImportSource @emotion/react */
-import { LocationType } from '@gamepark/faraway/material/LocationType'
+﻿import { LocationType } from '@gamepark/faraway/material/LocationType'
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
 import { PlayerId } from '@gamepark/faraway/PlayerId'
 import { DeckLocator, Locator } from '@gamepark/react-game'

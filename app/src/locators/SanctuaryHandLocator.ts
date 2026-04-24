@@ -1,5 +1,4 @@
-/** @jsxImportSource @emotion/react */
-import { HandLocator, ItemContext } from '@gamepark/react-game'
+﻿import { HandLocator, ItemContext } from '@gamepark/react-game'
 import { Location, MaterialItem } from '@gamepark/rules-api'
 import { getPlayerBoardPosition, getPlayerIndex } from './position/PositionOnTable'
 

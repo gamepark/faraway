@@ -1,5 +1,4 @@
-/** @jsxImportSource @emotion/react */
-import { FarawayRules } from '@gamepark/faraway/FarawayRules'
+﻿import { FarawayRules } from '@gamepark/faraway/FarawayRules'
 import { LocationType } from '@gamepark/faraway/material/LocationType'
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
 import { usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'

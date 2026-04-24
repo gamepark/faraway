@@ -1,8 +1,9 @@
 import { MaterialDeck, MaterialGame, MaterialRulesPart } from '@gamepark/rules-api'
-import sum from 'lodash/sum'
-import { getValue } from '../../cards/Region'
+import { sum } from 'es-toolkit/compat'
+import { Region, getValue } from '../../cards/Region'
 import { Regions } from '../../cards/Regions'
 import { Sanctuaries } from '../../cards/Sanctuaries'
+import { Sanctuary } from '../../cards/Sanctuary'
 import { LocationType } from '../../material/LocationType'
 import { MaterialType } from '../../material/MaterialType'
 import { PlayerId } from '../../PlayerId'
@@ -32,13 +33,13 @@ export class SanctuaryHelper extends MaterialRulesPart {
     const regionClues = sum(
       this
         .regionCards
-        .getItems().map((item) => Regions[item.id]?.clue ?? 0)
+        .getItems<Region>().map((item) => Regions[item.id]?.clue ?? 0)
     )
 
     const sanctuaryClues = sum(
       this
         .sanctuaryCards
-        .getItems().map((item) => Sanctuaries[item.id]?.clue ?? 0)
+        .getItems<Sanctuary>().map((item) => Sanctuaries[item.id]?.clue ?? 0)
     )
 
     return 1 + regionClues + sanctuaryClues
@@ -48,7 +49,7 @@ export class SanctuaryHelper extends MaterialRulesPart {
     return getValue(
       this.regionCards
         .location((location) => location.x === (this.round - 1))
-        .getItem()!.id
+        .getItem<Region>()!.id
     )
   }
 

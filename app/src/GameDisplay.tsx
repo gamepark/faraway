@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { GameTable, GameTableNavigation, usePlayers } from '@gamepark/react-game'
 import { FC } from 'react'
@@ -11,16 +10,16 @@ type GameDisplayProps = {
 
 export const GameDisplay: FC<GameDisplayProps> = () => {
   const players = usePlayers()
-  if (!players.length) return null;
+  if (!players.length) return null
   const tableSize = getTableSize(players.length)
-  return <>
-    <GameTable { ...tableSize }
+  return (
+    <GameTable {...tableSize}
                verticalCenter
-               margin={{ top: 7, left: 0, right: 0, bottom: 0 }} css={css`//background-color: rgba(255, 255, 255, 0.31)`}>
+               margin={{ top: 7, left: 0, right: 0, bottom: 0 }}>
       <GameTableNavigation css={navigation}/>
       <PlayerPanels/>
     </GameTable>
-  </>
+  )
 }
 
 const navigation = css`
@@ -28,6 +27,4 @@ const navigation = css`
   top: 45em;
   right: 2em;
   left: initial;
-  
 `
-

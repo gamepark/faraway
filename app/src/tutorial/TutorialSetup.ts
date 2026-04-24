@@ -28,11 +28,11 @@ export class TutorialSetup extends FarawaySetup {
     const deck = this.material(MaterialType.Region).deck()
     for (let index = 0; index < options.players; index++) {
       if ((index + 1) === me) {
-        deck.filter((item) => [Region.Blue6, Region.Blue21, Region.Yellow31].includes(item.id))
+        deck.filter<Region>((item) => [Region.Blue6, Region.Blue21, Region.Yellow31].includes(item.id))
           .deal({ type: LocationType.PlayerRegionHand, player: index + 1 }, 3)
       } else {
         deck
-          .filter((item) => [Region.Green67, Region.Red52, Region.Yellow62].includes(item.id))
+          .filter<Region>((item) => [Region.Green67, Region.Red52, Region.Yellow62].includes(item.id))
           .deal({ type: LocationType.PlayerRegionHand, player: index + 1 }, 3)
       }
     }

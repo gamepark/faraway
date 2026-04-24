@@ -1,20 +1,16 @@
-/** @jsxImportSource @emotion/react */
 import { FarawayOptionsSpec } from '@gamepark/faraway/FarawayOptions'
 import { FarawayRules } from '@gamepark/faraway/FarawayRules'
 import { FarawaySetup } from '@gamepark/faraway/FarawaySetup'
-import { GameProvider, setupTranslation } from '@gamepark/react-game'
+import { GameProvider } from '@gamepark/react-game'
 import { StrictMode } from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import { farawayAnimations } from './animation/FarawayAnimations'
 import App from './App'
 import { Locators } from './locators/Locators'
 import { Material } from './material/Material'
-import translations from './translations.json'
 import { Tutorial } from './tutorial/Tutorial'
 
-setupTranslation(translations, { debug: false })
-
-ReactDOM.render(
+createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <GameProvider
       game="faraway"
@@ -28,6 +24,5 @@ ReactDOM.render(
     >
       <App/>
     </GameProvider>
-  </StrictMode>,
-  document.getElementById('root')
+  </StrictMode>
 )

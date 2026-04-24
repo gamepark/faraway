@@ -1,5 +1,4 @@
-/** @jsxImportSource @emotion/react */
-import { RuleId } from '@gamepark/faraway/rules/RuleId'
+﻿import { RuleId } from '@gamepark/faraway/rules/RuleId'
 import { ComponentType } from 'react'
 import { ChooseHandCardsHeader } from './ChooseHandCardsHeader'
 import { DealSanctuariesHeader } from './DealSanctuariesHeader'

@@ -1,8 +1,7 @@
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react'
+﻿import { css } from '@emotion/react'
 import { faStar } from '@fortawesome/free-solid-svg-icons/faStar'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { getValue } from '@gamepark/faraway/cards/Region'
+import { getValue, Region } from '@gamepark/faraway/cards/Region'
 import { Regions } from '@gamepark/faraway/cards/Regions'
 import { FarawayRules } from '@gamepark/faraway/FarawayRules'
 import { LocationType } from '@gamepark/faraway/material/LocationType'
@@ -54,7 +53,7 @@ export const FarawayPlayerPanel: FC<FarawayPlayerPanelProps> = (props) => {
       materials: itsMe ? [
         rules.material(MaterialType.Region).location(LocationType.Region),
         rules.material(MaterialType.Region).location(LocationType.PlayerRegionHand).player(playerId),
-        rules.material(MaterialType.Region).location(LocationType.RegionDeck).deck().limit(1)
+        rules.material(MaterialType.Region).location(LocationType.RegionDeck)
       ] : [],
       staticItems: [],
       locations: [
@@ -122,11 +121,11 @@ const PlacedCard: FC<FarawayPlayerPanelProps> = ({ player }) => {
     .material(MaterialType.Region)
     .location((l) => l.type === LocationType.PlayerRegionLine && l.x === (round - 1))
     .player(player.id)
-    .getItem()
+    .getItem<Region>()
 
 
   if (!card?.id || !rules?.game.rule) return null
-  const night = Regions[card?.id]?.night === 1
+  const night = Regions[card.id]?.night === 1
   return (
     <span css={[data, placedCard, speedDisabled && rightAlignment]}>
       <Picture css={timeMini} src={night ? NightMini : DayMini}/>

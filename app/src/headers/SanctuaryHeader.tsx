@@ -1,5 +1,4 @@
-/** @jsxImportSource @emotion/react */
-import { FarawayRules } from '@gamepark/faraway/FarawayRules'
+﻿import { FarawayRules } from '@gamepark/faraway/FarawayRules'
 import { usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
 import { useTranslation } from 'react-i18next'
 

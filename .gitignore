@@ -10,7 +10,17 @@ node_modules/
 
 # production
 /app/build/
+/app/dist/
 /rules/dist/
+
+# yarn 4 berry
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
 
 # misc
 .DS_Store

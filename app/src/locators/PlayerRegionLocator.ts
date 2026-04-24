@@ -1,5 +1,4 @@
-/** @jsxImportSource @emotion/react */
-import { LocationType } from '@gamepark/faraway/material/LocationType'
+﻿import { LocationType } from '@gamepark/faraway/material/LocationType'
 import { FlexLocator, LocationContext, MaterialContext } from '@gamepark/react-game'
 import { Location, MaterialItem } from '@gamepark/rules-api'
 import { regionCardDescription } from '../material/RegionCardDescription'

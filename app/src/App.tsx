@@ -1,5 +1,4 @@
-/** @jsxImportSource @emotion/react */
-import { FailuresDialog, FullscreenDialog, LoadingScreen, MaterialHeader, MaterialImageLoader, Menu, useGame } from '@gamepark/react-game'
+import { FailuresDialog, FullscreenDialog, LoadingScreen, MaterialGameSounds, MaterialHeader, MaterialImageLoader, Menu, useGame } from '@gamepark/react-game'
 import { MaterialGame } from '@gamepark/rules-api'
 import { useEffect, useState } from 'react'
 import { GameDisplay } from './GameDisplay'
@@ -10,15 +9,16 @@ export default function App() {
   const [isJustDisplayed, setJustDisplayed] = useState(true)
   const [isImagesLoading, setImagesLoading] = useState(true)
   useEffect(() => {
-    setTimeout(() => setJustDisplayed(false), 2000)
+    setTimeout(() => setJustDisplayed(false), process.env.NODE_ENV === 'development' ? 0 : 2000)
   }, [])
   const loading = !game || isJustDisplayed || isImagesLoading
   return (
     <>
-      { !!game && <GameDisplay players={game.players.length} /> }
-      <LoadingScreen display={loading} author={['Johannes Goupy', 'Corentin Lebrat']} artist="Maxime Morin" publisher="Catch Up Games" developer="Game Park"/>
+      {!!game && <GameDisplay players={game.players.length}/>}
+      <LoadingScreen display={loading}/>
       <MaterialHeader rulesStepsHeaders={Headers} loading={loading}/>
-      <MaterialImageLoader onImagesLoad={() => setImagesLoading(false)} />
+      <MaterialImageLoader onImagesLoad={() => setImagesLoading(false)}/>
+      <MaterialGameSounds/>
       <Menu/>
       <FailuresDialog/>
       <FullscreenDialog/>

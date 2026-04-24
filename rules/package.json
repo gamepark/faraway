@@ -2,6 +2,7 @@
   "name": "@gamepark/faraway",
   "version": "1.2.0",
   "description": "The rules of Faraway adapted for Game Park",
+  "sideEffects": false,
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -14,14 +15,21 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsc",
-    "prepublishOnly": "tsc"
+    "test": "vitest",
+    "check:cycles": "madge --circular --extensions ts src",
+    "build": "yarn check:cycles && tsc",
+    "prepublishOnly": "yarn check:cycles && tsc",
+    "publish": "lerna publish",
+    "lint": "eslint --fix"
   },
   "peerDependencies": {
-    "@gamepark/rules-api": ">=6.24"
+    "@gamepark/rules-api": ">=7",
+    "es-toolkit": "^1.45.1"
   },
   "devDependencies": {
-    "@gamepark/rules-api": "~6.24.3",
-    "i18next": "^22.0.3"
+    "@gamepark/rules-api": "~7.6.3",
+    "es-toolkit": "^1.45.1",
+    "madge": "^8.0.0",
+    "vitest": "^4.1.4"
   }
 }

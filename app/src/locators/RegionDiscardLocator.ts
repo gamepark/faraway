@@ -1,5 +1,4 @@
-/** @jsxImportSource @emotion/react */
-import { DeckLocator, ItemContext } from '@gamepark/react-game'
+﻿import { DeckLocator, ItemContext } from '@gamepark/react-game'
 import { Location } from '@gamepark/rules-api'
 import { regionCardDescription } from '../material/RegionCardDescription'
 

@@ -13,7 +13,6 @@ import { Sanctuary } from './Sanctuary'
 
 export const SanctuaryQuests: Partial<Record<Sanctuary, Quest>> = {
   [Sanctuary.Red1]: new ColorQuest(1, [Color.Red]),
-  [Sanctuary.Red1]: new ColorQuest(1, [Color.Red]),
   [Sanctuary.Green1]: new ColorQuest(1, [Color.Green]),
   [Sanctuary.Green5]: new NightQuest(1),
   [Sanctuary.Blue1]: new ColorQuest(1, [Color.Blue]),

@@ -1,5 +1,4 @@
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react'
+﻿import { css } from '@emotion/react'
 import { Color } from '@gamepark/faraway/cards/Color'
 import { getColor, getValue, Region } from '@gamepark/faraway/cards/Region'
 import { RegionQuests } from '@gamepark/faraway/cards/RegionQuests'

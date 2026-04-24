@@ -1,5 +1,4 @@
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react'
+﻿import { css } from '@emotion/react'
 import { useMaterialContext, usePlayers } from '@gamepark/react-game'
 import { FC } from 'react'
 import { createPortal } from 'react-dom'

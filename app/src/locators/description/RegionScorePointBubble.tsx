@@ -1,6 +1,5 @@
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react'
-import { Quest } from '@gamepark/faraway/cards/quests/Quest'
+﻿import { css } from '@emotion/react'
+import { Region } from '@gamepark/faraway/cards/Region'
 import { RegionQuests } from '@gamepark/faraway/cards/RegionQuests'
 import { FarawayRules } from '@gamepark/faraway/FarawayRules'
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
@@ -15,10 +14,9 @@ type RegionScorePointBubbleProps = {
 
 export const RegionScorePointBubble: FC<RegionScorePointBubbleProps> = (props) => {
   const { location } = props
-  const quests = RegionQuests
   const rules = useRules<FarawayRules>()!
-  const item = rules?.material(MaterialType.Region).getItem(location.parent!)
-  const quest: Quest = item.id ? quests[item.id] : undefined
+  const item = rules?.material(MaterialType.Region).getItem<Region>(location.parent!)
+  const quest = item.id !== undefined ? RegionQuests[item.id] : undefined
   if (!quest) return null
   const score = quest.getTotalScore(rules.game, location.parent!, MaterialType.Region, item.location.player!)
   return (

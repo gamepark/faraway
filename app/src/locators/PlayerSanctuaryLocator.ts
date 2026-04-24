@@ -1,5 +1,4 @@
-/** @jsxImportSource @emotion/react */
-import { FlexLocator, LocationContext } from '@gamepark/react-game'
+﻿import { FlexLocator, LocationContext } from '@gamepark/react-game'
 import { Location } from '@gamepark/rules-api'
 import { sanctuaryCardDescription } from '../material/SanctuaryCardDescription'
 import { getPlayerBoardPosition } from './position/PositionOnTable'

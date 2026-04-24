@@ -1,5 +1,4 @@
-/** @jsxImportSource @emotion/react */
-import { useTranslation } from 'react-i18next'
+﻿import { useTranslation } from 'react-i18next'
 
 export const RevealHeader = () => {
   const { t } = useTranslation()

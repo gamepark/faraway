@@ -1,5 +1,4 @@
-/** @jsxImportSource @emotion/react */
-import { ItemContext, Locator } from '@gamepark/react-game'
+﻿import { ItemContext, Locator } from '@gamepark/react-game'
 import { Location } from '@gamepark/rules-api'
 import { regionDiscardLocator } from './RegionDiscardLocator'
 

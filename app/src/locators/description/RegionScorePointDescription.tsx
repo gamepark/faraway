@@ -1,5 +1,4 @@
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react'
+﻿import { css } from '@emotion/react'
 import { LocationDescription } from '@gamepark/react-game'
 import { RegionScorePointBubble } from './RegionScorePointBubble'
 

@@ -1,5 +1,4 @@
-/** @jsxImportSource @emotion/react */
-import { ColorQuest } from '@gamepark/faraway/cards/quests/ColorQuest'
+﻿import { ColorQuest } from '@gamepark/faraway/cards/quests/ColorQuest'
 import { Quest } from '@gamepark/faraway/cards/quests/Quest'
 import { QuestType } from '@gamepark/faraway/cards/quests/QuestType'
 import { Trans, useTranslation } from 'react-i18next'

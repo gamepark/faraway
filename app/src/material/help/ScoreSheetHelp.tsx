@@ -1,5 +1,4 @@
-/** @jsxImportSource @emotion/react */
-import { Trans, useTranslation } from 'react-i18next'
+﻿import { Trans, useTranslation } from 'react-i18next'
 
 export const ScoreSheetHelp = () => {
   const { t } = useTranslation()
