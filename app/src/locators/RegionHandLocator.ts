@@ -1,43 +1,25 @@
-﻿import { getValue } from '@gamepark/faraway/cards/Region'
+import { getValue } from '@gamepark/faraway/cards/Region'
 import { LocationType } from '@gamepark/faraway/material/LocationType'
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
 import { DropAreaDescription, HandLocator, ItemContext } from '@gamepark/react-game'
-import { Location, MaterialItem } from '@gamepark/rules-api'
+import { MaterialItem } from '@gamepark/rules-api'
 import { orderBy } from 'es-toolkit/compat'
-import { getPlayerBoardPosition, getPlayerIndex } from './position/PositionOnTable'
+import { isNotViewedPlayerItem } from './hidePlayerContent'
+import { HAND_Y, REGION_CENTER_X } from './playerLayout'
 
 export class RegionHandLocator extends HandLocator {
   locationDescription = new DropAreaDescription({ width: 20, height: 8, borderRadius: 0.4 })
 
   clockwise = false
 
-  getCoordinates(location: Location, context: ItemContext) {
-    const { player } = context
-    let { x = 0, y = 0 } = getPlayerBoardPosition(context, location.player)
-    x += 11.2
-    y += 29
+  coordinates = { x: REGION_CENTER_X, y: HAND_Y, z: 1 }
 
-    if (player === location.player) {
-      const sanctuaryHand = context.rules.material(MaterialType.Sanctuary).location(LocationType.PlayerSanctuaryHand).player(player).length
-      if (sanctuaryHand > 6) {
-        x += Math.min((sanctuaryHand - 6) * 3.7, 31)
-      }
-    }
-
-    if ([1, 2, 3].includes(getPlayerIndex(context, location.player))) {
-      y -= 25
-    }
-
-    return { x: x, y: y, z: 1 }
+  hide(item: MaterialItem, context: ItemContext): boolean {
+    return isNotViewedPlayerItem(item, context)
   }
 
-  getRadius(location: Location, { player }: ItemContext): number {
-    return location.player === player ? 125 : 40
-  }
-
-  getBaseAngle(location: Location, context: ItemContext): number {
-    const index = getPlayerIndex(context, location.player)
-    return [1, 2, 3].includes(index) ? 180 : 0
+  getRadius(): number {
+    return 125
   }
 
   getItemIndex(item: MaterialItem, context: ItemContext): number {
@@ -53,7 +35,7 @@ export class RegionHandLocator extends HandLocator {
   }
 
   getHoverTransform(item: MaterialItem, context: ItemContext) {
-    return super.getHoverTransform(item, context).concat('translateY(-1em)')
+    return super.getHoverTransform(item, context).concat('translateY(-1em)').concat('translateZ(16em)')
   }
 }
 

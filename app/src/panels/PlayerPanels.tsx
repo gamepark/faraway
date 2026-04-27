@@ -1,104 +1,60 @@
-﻿import { css } from '@emotion/react'
-import { useMaterialContext, usePlayers } from '@gamepark/react-game'
+import { css } from '@emotion/react'
+import { FarawayRules } from '@gamepark/faraway/FarawayRules'
+import { PlayerId } from '@gamepark/faraway/PlayerId'
+import { usePlayerId, usePlayers, useRules } from '@gamepark/react-game'
 import { FC } from 'react'
-import { createPortal } from 'react-dom'
-import { getPlayerIndex } from '../locators/position/PositionOnTable'
 import { FarawayPlayerPanel } from './FarawayPlayerPanel'
+import { getPanelScale, panelGapTable, panelMargin, panelTopMargin } from './PanelConstants'
 
-export const PlayerPanels: FC<any> = () => {
+export const PlayerPanels: FC = () => {
   const players = usePlayers({ sortFromMe: true })
-  const context = useMaterialContext()
+  const rules = useRules<FarawayRules>()!
+  const me = usePlayerId()
+  const viewedPlayer = ((rules as unknown as { game: { view?: PlayerId } }).game.view ?? me ?? players[0]?.id) as PlayerId | undefined
+  const n = rules.game.players.length
+  const scale = getPanelScale(n)
 
-  const root = document.getElementById('root')
-  if (!root) {
-    return null
-  }
+  const anchorBottom = n >= 6
 
-  return createPortal(
-    <>
-      {players.map((player) =>
-        <FarawayPlayerPanel key={player.id} player={player} css={panelPosition(players.length, getPlayerIndex(context, player.id))}/>
-      )}
-    </>,
-    root
+  return (
+    <div
+      css={[containerCss, anchorBottom && anchorBottomCss]}
+      style={{
+        fontSize: `${scale}em`,
+        gap: `${panelGapTable / scale}em`,
+        padding: `0 ${panelMargin / scale}em`,
+        top: anchorBottom ? undefined : `${panelTopMargin / scale}em`,
+        bottom: anchorBottom ? `${panelTopMargin / scale}em` : undefined
+      }}
+    >
+      {players.map((player) => (
+        <FarawayPlayerPanel
+          key={player.id}
+          player={player}
+          isViewed={player.id === viewedPlayer}
+        />
+      ))}
+    </div>
   )
 }
-const panelPosition = (players: number, index: number) => css`
+
+const containerCss = css`
   position: absolute;
-  width: 28em;
-  height: 8.3em;
-  border: 0;
-  ${getPanelPosition(players, index)};
-`
+  right: 0;
+  top: 0;
+  bottom: 0;
+  transform: translateZ(5em);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+  pointer-events: none;
 
-const bottomRight = css`
-  bottom: 1em;
-  right: 1em;
-`
-
-const bottomLeft = css`
-  bottom: 1em;
-  left: 1em;
-`
-
-const topRight = css`
-  top: 8.5em;
-  right: 1em;
-`
-
-const topLeft = css`
-  top: 8.5em;
-  left: 1em;
-`
-
-const topCenter = css`
-  top: 8.5em;
-  left: calc(50dvw - 14em);
-`
-
-const bottomCenter = css`
-  bottom: 1em;
-  left: calc(50dvw - 14em);
-`
-
-const topCenterLeft = css`
-  top: 8.5em;
-  left: calc(40dvw - 14em);
-`
-
-const topCenterRight = css`
-  top: 8.5em;
-  left: calc(67dvw - 14em);
-`
-
-const bottomCenterLeft = css`
-  bottom: 1em;
-  left: calc(40dvw - 14em);
-`
-
-const bottomCenterRight = css`
-  bottom: 1em;
-  left: calc(67dvw - 14em);
-`
-
-const getPanelPosition = (players: number, index: number) => {
-  switch (index) {
-    case 0:
-      return players < 3 ? bottomRight : bottomLeft
-    case 1:
-      return players < 3 ? topRight : topLeft
-    case 2:
-      return players < 5 ? topRight : players < 7 ? topCenter : topCenterLeft
-    case 3:
-      return players < 7 ? topRight : topCenterRight
-    case 4:
-      return topRight
-    case 5:
-      return bottomRight
-    case 6:
-      return players < 7 ? bottomRight : bottomCenterRight
-    case 7:
-    default:
-      return players < 5 ? bottomRight : players < 7 ? bottomCenter : bottomCenterLeft
+  > * {
+    pointer-events: auto;
   }
-}
+`
+
+const anchorBottomCss = css`
+  justify-content: flex-end;
+`

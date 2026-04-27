@@ -10,6 +10,7 @@ import { Locators } from './locators/Locators'
 import { Material } from './material/Material'
 import { Tutorial } from './tutorial/Tutorial'
 
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <GameProvider
@@ -22,7 +23,7 @@ createRoot(document.getElementById('root')!).render(
       animations={farawayAnimations}
       tutorial={new Tutorial()}
     >
-      <App/>
+      <App />
     </GameProvider>
   </StrictMode>
 )

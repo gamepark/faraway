@@ -1,32 +1,19 @@
-﻿import { HandLocator, ItemContext } from '@gamepark/react-game'
+import { HandLocator, ItemContext } from '@gamepark/react-game'
 import { Location, MaterialItem } from '@gamepark/rules-api'
-import { getPlayerBoardPosition, getPlayerIndex } from './position/PositionOnTable'
+import { isNotViewedPlayerItem } from './hidePlayerContent'
+import { HAND_Y, SANCTUARY_CENTER_X } from './playerLayout'
 
 export class SanctuaryHandLocator extends HandLocator {
   maxAngle = 16
 
-  getCoordinates(location: Location, context: ItemContext) {
-    const { player } = context
-    let { x = 0, y = 0 } = getPlayerBoardPosition(context, location.player)
-    x -= 11
-    y += 29
+  coordinates = { x: SANCTUARY_CENTER_X, y: HAND_Y, z: 3 }
 
-    const count = this.countItems(location, context)
-    if (player !== location.player) {
-      x += 4
-    } else if (count >= 6) {
-      x += (count - 7) * 2
-    }
-
-    if ([1, 2, 3].includes(getPlayerIndex(context, location.player))) {
-      y -= 24.5
-    }
-
-    return { x: x, y: y, z: 3 }
+  hide(item: MaterialItem, context: ItemContext): boolean {
+    return isNotViewedPlayerItem(item, context)
   }
 
-  getRadius(location: Location, { player }: ItemContext): number {
-    return player === location.player ? 200 : 40
+  getRadius(): number {
+    return 200
   }
 
   getGapMaxAngle(location: Location, context: ItemContext): number {
@@ -37,11 +24,6 @@ export class SanctuaryHandLocator extends HandLocator {
       }
     }
     return 1.25
-  }
-
-  getBaseAngle(location: Location, context: ItemContext): number {
-    const index = getPlayerIndex(context, location.player)
-    return [1, 2, 3].includes(index) ? 180 : 0
   }
 
   getHoverTransform(item: MaterialItem, context: ItemContext) {

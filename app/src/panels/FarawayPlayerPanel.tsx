@@ -1,4 +1,5 @@
-﻿import { css } from '@emotion/react'
+import { css } from '@emotion/react'
+import { faEye } from '@fortawesome/free-solid-svg-icons/faEye'
 import { faStar } from '@fortawesome/free-solid-svg-icons/faStar'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { getValue, Region } from '@gamepark/faraway/cards/Region'
@@ -12,17 +13,15 @@ import { Memory } from '@gamepark/faraway/rules/Memory'
 import { Player } from '@gamepark/react-client'
 import {
   Avatar,
-  getRelativePlayerIndex,
-  MaterialContext,
   Picture,
   PlayerTimer,
   SpeechBubbleDirection,
-  useFocusContext,
-  useMaterialContext,
+  usePlay,
   usePlayerName,
   useRules
 } from '@gamepark/react-game'
-import { FC, HTMLAttributes, useCallback, useEffect } from 'react'
+import { MaterialMoveBuilder } from '@gamepark/rules-api'
+import { FC, HTMLAttributes } from 'react'
 import Player3 from '../images/region/region_blue_9.jpg'
 import Player7 from '../images/region/region_gray_exp_76.jpg'
 import Player1 from '../images/region/region_green_11.jpg'
@@ -37,83 +36,48 @@ import Night from '../images/time/night.png'
 
 type FarawayPlayerPanelProps = {
   player: Player
+  isViewed: boolean
 } & HTMLAttributes<HTMLDivElement>
 
-export const FarawayPlayerPanel: FC<FarawayPlayerPanelProps> = (props) => {
-  const { player, ...rest } = props
-  const { setFocus } = useFocusContext()
-  const context = useMaterialContext()
-  const { rules, player: playerId } = context
-  const isTutorial = !rules || rules.game.tutorial !== undefined
+export const FarawayPlayerPanel: FC<FarawayPlayerPanelProps> = ({ player, isViewed, ...rest }) => {
+  const play = usePlay()
+  const rules = useRules<FarawayRules>()!
   const playerName = usePlayerName(player.id)
-  const itsMe = playerId && player.id === playerId
   const turnToPlay = rules.isTurnToPlay(player.id)
-  const focusPlayer = useCallback(() => {
-    setFocus({
-      materials: itsMe ? [
-        rules.material(MaterialType.Region).location(LocationType.Region),
-        rules.material(MaterialType.Region).location(LocationType.PlayerRegionHand).player(playerId),
-        rules.material(MaterialType.Region).location(LocationType.RegionDeck)
-      ] : [],
-      staticItems: [],
-      locations: [
-        ...Array.from(Array(8))
-          .map((_, x) => ({
-            type: LocationType.PlayerRegionLine,
-            player: player.id,
-            x: x
-          }))
-      ],
-      margin: getMargin(player, context),
-      animationTime: 500
-    })
-  }, [rules, player])
 
-  useEffect(() => {
-    if (itsMe && !isTutorial) {
-      setTimeout(focusPlayer, 3000)
-    }
+  const onClick = () => play(MaterialMoveBuilder.changeView(player.id), { transient: true })
 
-  }, [itsMe, playerId, setFocus, isTutorial])
   return (
-    <>
-      <div css={[panelPlayerStyle, panelStyle(player.id)]} onClick={focusPlayer} {...rest}>
-        <div css={turnToPlay ? day : night}></div>
-        <Avatar css={avatarStyle} playerId={player.id} speechBubbleProps={{ direction: SpeechBubbleDirection.BOTTOM_LEFT }}/>
-        <h2 css={[nameStyle, data]}>{playerName}</h2>
-        <Timer {...props} />
-        <PlacedCard {...props} />
-        <Score {...props} />
-      </div>
-
-    </>
+    <div css={[panelPlayerStyle, panelStyle(player.id), isViewed && viewedCss]} onClick={onClick} {...rest}>
+      <div css={turnToPlay ? day : night}></div>
+      <Avatar css={avatarStyle} playerId={player.id} speechBubbleProps={{ direction: SpeechBubbleDirection.BOTTOM_LEFT }} />
+      <h2 css={[nameStyle, data]}>{playerName}</h2>
+      <Timer player={player} />
+      <PlacedCard player={player} />
+      <Score player={player} />
+      {isViewed && <FontAwesomeIcon icon={faEye} css={viewedIconCss} />}
+    </div>
   )
 }
 
-const Timer: FC<FarawayPlayerPanelProps> = (props) => {
-  const { player } = props
+const Timer: FC<{ player: Player }> = ({ player }) => {
   const rules = useRules<FarawayRules>()!
-
   if (rules?.isOver()) return null
-
-  return <PlayerTimer customStyle={[(playing) => !playing && css`color: lightgray !important;`]} playerId={player.id} css={[timerStyle, data]}/>
+  return <PlayerTimer customStyle={[(playing) => !playing && css`color: lightgray !important;`]} playerId={player.id} css={[timerStyle, data]} />
 }
 
-const Score: FC<FarawayPlayerPanelProps> = (props => {
-  const { player } = props
+const Score: FC<{ player: Player }> = ({ player }) => {
   const rules = useRules<FarawayRules>()!
-
   if (!rules?.isOver()) return null
-
   return (
     <span css={[placedCard, data]}>
-      <FontAwesomeIcon icon={faStar} css={scoreStyle} fill="#28B8CE"/>
+      <FontAwesomeIcon icon={faStar} css={scoreStyle} fill="#28B8CE" />
       <span>{new ScoreHelper(rules.game, player.id).score}</span>
     </span>
   )
-})
+}
 
-const PlacedCard: FC<FarawayPlayerPanelProps> = ({ player }) => {
+const PlacedCard: FC<{ player: Player }> = ({ player }) => {
   const rules = useRules<FarawayRules>()!
   const round = rules.remind(Memory.Round)
   const speedDisabled = player.time?.availableTime === undefined
@@ -123,12 +87,11 @@ const PlacedCard: FC<FarawayPlayerPanelProps> = ({ player }) => {
     .player(player.id)
     .getItem<Region>()
 
-
   if (!card?.id || !rules?.game.rule) return null
   const night = Regions[card.id]?.night === 1
   return (
     <span css={[data, placedCard, speedDisabled && rightAlignment]}>
-      <Picture css={timeMini} src={night ? NightMini : DayMini}/>
+      <Picture css={timeMini} src={night ? NightMini : DayMini} />
       <span>{getValue(card.id)}</span>
     </span>
   )
@@ -140,6 +103,7 @@ const rightAlignment = css`
   right: 0.25em;
   font-size: 2.5em;
 `
+
 const timeMini = css`
   height: 1.05em;
   margin-bottom: -0.17em;
@@ -164,13 +128,38 @@ const placedCard = css`
 `
 
 const scoreStyle = css`
-  color: #28B8CE
+  color: #28B8CE;
 `
 
 const panelPlayerStyle = css`
+  position: relative;
+  width: 28em;
+  height: 8.3em;
   color: black;
   border-radius: 3em 1.5em 1.5em 1.5em;
   box-shadow: 0 0 0.5em black, 0 0 0.5em black;
+  cursor: pointer;
+  transform-origin: center top;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+`
+
+const viewedCss = css`
+  transform: scale(1.04);
+  box-shadow: 0 0 0.5em black, 0 0 0 0.2em #F0D860;
+`
+
+const viewedIconCss = css`
+  position: absolute;
+  bottom: -1em;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  font-size: 1.4em;
+  color: #F0D860;
+  background: rgba(0, 0, 0, 0.85);
+  padding: 0.25em 0.5em;
+  border-radius: 0.5em;
+  box-shadow: 0 0.1em 0.3em rgba(0, 0, 0, 0.4);
 `
 
 const avatarStyle = css`
@@ -183,6 +172,7 @@ const avatarStyle = css`
   color: black;
   z-index: 1;
 `
+
 const nameStyle = css`
   position: absolute;
   top: 0.3em;
@@ -207,8 +197,6 @@ const PlayerBackground = [
 ]
 
 const panelStyle = (playerId: PlayerId) => css`
-  cursor: pointer;
-
   background: rgba(0, 0, 0, 0.8) url(${PlayerBackground[playerId - 1]}) no-repeat -8.6em -4.7em;
   background-size: 150% auto;
 
@@ -220,7 +208,6 @@ const panelStyle = (playerId: PlayerId) => css`
     width: 100%;
     left: 0;
     border-radius: 1em;
-    //background-color: rgba(255, 255, 255, 0.3);
   }
 `
 
@@ -231,34 +218,6 @@ const data = css`
   border-radius: 0.4em;
   z-index: 2;
 `
-
-const getMargin = (player: Player, context: MaterialContext) => {
-  const players = context.rules.players.length
-  const index = getRelativePlayerIndex(context, { player: player.id }.player)
-  const margin = {
-    left: 23,
-    right: 2,
-    top: 0,
-    bottom: 3
-  }
-
-  if (index === 0 && players > 3) {
-    margin.top = 4
-    margin.bottom = 1
-  }
-
-  if (index === 0 && players === 5) {
-    margin.top = 5
-    margin.bottom = 1
-  }
-
-  if (index === 0 && players === 6) {
-    margin.top = 5
-    margin.bottom = 4
-  }
-
-  return margin
-}
 
 const day = css`
   position: absolute;
@@ -304,7 +263,6 @@ const night = css`
     background-size: cover;
     z-index: 2;
   }
-}
 `
 
 const timerStyle = css`

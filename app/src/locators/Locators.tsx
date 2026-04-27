@@ -1,7 +1,9 @@
-﻿import { LocationType } from '@gamepark/faraway/material/LocationType'
+import { LocationType } from '@gamepark/faraway/material/LocationType'
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
 import { PlayerId } from '@gamepark/faraway/PlayerId'
-import { DeckLocator, Locator } from '@gamepark/react-game'
+import { DeckLocator, Locator, MaterialContext } from '@gamepark/react-game'
+import { Location } from '@gamepark/rules-api'
+import { getRegionDeckPosition, getSanctuaryDeckPosition } from '../panels/PanelConstants'
 import { cardCharacteristicLocator } from './CardCharacteristicLocator'
 import { playerRegionLocator } from './PlayerRegionLocator'
 import { playerSanctuaryLocator } from './PlayerSanctuaryLocator'
@@ -14,9 +16,25 @@ import { sanctuaryScorePointLocator } from './SanctuaryScorePointLocator'
 import { scoreSheetBoxLocator } from './ScoreSheetBoxLocator'
 import { scoreSheetLocator } from './ScoreSheetLocator'
 
+class RegionDeckLocator extends DeckLocator {
+  limit = 20
+
+  getCoordinates(_location: Location, context: MaterialContext) {
+    return getRegionDeckPosition(context.rules.players.length)
+  }
+}
+
+class SanctuaryDeckLocator extends DeckLocator {
+  limit = 20
+
+  getCoordinates(_location: Location, context: MaterialContext) {
+    return getSanctuaryDeckPosition(context.rules.players.length)
+  }
+}
+
 export const Locators: Partial<Record<LocationType, Locator<PlayerId, MaterialType, LocationType>>> = {
-  [LocationType.RegionDeck]: new DeckLocator({ coordinates: { x: -10, y: 4 } }),
-  [LocationType.SanctuaryDeck]: new DeckLocator({ coordinates: { x: -17.5, y: 4 } }),
+  [LocationType.RegionDeck]: new RegionDeckLocator(),
+  [LocationType.SanctuaryDeck]: new SanctuaryDeckLocator(),
   [LocationType.PlayerRegionHand]: regionHandLocator,
   [LocationType.PlayerSanctuaryHand]: sanctuaryHandLocator,
   [LocationType.PlayerRegionLine]: playerRegionLocator,

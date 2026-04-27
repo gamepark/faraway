@@ -1,10 +1,13 @@
-import { ListLocator } from '@gamepark/react-game'
-import { regionCardDescription } from '../material/RegionCardDescription'
+import { ListLocator, MaterialContext } from '@gamepark/react-game'
+import { Location } from '@gamepark/rules-api'
+import { getRegionLinePosition, regionLineGapX } from '../panels/PanelConstants'
 
 class RegionLocator extends ListLocator {
-  coordinates = { x: -2.5, y: 4 }
+  gap = { x: regionLineGapX }
 
-  gap = { x: regionCardDescription.width + 0.5 }
+  getCoordinates(_location: Location, context: MaterialContext) {
+    return getRegionLinePosition(context.rules.players.length)
+  }
 
   getHoverTransform() {
     return ['translateZ(10em)', 'scale(2)']

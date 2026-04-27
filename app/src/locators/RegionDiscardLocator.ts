@@ -1,14 +1,17 @@
-﻿import { DeckLocator, ItemContext } from '@gamepark/react-game'
-import { Location } from '@gamepark/rules-api'
-import { regionCardDescription } from '../material/RegionCardDescription'
+import { DeckLocator, ItemContext, MaterialContext } from '@gamepark/react-game'
+import { Location, MaterialItem } from '@gamepark/rules-api'
+import { getRegionDiscardPosition, regionDiscardScale } from '../panels/PanelConstants'
 
 export class RegionDiscardLocator extends DeckLocator {
-  getCoordinates(_location: Location, context: ItemContext) {
-    const playersCount = context.rules.players.length
-    return { x: (regionCardDescription.width + 0.5) * (playersCount + 2.5) - 10, y: 4 }
+  rotateZ = 90
+
+  getCoordinates(_location: Location, context: MaterialContext) {
+    return getRegionDiscardPosition(context.rules.players.length)
   }
 
-  rotateZ = 90
+  placeItem(item: MaterialItem, context: ItemContext): string[] {
+    return [...super.placeItem(item, context), `scale(${regionDiscardScale})`]
+  }
 }
 
 export const regionDiscardLocator = new RegionDiscardLocator()

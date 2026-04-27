@@ -1,30 +1,32 @@
-﻿import { LocationType } from '@gamepark/faraway/material/LocationType'
-import { FlexLocator, LocationContext, MaterialContext } from '@gamepark/react-game'
-import { Location, MaterialItem } from '@gamepark/rules-api'
-import { regionCardDescription } from '../material/RegionCardDescription'
+import { LocationType } from '@gamepark/faraway/material/LocationType'
+import { FlexLocator, ItemContext, MaterialContext } from '@gamepark/react-game'
+import { MaterialItem } from '@gamepark/rules-api'
 import { PlayerRegionAreaDescription } from './description/PlayerRegionAreaDescription'
-import { getPlayerBoardPosition } from './position/PositionOnTable'
+import { isNotViewedPlayerItem } from './hidePlayerContent'
+import { getViewPlayer } from './panelCoordinates'
+import { REGION_ANCHOR_X, REGION_COLUMN_GAP, REGION_LINE_SIZE, REGION_Y } from './playerLayout'
 
 export class PlayerRegionLocator extends FlexLocator {
-  lineSize = 4
-  gap = { x: regionCardDescription.width + 0.5 }
-  lineGap = { y: regionCardDescription.height + 0.5 }
+  lineSize = REGION_LINE_SIZE
+  gap = { x: REGION_COLUMN_GAP }
+  lineGap = { y: REGION_COLUMN_GAP }
+
+  coordinates = { x: REGION_ANCHOR_X, y: REGION_Y }
 
   locationDescription = new PlayerRegionAreaDescription()
 
-  getLocations(context: MaterialContext) {
-    const { rules } = context
-    return rules.players.flatMap((p) => Array.from(Array(8))
-      .map((_, x) => ({
-        type: LocationType.PlayerRegionLine,
-        player: p,
-        x: x
-      })))
+  hide(item: MaterialItem, context: ItemContext): boolean {
+    return isNotViewedPlayerItem(item, context)
   }
 
-  getCoordinates(location: Location, context: LocationContext) {
-    const { x = 0, y = 0 } = getPlayerBoardPosition(context, location.player)
-    return { x, y: y + 13 }
+  getLocations(context: MaterialContext) {
+    const viewed = getViewPlayer(context)
+    if (viewed === undefined) return []
+    return Array.from(Array(8)).map((_, x) => ({
+      type: LocationType.PlayerRegionLine,
+      player: viewed,
+      x
+    }))
   }
 
   getHoverTransform(item: MaterialItem) {

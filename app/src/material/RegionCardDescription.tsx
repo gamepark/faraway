@@ -2,8 +2,11 @@ import { Region } from '@gamepark/faraway/cards/Region'
 import { LocationType } from '@gamepark/faraway/material/LocationType'
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
 import { RuleId } from '@gamepark/faraway/rules/RuleId'
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core'
+import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck'
 import { CardDescription, ItemContext } from '@gamepark/react-game'
 import { isMoveItemType, MaterialItem, MaterialMove } from '@gamepark/rules-api'
+import { FarawayMenuButton, HandIcon, TrashIcon } from '../components/ItemMenuButton'
 import Blue13 from '../images/region/region_blue_13.jpg'
 import Blue17 from '../images/region/region_blue_17.jpg'
 import Blue2 from '../images/region/region_blue_2.jpg'
@@ -188,6 +191,47 @@ export class RegionCardDescription extends CardDescription {
   canShortClick(move: MaterialMove, context: ItemContext) {
     return isMoveItemType(MaterialType.Region)(move) && move.itemIndex === context.index && move.location.type === LocationType.PlayerRegionHand
       || super.canShortClick(move, context)
+  }
+
+  menuAlwaysVisible = true
+
+  getItemMenu(_item: MaterialItem, context: ItemContext, legalMoves: MaterialMove[]) {
+    const isRegionMove = isMoveItemType(MaterialType.Region)
+    const mine = legalMoves.filter((m) => isRegionMove(m) && m.itemIndex === context.index)
+    if (mine.length === 0) return null
+
+    const takeMove = mine.find((m) => isRegionMove(m) && m.location.type === LocationType.PlayerRegionHand)
+    const placeMove = mine.find((m) => isRegionMove(m) && m.location.type === LocationType.PlayerRegionLine)
+    // "discard" covers both RegionDiscard (gameplay) and RegionDeck (put the card back in the deck during initial hand selection).
+    const discardMove = mine.find((m) =>
+      isRegionMove(m)
+      && (m.location.type === LocationType.RegionDiscard || m.location.type === LocationType.RegionDeck)
+    )
+
+    const buttons: Array<{ icon: IconDefinition; move: MaterialMove; titleKey: string }> = []
+    if (takeMove) buttons.push({ icon: HandIcon, move: takeMove, titleKey: 'button.pick' })
+    if (placeMove) buttons.push({ icon: faCheck, move: placeMove, titleKey: 'button.place' })
+    if (discardMove) buttons.push({ icon: TrashIcon, move: discardMove, titleKey: 'button.discard' })
+
+    const spread = 25 // deg between buttons — tune for tighter/wider fan
+    return (
+      <>
+        {buttons.map((b, i) => {
+          // fan centered on 0° → buttons sit at the top of the card
+          const angle = (i - (buttons.length - 1) / 2) * spread
+          return (
+            <FarawayMenuButton
+              key={i}
+              angle={angle}
+              radius={4.2}
+              icon={b.icon}
+              titleKey={b.titleKey}
+              move={b.move}
+            />
+          )
+        })}
+      </>
+    )
   }
 
   help = RegionCardHelp

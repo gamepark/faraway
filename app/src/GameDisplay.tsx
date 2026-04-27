@@ -1,30 +1,34 @@
+import { useDndMonitor } from '@dnd-kit/core'
 import { css } from '@emotion/react'
-import { GameTable, GameTableNavigation, usePlayers } from '@gamepark/react-game'
-import { FC } from 'react'
-import { getTableSize } from './locators/position/PositionOnTable'
+import { DevToolsHub, GameTable, usePlay, usePlayerId } from '@gamepark/react-game'
+import { MaterialMoveBuilder } from '@gamepark/rules-api'
+import { FC, useCallback } from 'react'
+import { tableSize } from './panels/PanelConstants'
 import { PlayerPanels } from './panels/PlayerPanels'
 
-type GameDisplayProps = {
-  players: number
+const SwitchViewOnDrag: FC = () => {
+  const play = usePlay()
+  const me = usePlayerId()
+  const onDragStart = useCallback(() => {
+    if (me) play(MaterialMoveBuilder.changeView(me), { transient: true })
+  }, [me, play])
+  useDndMonitor({ onDragStart })
+  return null
 }
 
-export const GameDisplay: FC<GameDisplayProps> = () => {
-  const players = usePlayers()
-  if (!players.length) return null
-  const tableSize = getTableSize(players.length)
+export const GameDisplay: FC = () => {
   return (
     <GameTable {...tableSize}
-               verticalCenter
-               margin={{ top: 7, left: 0, right: 0, bottom: 0 }}>
-      <GameTableNavigation css={navigation}/>
-      <PlayerPanels/>
+      verticalCenter
+      zoom={false}
+      margin={{ top: 7, left: 0, right: 0, bottom: 0 }} css={process.env.NODE_ENV === 'development' ? borderCss : undefined}>
+      <PlayerPanels />
+      <SwitchViewOnDrag />
+      {import.meta.env.DEV && <DevToolsHub />}
     </GameTable>
   )
 }
 
-const navigation = css`
-  flex-direction: column;
-  top: 45em;
-  right: 2em;
-  left: initial;
+const borderCss = css`
+  border: 0.1em solid white;
 `
