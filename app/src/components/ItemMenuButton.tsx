@@ -43,7 +43,7 @@ export const FarawayMenuButton: FC<FarawayMenuButtonProps> = ({ icon, titleKey, 
       <span css={pegCss} className="peg tr"/>
       <span css={pegCss} className="peg bl"/>
       <span css={pegCss} className="peg br"/>
-      <span css={bodyCss}>
+      <span css={bodyCss} className="body">
         <FontAwesomeIcon icon={icon} css={iconCss}/>
       </span>
       <span css={srOnlyCss}><Trans i18nKey={titleKey}/></span>
@@ -57,6 +57,8 @@ const CREAM = '#f7ecd0'
 const SUN   = '#eeb83a'
 
 // ---- styles ----
+// The framework applies an inline `transform` for positioning, so the hover effect
+// lives on the inner body span rather than on the button itself.
 const buttonCss = css`
   width: 2em !important;
   height: 2em !important;
@@ -65,15 +67,26 @@ const buttonCss = css`
   border: 0;
   border-radius: 0 !important;
   position: absolute;
-  transition: transform 0.14s cubic-bezier(.3, 1.4, .4, 1);
+  cursor: pointer;
 
   .peg.tl { top: -0.25em; left: -0.25em; }
   .peg.tr { top: -0.25em; right: -0.25em; }
   .peg.bl { bottom: -0.25em; left: -0.25em; }
   .peg.br { bottom: -0.25em; right: -0.25em; }
 
-  &:not(:disabled):hover { filter: brightness(1.05); }
-  &:not(:disabled):active { filter: brightness(0.92); }
+  > .body {
+    transition: transform 0.14s cubic-bezier(.3, 1.4, .4, 1), box-shadow 0.14s ease, filter 0.14s ease;
+  }
+
+  &:not(:disabled):hover > .body {
+    transform: scale(1.08);
+    filter: brightness(1.06);
+    box-shadow: 0 0.25em 0.45em rgba(26, 38, 56, 0.45), 0 0 0.5em rgba(238, 184, 58, 0.55);
+  }
+  &:not(:disabled):active > .body {
+    transform: scale(0.96);
+    box-shadow: 0 0.05em 0.15em rgba(26, 38, 56, 0.35);
+  }
   &:disabled { opacity: 0.5; filter: grayscale(0.6); cursor: not-allowed; }
 `
 

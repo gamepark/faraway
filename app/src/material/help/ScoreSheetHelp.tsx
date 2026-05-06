@@ -5,7 +5,7 @@ export const ScoreSheetHelp = () => {
   return <>
     <h2>{t('help.score-sheet')}</h2>
     <p>
-      <Trans defaults="help.scoring"><strong/><em/></Trans>
+      <Trans i18nKey="help.scoring"><strong/><em/></Trans>
     </p>
   </>
 }

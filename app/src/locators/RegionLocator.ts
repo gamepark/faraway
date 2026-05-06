@@ -10,7 +10,9 @@ class RegionLocator extends ListLocator {
   }
 
   getHoverTransform() {
-    return ['translateZ(10em)', 'scale(2)']
+    // Scaled 2× on hover (14em tall). Translate percentages resolve against the un-transformed
+    // box (7em), so 50% = 3.5em — enough to push the scaled top edge back inside the table.
+    return ['translateZ(10em)', 'translateY(50%)', 'scale(2)']
   }
 }
 

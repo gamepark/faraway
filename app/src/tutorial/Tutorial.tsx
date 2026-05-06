@@ -30,17 +30,17 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
   steps: TutorialStep[] = [
     {
       popup: {
-        text: () => <Trans defaults="tuto.welcome"><strong/></Trans>
+        text: () => <Trans i18nKey="tuto.welcome"><strong/></Trans>
       }
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.goal"><strong/><i/></Trans>
+        text: () => <Trans i18nKey="tuto.goal"><strong/><i/></Trans>
       }
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.region"><strong/><i/></Trans>,
+        text: () => <Trans i18nKey="tuto.region"><strong/><i/></Trans>,
         position: { x: 0, y: -7 }
       },
       focus: (game) => ({
@@ -56,7 +56,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.place.region"><strong/><i/></Trans>,
+        text: () => <Trans i18nKey="tuto.place.region"><strong/><i/></Trans>,
         position: { y: 1, x: 0 }
       },
       focus: (game) =>
@@ -92,7 +92,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.place.region.other"><strong/><i/></Trans>,
+        text: () => <Trans i18nKey="tuto.place.region.other"><strong/><i/></Trans>,
         position: { y: 0, x: 20 }
       },
       move: {}
@@ -101,12 +101,12 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
       popup: {
         text: (t) => (
           <>
-            <Trans defaults="tuto.biome"><strong/></Trans>
+            <Trans i18nKey="tuto.biome"><strong/></Trans>
             <br/><span css={[icon(Forest), radius(20)]}/> {t('biome.1')}<br/>
             <br/><span css={[icon(River), radius(20)]}/> {t('biome.2')}<br/>
             <br/><span css={[icon(Desert), radius(20)]}/> {t('biome.3')}<br/>
             <br/><span css={[icon(City), radius(20)]}/> {t('biome.4')}<br/>
-            <br/><Trans defaults="tuto.biome.quest"><strong/></Trans>
+            <br/><Trans i18nKey="tuto.biome.quest"><strong/></Trans>
           </>
         ),
         position: { x: 30, y: 0 }
@@ -129,7 +129,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
     {
       popup: {
         text: () => (
-          <Trans defaults="tuto.hour">
+          <Trans i18nKey="tuto.hour">
             <strong/><i/>
             <span css={icon(Day)}/>
             <span css={icon(Night)}/>
@@ -154,7 +154,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
     {
       popup: {
         text: () => (
-          <Trans defaults="tuto.region.draw">
+          <Trans i18nKey="tuto.region.draw">
             <strong/><i/>
           </Trans>
         ),
@@ -173,7 +173,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
     {
       popup: {
         text: () => (
-          <Trans defaults="tuto.region.draw.me">
+          <Trans i18nKey="tuto.region.draw.me">
             <strong/><i/>
           </Trans>
         )
@@ -203,7 +203,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
     {
       popup: {
         text: () => (
-          <Trans defaults="tuto.round">
+          <Trans i18nKey="tuto.round">
             <strong/><i/>
           </Trans>
         ),
@@ -212,7 +212,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.place.region"><strong/><i/></Trans>,
+        text: () => <Trans i18nKey="tuto.place.region"><strong/><i/></Trans>,
         position: { y: 1, x: 0 }
       },
       focus: (game) =>
@@ -248,7 +248,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.quest">
+        text: () => <Trans i18nKey="tuto.quest">
           <strong/>
           <i/>
           <span css={resource(Rock)}/>
@@ -266,7 +266,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.scoring"><strong/><i/><span css={resource(Rock)}/></Trans>,
+        text: () => <Trans i18nKey="tuto.scoring"><strong/><i/><span css={resource(Rock)}/></Trans>,
         position: { y: -17, x: 0 }
       },
       focus: (game) => ({
@@ -281,7 +281,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.sanctuary"><strong/><i/></Trans>,
+        text: () => <Trans i18nKey="tuto.sanctuary"><strong/><i/></Trans>,
         position: { y: -17, x: 0 }
       },
       focus: (game) =>
@@ -309,7 +309,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.clue">
+        text: () => <Trans i18nKey="tuto.clue">
           <strong/>
           <i/>
           <span css={icon(Clue)}/>
@@ -335,7 +335,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.sanctuary.drawn">
+        text: () => <Trans i18nKey="tuto.sanctuary.drawn">
           <strong/>
           <i/>
           <span css={icon(Clue)}/>
@@ -353,7 +353,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.region.draw.2">
+        text: () => <Trans i18nKey="tuto.region.draw.2">
           <strong/>
           <i/>
         </Trans>
@@ -377,7 +377,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.sanctuary.choose">
+        text: () => <Trans i18nKey="tuto.sanctuary.choose">
           <strong/>
           <i/>
         </Trans>,
@@ -398,7 +398,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.sanctuary.why">
+        text: () => <Trans i18nKey="tuto.sanctuary.why">
           <strong/>
           <i/>
         </Trans>,
@@ -415,7 +415,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.end">
+        text: () => <Trans i18nKey="tuto.end">
           <strong/>
           <i/>
         </Trans>

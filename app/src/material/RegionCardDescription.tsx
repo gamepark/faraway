@@ -3,7 +3,7 @@ import { LocationType } from '@gamepark/faraway/material/LocationType'
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
 import { RuleId } from '@gamepark/faraway/rules/RuleId'
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core'
-import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck'
+import { faArrowUp } from '@fortawesome/free-solid-svg-icons/faArrowUp'
 import { CardDescription, ItemContext } from '@gamepark/react-game'
 import { isMoveItemType, MaterialItem, MaterialMove } from '@gamepark/rules-api'
 import { FarawayMenuButton, HandIcon, TrashIcon } from '../components/ItemMenuButton'
@@ -195,7 +195,7 @@ export class RegionCardDescription extends CardDescription {
 
   menuAlwaysVisible = true
 
-  getItemMenu(_item: MaterialItem, context: ItemContext, legalMoves: MaterialMove[]) {
+  getItemMenu(item: MaterialItem, context: ItemContext, legalMoves: MaterialMove[]) {
     const isRegionMove = isMoveItemType(MaterialType.Region)
     const mine = legalMoves.filter((m) => isRegionMove(m) && m.itemIndex === context.index)
     if (mine.length === 0) return null
@@ -210,8 +210,32 @@ export class RegionCardDescription extends CardDescription {
 
     const buttons: Array<{ icon: IconDefinition; move: MaterialMove; titleKey: string }> = []
     if (takeMove) buttons.push({ icon: HandIcon, move: takeMove, titleKey: 'button.pick' })
-    if (placeMove) buttons.push({ icon: faCheck, move: placeMove, titleKey: 'button.place' })
+    if (placeMove) buttons.push({ icon: faArrowUp, move: placeMove, titleKey: 'button.place' })
     if (discardMove) buttons.push({ icon: TrashIcon, move: discardMove, titleKey: 'button.discard' })
+
+    // Region-line cards: stack buttons in the bottom-left corner, slightly overflowing the bottom edge.
+    if (item.location.type === LocationType.Region) {
+      const halfW = this.width / 2
+      const halfH = this.height / 2
+      const buttonHalf = 1 // 2em button → 1em half-size
+      const gap = 0.4
+      const baseX = -halfW + buttonHalf + 0.3 // small inset from the left edge (no left overflow)
+      const baseY = halfH + 0.3               // slight bottom overflow — most of button still visible below card
+      return (
+        <>
+          {buttons.map((b, i) => (
+            <FarawayMenuButton
+              key={i}
+              x={baseX + i * (2 + gap)}
+              y={baseY}
+              icon={b.icon}
+              titleKey={b.titleKey}
+              move={b.move}
+            />
+          ))}
+        </>
+      )
+    }
 
     const spread = 25 // deg between buttons — tune for tighter/wider fan
     return (

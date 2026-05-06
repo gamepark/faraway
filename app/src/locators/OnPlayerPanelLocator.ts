@@ -1,7 +1,23 @@
 import { getRelativePlayerIndex, ItemContext, ListLocator, MaterialContext } from '@gamepark/react-game'
 import { Coordinates, Location, MaterialItem } from '@gamepark/rules-api'
-import { getPanelPosition, getPanelStagingPosition } from '../panels/PanelConstants'
+import { getPanelPosition, getPanelStagingPosition, tableYMax, tableYMin } from '../panels/PanelConstants'
 import { getViewPlayer } from './panelCoordinates'
+
+// Cards are 7em tall — half-height to keep them inside the table.
+const CARD_HALF_HEIGHT = 3.5
+const CARD_TABLE_PADDING = 0.3
+
+/**
+ * If `location.rotation` is explicitly `true` or `false`, returns the matching
+ * `rotateY(...)` so CSS interpolates the card flip between waypoints. When it
+ * is `undefined`, returns nothing — leaves the existing pick-trajectory behavior
+ * (no `rotateY`) untouched.
+ */
+const faceTransform = (item: MaterialItem): string | undefined => {
+  if (item.location.rotation === false) return 'rotateY(180deg)'
+  if (item.location.rotation === true) return 'rotateY(0deg)'
+  return undefined
+}
 
 /**
  * Animation-only locator: positions items at a player's panel center.
@@ -14,10 +30,9 @@ class OnPlayerPanelLocator extends ListLocator {
 
   placeItem(item: MaterialItem, context: ItemContext): string[] {
     const transforms = super.placeItem(item, context)
-    if (item.location.player !== getViewPlayer(context)) {
-      return [...transforms, 'scale(0)']
-    }
-    return [...transforms, 'scale(1)']
+    const scale = item.location.player !== getViewPlayer(context) ? 'scale(0)' : 'scale(1)'
+    const face = faceTransform(item)
+    return face ? [...transforms, scale, face] : [...transforms, scale]
   }
 
   getCoordinates(location: Location, context: MaterialContext) {
@@ -45,7 +60,9 @@ class BesidePanelLocator extends ListLocator {
   }
 
   placeItem(item: MaterialItem, context: ItemContext): string[] {
-    return [...super.placeItem(item, context), 'scale(1)']
+    const transforms = [...super.placeItem(item, context), 'scale(1)']
+    const face = faceTransform(item)
+    return face ? [...transforms, face] : transforms
   }
 }
 
@@ -59,7 +76,11 @@ class BesidePanelCardLocator extends BesidePanelLocator {
   getCoordinates(location: Location, context: MaterialContext) {
     const index = getRelativePlayerIndex(context, location.player)
     const { x, y } = getPanelStagingPosition(index, context.rules.players.length, 3.5)
-    return { x, y, z: 10 }
+    // Keep the card fully on-screen: its center must stay within the table by at least half the card height.
+    const minY = tableYMin + CARD_HALF_HEIGHT + CARD_TABLE_PADDING
+    const maxY = tableYMax - CARD_HALF_HEIGHT - CARD_TABLE_PADDING
+    const clampedY = Math.min(maxY, Math.max(minY, y))
+    return { x, y: clampedY, z: 10 }
   }
 }
 

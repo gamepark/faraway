@@ -2,8 +2,10 @@ import { Sanctuary } from '@gamepark/faraway/cards/Sanctuary'
 import { LocationType } from '@gamepark/faraway/material/LocationType'
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
 import { RuleId } from '@gamepark/faraway/rules/RuleId'
+import { faArrowUp } from '@fortawesome/free-solid-svg-icons/faArrowUp'
 import { CardDescription, ItemContext } from '@gamepark/react-game'
-import { MaterialItem } from '@gamepark/rules-api'
+import { isMoveItemType, MaterialItem, MaterialMove } from '@gamepark/rules-api'
+import { FarawayMenuButton } from '../components/ItemMenuButton'
 import Blue1 from '../images/sanctuary/sanctuary_blue_1.jpg'
 import Blue2 from '../images/sanctuary/sanctuary_blue_2.jpg'
 import Blue3 from '../images/sanctuary/sanctuary_blue_3.jpg'
@@ -132,6 +134,29 @@ export class SanctuaryCardDescription extends CardDescription {
       type: LocationType.SanctuaryScorePoints,
       parent: context.index
     }]
+  }
+
+  menuAlwaysVisible = true
+
+  getItemMenu(_item: MaterialItem, context: ItemContext, legalMoves: MaterialMove[]) {
+    const isSanctuaryMove = isMoveItemType(MaterialType.Sanctuary)
+    const placeMove = legalMoves.find((m) =>
+      isSanctuaryMove(m)
+      && m.itemIndex === context.index
+      && m.location.type === LocationType.PlayerSanctuaryLine
+    )
+    if (!placeMove) return null
+
+    // height/2 (3.4) + button half (1) + small gap → button sits fully above the card art.
+    return (
+      <FarawayMenuButton
+        angle={0}
+        radius={4.6}
+        icon={faArrowUp}
+        titleKey="button.place"
+        move={placeMove}
+      />
+    )
   }
 
   help = SanctuaryCardHelp

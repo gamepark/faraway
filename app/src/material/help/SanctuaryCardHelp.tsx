@@ -87,12 +87,12 @@ const SanctuaryHelp = ({ sanctuary }: { sanctuary: Sanctuary }) => {
     </>
     {clue &&
       <p css={alignIcon}>
-        <Picture src={clueIcon}/>&nbsp;<Trans defaults="help.clue"><strong/></Trans>
+        <Picture src={clueIcon}/>&nbsp;<Trans i18nKey="help.clue"><strong/></Trans>
       </p>
     }
     {wonders &&
       <p css={alignIcon}>
-        {wonders.map((wonder, index) => <Picture key={index} src={wonderIcon[wonder]}/>)}&nbsp;<Trans defaults="help.wonders"><strong/><em/></Trans>
+        {wonders.map((wonder, index) => <Picture key={index} src={wonderIcon[wonder]}/>)}&nbsp;<Trans i18nKey="help.wonders"><strong/><em/></Trans>
       </p>
     }
   </>
