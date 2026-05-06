@@ -194,7 +194,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@datadog/browser-logs@npm:^6.28.1":
+"@datadog/browser-logs@npm:^6.33.0":
   version: 6.33.0
   resolution: "@datadog/browser-logs@npm:6.33.0"
   dependencies:
@@ -488,26 +488,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@formatjs/fast-memoize@npm:3.1.2":
-  version: 3.1.2
-  resolution: "@formatjs/fast-memoize@npm:3.1.2"
-  checksum: 10c0/25af387ebb53146c8c09af34cda4ce82768f0855227ec854fb315d6dc2e7859e16724860fdea7991b3c7c5741154e3fcdd5169ef7a11ba1afb3ffd860613931c
+"@formatjs/fast-memoize@npm:3.1.3":
+  version: 3.1.3
+  resolution: "@formatjs/fast-memoize@npm:3.1.3"
+  checksum: 10c0/572802c57aa295e516f5ac52db9062591643510f360c4d99c3b562fd4b8852a0000e4c1a9daa9e29be88d34356fab1cb9a8a45f764388a7fcdfa010eff6d610d
   languageName: node
   linkType: hard
 
-"@formatjs/icu-messageformat-parser@npm:3.5.4":
-  version: 3.5.4
-  resolution: "@formatjs/icu-messageformat-parser@npm:3.5.4"
+"@formatjs/icu-messageformat-parser@npm:3.5.6":
+  version: 3.5.6
+  resolution: "@formatjs/icu-messageformat-parser@npm:3.5.6"
   dependencies:
-    "@formatjs/icu-skeleton-parser": "npm:2.1.4"
-  checksum: 10c0/3ff5ab209b63113d6b1779a4e8de6ee2cf941f3ad3f3ede2c8e425953a25456b6a1d880d734845244615dc9887fad10b62e75dee38858c731e45812402110efb
+    "@formatjs/icu-skeleton-parser": "npm:2.1.6"
+  checksum: 10c0/640e334eefe66c393b19d401bf1cc39cf7f783e450661220683a200a4e044a221c0a03f2c8ff0a9968bdab2234f7be35faf25aab722c467862fcffef45df8b3a
   languageName: node
   linkType: hard
 
-"@formatjs/icu-skeleton-parser@npm:2.1.4":
-  version: 2.1.4
-  resolution: "@formatjs/icu-skeleton-parser@npm:2.1.4"
-  checksum: 10c0/9d6292443e4079c5718c50e32041a3bd192047449d181ae87e8cb6ef78c90f156f8b2d454008c9d0c2920c215daee5250c0eb214d13a105522a631f269e71b3c
+"@formatjs/icu-skeleton-parser@npm:2.1.6":
+  version: 2.1.6
+  resolution: "@formatjs/icu-skeleton-parser@npm:2.1.6"
+  checksum: 10c0/f68bb13dfb771e9fd768702a1491482dbe05ab8e704e7c58083e82e907dac58b0c88c7cdc336bfc32222d67b129e57a9502597004b373ef0534601a480c6d943
   languageName: node
   linkType: hard
 
@@ -584,7 +584,7 @@ __metadata:
     "@fortawesome/free-regular-svg-icons": "npm:^7.2.0"
     "@fortawesome/free-solid-svg-icons": "npm:^7.2.0"
     "@fortawesome/react-fontawesome": "npm:^3.3.0"
-    "@gamepark/react-game": "npm:~7.7.17"
+    "@gamepark/react-game": "npm:~7.7.18"
     "@gamepark/rules-api": "npm:~7.6.3"
     "@types/node": "npm:^25.6.0"
     "@types/react": "npm:^19.2.14"
@@ -649,21 +649,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gamepark/react-game@npm:~7.7.17":
-  version: 7.7.18
-  resolution: "@gamepark/react-game@npm:7.7.18"
+"@gamepark/react-game@npm:~7.7.18":
+  version: 7.7.21
+  resolution: "@gamepark/react-game@npm:7.7.21"
   dependencies:
-    "@datadog/browser-logs": "npm:^6.28.1"
+    "@datadog/browser-logs": "npm:^6.33.0"
     "@dnd-kit/modifiers": "npm:^9.0.0"
     "@gamepark/api-types": "npm:^1.0.1"
     "@gamepark/avataaars": "npm:^3.0.0"
     "@gamepark/react-client": "npm:^7.6.6"
-    dayjs: "npm:^1.11.19"
+    dayjs: "npm:^1.11.20"
     fscreen: "npm:^1.2.0"
-    i18next-http-backend: "npm:^3.0.2"
+    i18next-http-backend: "npm:^3.0.6"
     i18next-icu: "npm:^2.4.3"
     immer: "npm:^11.1.4"
-    intl-messageformat: "npm:^11.1.2"
+    intl-messageformat: "npm:^11.2.2"
     nosleep.js: "npm:^0.12.0"
     o9n: "npm:^2.1.1"
     react-infinite-scroll-component: "npm:^6.1.1"
@@ -685,7 +685,7 @@ __metadata:
     react-dom: 19.x
     react-i18next: 16.x
     react-redux: 9.x
-  checksum: 10c0/61064d61bcc9775aed7e8117fb451bfbf7ef3954584dd0c039a7c6567f7583c14bcf019edb54c99381f32015432d8949d5b657a3b204f2bf55041761402c4c03
+  checksum: 10c0/b3e399736a4d2c424210aebdfcd0747976424055aeea212f477a4ebec47fa7e7157b71d7bfa31c8fe71b476df79acb6363374750876e3c26024fbb729ec89317
   languageName: node
   linkType: hard
 
@@ -3671,7 +3671,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dayjs@npm:^1.11.19":
+"dayjs@npm:^1.11.20":
   version: 1.11.20
   resolution: "dayjs@npm:1.11.20"
   checksum: 10c0/8af525e2aa100c8db9923d706c42b2b2d30579faf89456619413a5c10916efc92c2b166e193c27c02eb3174b30aa440ee1e7b72b0a2876b3da651d204db848a0
@@ -5031,7 +5031,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next-http-backend@npm:^3.0.2":
+"i18next-http-backend@npm:^3.0.6":
   version: 3.0.6
   resolution: "i18next-http-backend@npm:3.0.6"
   dependencies:
@@ -5224,13 +5224,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"intl-messageformat@npm:^11.1.2":
-  version: 11.2.1
-  resolution: "intl-messageformat@npm:11.2.1"
+"intl-messageformat@npm:^11.2.2":
+  version: 11.2.3
+  resolution: "intl-messageformat@npm:11.2.3"
   dependencies:
-    "@formatjs/fast-memoize": "npm:3.1.2"
-    "@formatjs/icu-messageformat-parser": "npm:3.5.4"
-  checksum: 10c0/c4d2e43c2e7940a8dbd75d7a3b77d722c7ac8802707f7410067097e3a923243343bd36367edb4e922b13d1a10425a2f52c544c65c9368841d481816ed04c6c2b
+    "@formatjs/fast-memoize": "npm:3.1.3"
+    "@formatjs/icu-messageformat-parser": "npm:3.5.6"
+  checksum: 10c0/95cf3eabad1613c62e291e09ec7d77929df536b038f61cbaffc8e8ad0e59568153aabf3acac45a9204c67f241ed2881d7569247f812c338e519c60db237b97ca
   languageName: node
   linkType: hard
 
