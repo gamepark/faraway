@@ -7,6 +7,7 @@ import { OptionsSpec, OptionsValidationError } from '@gamepark/rules-api'
 export type FarawayOptions = {
   beginner: boolean
   expansion1: boolean
+  starrySkies: boolean
   players: number
 }
 
@@ -23,6 +24,11 @@ export const FarawayOptionsSpec: OptionsSpec<FarawayOptions> = {
   expansion1: {
     label: t => t('expansion1'),
     help: t => t('expansion1.help'),
+    subscriberRequired: false
+  },
+  starrySkies: {
+    label: t => t('starrySkies'),
+    help: t => t('starrySkies.help'),
     subscriberRequired: false
   },
   validate: (options, t) => {

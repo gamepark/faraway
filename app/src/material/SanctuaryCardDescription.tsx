@@ -3,6 +3,7 @@ import { LocationType } from '@gamepark/faraway/material/LocationType'
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
 import { RuleId } from '@gamepark/faraway/rules/RuleId'
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons/faArrowUp'
+import { faXmark } from '@fortawesome/free-solid-svg-icons/faXmark'
 import { CardDescription, ItemContext } from '@gamepark/react-game'
 import { isMoveItemType, MaterialItem, MaterialMove } from '@gamepark/rules-api'
 import { FarawayMenuButton } from '../components/ItemMenuButton'
@@ -140,23 +141,49 @@ export class SanctuaryCardDescription extends CardDescription {
 
   getItemMenu(_item: MaterialItem, context: ItemContext, legalMoves: MaterialMove[]) {
     const isSanctuaryMove = isMoveItemType(MaterialType.Sanctuary)
+
+    // SacrificeSanctuary rule — discard this sanctuary back to the deck.
+    const sacrificeMove = legalMoves.find((m) =>
+      isSanctuaryMove(m)
+      && m.itemIndex === context.index
+      && m.location.type === LocationType.SanctuaryDeck
+    )
+    if (sacrificeMove) {
+      // Below-left: angle 210° biases the button toward the bottom-left corner so it
+      // doesn't overlap the placed-quest score pill that sits at the bottom-right.
+      // Radius slightly under (height/2 + button/2) so the top of the button bites
+      // into the card art instead of floating clear.
+      return (
+        <FarawayMenuButton
+          angle={180}
+          radius={0}
+          icon={faXmark}
+          titleKey="button.sacrifice"
+          move={sacrificeMove}
+        />
+      )
+    }
+
+    // PlaceSanctuary rule — promote this sanctuary from hand to the line.
+    // height/2 (3.4) + button half (1) + small gap → button sits fully above the card art.
     const placeMove = legalMoves.find((m) =>
       isSanctuaryMove(m)
       && m.itemIndex === context.index
       && m.location.type === LocationType.PlayerSanctuaryLine
     )
-    if (!placeMove) return null
+    if (placeMove) {
+      return (
+        <FarawayMenuButton
+          angle={0}
+          radius={4.6}
+          icon={faArrowUp}
+          titleKey="button.place"
+          move={placeMove}
+        />
+      )
+    }
 
-    // height/2 (3.4) + button half (1) + small gap → button sits fully above the card art.
-    return (
-      <FarawayMenuButton
-        angle={0}
-        radius={4.6}
-        icon={faArrowUp}
-        titleKey="button.place"
-        move={placeMove}
-      />
-    )
+    return null
   }
 
   help = SanctuaryCardHelp

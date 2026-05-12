@@ -1,7 +1,8 @@
 import { LocationType } from '@gamepark/faraway/material/LocationType'
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
+import { RuleId } from '@gamepark/faraway/rules/RuleId'
 import { MaterialGameAnimations } from '@gamepark/react-game'
-import { isMoveItemType, isShuffle, MaterialItem, MoveItem } from '@gamepark/rules-api'
+import { isMoveItemType, isMoveItemTypeAtOnce, isShuffle, isStartRule, MaterialItem, MoveItem } from '@gamepark/rules-api'
 import { besidePanelCardLocator, onPlayerPanelLocator } from '../locators/OnPlayerPanelLocator'
 import { getViewPlayer } from '../locators/panelCoordinates'
 
@@ -14,6 +15,22 @@ farawayAnimations.when()
 farawayAnimations.when()
   .move((move) => isMoveItemType(MaterialType.Region)(move) && move.location.type === LocationType.RegionDiscard)
   .duration(0.5)
+
+// Sanctuary moves to deck/hand: a non-viewed player's *discard* (hand → deck at the
+// end of their PlaceSanctuary turn) is a non-event for the viewer — both source and
+// destination are off-screen — so we skip it. Sacrifices (line → deck during the
+// SacrificeSanctuary rule) take a different source and fall through to the default
+// duration below so they stay visible.
+farawayAnimations
+  .configure((move, context) => {
+    if (!isMoveItemType(MaterialType.Sanctuary)(move)) return false
+    if (move.location.type !== LocationType.SanctuaryDeck) return false
+    const item = context.rules.material(MaterialType.Sanctuary).getItem(move.itemIndex)
+    if (item?.location.type !== LocationType.PlayerSanctuaryHand) return false
+    const sourcePlayer = item.location.player
+    return sourcePlayer !== undefined && sourcePlayer !== getViewPlayer(context)
+  })
+  .duration(0)
 
 farawayAnimations.when()
   .move((move) => isMoveItemType(MaterialType.Sanctuary)(move)
@@ -58,16 +75,17 @@ const pickTrajectory = (_context: unknown, move: MoveItem) => {
 }
 
 /**
- * Same shape as {@link pickTrajectory} but keeps the card face-down throughout — used for
- * sanctuary draws, where the card identity is secret. Without an explicit `rotation: false`
- * the locator transforms drop the `rotateY(180deg)` and the card flashes face-up mid-flight.
+ * Face-down sanctuary draw to a non-viewed player: nothing to read, so we skip the
+ * long read-pause used by {@link pickTrajectory}. A brief beside-panel beat near the
+ * end keeps the card readable as "a card was drawn" before it slides into the panel.
+ *
+ * Explicit `rotation: false` keeps the card face-down throughout — without it the
+ * locator transforms drop the `rotateY(180deg)` and the card flashes face-up mid-flight.
  */
 const sanctuaryDrawTrajectory = (_context: unknown, move: MoveItem) => {
   const faceDown = { player: move.location.player as number, rotation: false }
   return {
     waypoints: [
-      { at: 0.25, locator: besidePanelCardLocator, location: faceDown },
-      { at: 0.70, locator: besidePanelCardLocator, location: faceDown },
       { at: 1.00, locator: onPlayerPanelLocator, location: faceDown }
     ]
   }
@@ -95,26 +113,18 @@ const revealTrajectory = (move: MoveItem) => {
   }
 }
 
-/**
- * Region reveal: same location, rotation changes (undefined → true).
- *
- * Must be registered BEFORE the no-animation/pickTrajectory rules below — the framework
- * picks the FIRST matching builder, and those broader rules also match PlayerRegionLine moves.
- */
+// Tempo between resolutions: each re-entry into ScoringRule (one per x tick, 7→0)
+// pauses 1.5s so the viewer can absorb the score that pops beside the panels before
+// the next column's reveal kicks in. Putting the wait on the RuleMove itself avoids
+// adding any visible animation to the cards — the reveal/hide flips stay snappy via
+// the catch-all duration(0) below, but the rule transition holds the frame.
 farawayAnimations
-  .configure((move, context) => {
-    if (!isMoveItemType(MaterialType.Region)(move)) return false
-    if (move.location.type !== LocationType.PlayerRegionLine) return false
-    const player = move.location.player
-    if (player === undefined || player === getViewPlayer(context)) return false
-    const current = context.rules.material(MaterialType.Region).getItem(move.itemIndex)
-    if (!current) return false
-    return current.location.type === LocationType.PlayerRegionLine
-      && current.location.player === player
-      && current.location.rotation !== move.location.rotation
-  })
-  .duration(2600)
-  .trajectory((_ctx, move) => revealTrajectory(move as MoveItem))
+  .configure(move => isStartRule(move) && move.id === RuleId.Scoring)
+  .duration(1500)
+
+// Region rotation on a non-viewed player's line (scoring reveal, HideRegionLine flip):
+// no card animation. The viewer can't see the card art anyway; the score bubble we
+// surface beside the player's panel (ScoringIndicator) carries the narration.
 
 /**
  * Sanctuary play: a non-viewed player moves a sanctuary from their hand to their line.
@@ -133,10 +143,10 @@ farawayAnimations
   .duration(2600)
   .trajectory((_ctx, move) => revealTrajectory(move as MoveItem))
 
-// A non-viewed player placing a region from hand to their line is invisible to us
-// (both the source hand and the destination line are hidden), so the animation has
-// nothing meaningful to show — skip it entirely. Reveal moves are caught by the
-// rule above; this only catches non-reveal placements.
+// Any region move into a non-viewed player's line — placement, rotation reveal, or
+// HideRegionLine flip — has no visible card for the viewer (their line is hidden).
+// Skip the animation entirely; the score bubble next to the player's panel
+// (ScoringIndicator) carries the scoring narration.
 farawayAnimations
   .configure((move, context) => {
     if (!isMoveItemType(MaterialType.Region)(move)) return false
@@ -147,11 +157,22 @@ farawayAnimations
   .duration(0)
 
 farawayAnimations
+  .configure((move, context) => {
+    if (!isMoveItemTypeAtOnce(MaterialType.Region)(move)) return false
+    if (move.location.type != undefined) return false
+    const item = context.rules.material(MaterialType.Region).getItem(move.indexes[0])
+    const player = item.location.player
+    if (!context.rules.material(MaterialType.Region).index(move.indexes).getItems().every(i => i.location.player === item.location.player)) return false
+    return player !== undefined && player !== getViewPlayer(context)
+  })
+  .skip()
+
+farawayAnimations
   .configure((move, context) => isMoveItemType(MaterialType.Region)(move) && isRegionToNonViewedPlayerZone(move as MoveItem, getViewPlayer(context)))
   .duration(1800)
   .trajectory((ctx, move) => pickTrajectory(ctx, move as MoveItem))
 
 farawayAnimations
   .configure((move, context) => isMoveItemType(MaterialType.Sanctuary)(move) && isSanctuaryToNonViewedPlayerZone(move as MoveItem, getViewPlayer(context)))
-  .duration(1800)
+  .duration(700)
   .trajectory((ctx, move) => sanctuaryDrawTrajectory(ctx, move as MoveItem))

@@ -79,7 +79,7 @@ export enum Region {
   Yellow62 = 362,
   Yellow65 = 365,
 
-  // Expansion
+  // Expansion 1 — list cards in ID order; the first one is used as the range boundary.
   RedExp69 = 1069,
   GreenExp71 = 1171,
   BlueExp75 = 1275,
@@ -88,11 +88,61 @@ export enum Region {
   GrayExp70 = 1470,
   GrayExp72 = 1472,
   GrayExp74 = 1474,
-  GrayExp76 = 1476
+  GrayExp76 = 1476,
+
+  // Starry Skies — list cards in ID order; the first one is used as the range boundary.
+  RedSky5 = 2005,
+  RedSky11 = 2011,
+  RedSky21 = 2021,
+  GreenSky9 = 2109,
+  GreenSky26 = 2126,
+  GreenSky33 = 2133,
+  BlueSky15 = 2215,
+  BlueSky27 = 2227,
+  BlueSky32 = 2232,
+  YellowSky4 = 2304,
+  YellowSky20 = 2320,
+  YellowSky38 = 2338,
+  GraySky7 = 2407,
+  GraySky13 = 2413,
+  GraySky29 = 2429
 }
 
 export const regions = getEnumValues(Region)
-export const baseGameRegions = regions.filter(r => r < 1000)
+
+// Range boundaries — keep these pointing to the FIRST card (lowest ID) of each expansion.
+// When adding a card with a lower ID than the current boundary, update the constant below.
+export const baseGameRegions = regions.filter(r => r < Region.RedExp69)
+export const expansion1Regions = regions.filter(r => r >= Region.RedExp69 && r < Region.RedSky5)
+export const starrySkiesRegions = regions.filter(r => r >= Region.RedSky5)
 
 export const getColor = (region: Region | Sanctuary): Color => Math.floor((region % 1000) / 100) + 1
 export const getValue = (region: Region | Sanctuary): number => (region % 100)
+export const isStarrySkies = (region: Region): boolean => region >= Region.RedSky5
+
+/**
+ * On exploration-time ties, Starry Skies cards are treated as higher than any other card.
+ * Drives placement order in `RoundHelper.turnOrder` and the sanctuary-draw comparison in
+ * `SanctuaryHelper`.
+ */
+export const compareTime = (a: Region, b: Region): number => {
+  const valueDiff = getValue(a) - getValue(b)
+  if (valueDiff !== 0) return valueDiff
+  return (isStarrySkies(a) ? 1 : 0) - (isStarrySkies(b) ? 1 : 0)
+}
+
+/**
+ * A region card "stays visible" at end-of-game (= face-up during scoring) if:
+ * - it is itself a Starry Skies card, OR
+ * - its exploration time's ones digit matches the ones digit of any Starry Skies card
+ *   in the same player's tableau.
+ *
+ * Pass `playerCardIds` = the player's full set of region card ids in their line.
+ */
+export const stayedVisible = (card: Region, playerCardIds: Region[]): boolean => {
+  if (isStarrySkies(card)) return true
+  const meteorOnes = new Set(
+    playerCardIds.filter(isStarrySkies).map(id => getValue(id) % 10)
+  )
+  return meteorOnes.size > 0 && meteorOnes.has(getValue(card) % 10)
+}

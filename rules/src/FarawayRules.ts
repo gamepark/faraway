@@ -25,6 +25,7 @@ import { PlaceSanctuaryRule } from './rules/PlaceSanctuaryRule'
 import { RefillRegionRule } from './rules/RefillRegionRule'
 import { RevealRegionCards } from './rules/RevealRegionCards'
 import { RuleId } from './rules/RuleId'
+import { SacrificeSanctuaryRule } from './rules/SacrificeSanctuaryRule'
 import { ScoringRule } from './rules/ScoringRule'
 
 
@@ -51,8 +52,8 @@ export class FarawayRules extends SecretMaterialRules<PlayerId, MaterialType, Lo
     [RuleId.PlaceSanctuary]: PlaceSanctuaryRule,
     [RuleId.HideRegionLine]: HideRegionLineRule,
     [RuleId.Scoring]: ScoringRule,
-    [RuleId.ChooseHandCards]: ChooseHandCardsRule
-
+    [RuleId.ChooseHandCards]: ChooseHandCardsRule,
+    [RuleId.SacrificeSanctuary]: SacrificeSanctuaryRule
   }
 
   locationsStrategies = {
@@ -66,7 +67,7 @@ export class FarawayRules extends SecretMaterialRules<PlayerId, MaterialType, Lo
     [MaterialType.Sanctuary]: {
       [LocationType.PlayerSanctuaryHand]: new PositiveSequenceStrategy(),
       [LocationType.SanctuaryDeck]: new PositiveSequenceStrategy(),
-      [LocationType.PlayerSanctuaryLine]: new PositiveSequenceStrategy(),
+      [LocationType.PlayerSanctuaryLine]: new PositiveSequenceStrategy()
     }
   }
 

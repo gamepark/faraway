@@ -288,6 +288,24 @@ const GrayExp76: CardDescription = {
   night: 1
 }
 
+// --- Starry Skies extension ---
+// All cards are night.
+const RedSky5: CardDescription = { night: 1, clue: 2 }
+const RedSky11: CardDescription = { night: 1 }
+const RedSky21: CardDescription = { night: 1 }
+const GreenSky9: CardDescription = { night: 1 }
+const GreenSky26: CardDescription = { night: 1 }
+const GreenSky33: CardDescription = { night: 1, clue: 2 }
+const BlueSky15: CardDescription = { night: 1 }
+const BlueSky27: CardDescription = { night: 1 }
+const BlueSky32: CardDescription = { night: 1 }
+const YellowSky4: CardDescription = { night: 1, clue: 1 }
+const YellowSky20: CardDescription = { night: 1, clue: 1 }
+const YellowSky38: CardDescription = { night: 1 }
+const GraySky7: CardDescription = { night: 1, clue: 1 }
+const GraySky13: CardDescription = { night: 1, clue: 1 }
+const GraySky29: CardDescription = { night: 1, clue: 1 }
+
 export const Regions: Partial<Record<Region, CardDescription>> = {
   [Region.Red1]: Red1,
   [Region.Red4]: Red4,
@@ -357,5 +375,22 @@ export const Regions: Partial<Record<Region, CardDescription>> = {
   [Region.YellowExp73]: YellowExp73,
   [Region.GrayExp74]: GrayExp74,
   [Region.BlueExp75]: BlueExp75,
-  [Region.GrayExp76]: GrayExp76
+  [Region.GrayExp76]: GrayExp76,
+
+  // Starry Skies
+  [Region.RedSky5]: RedSky5,
+  [Region.RedSky11]: RedSky11,
+  [Region.RedSky21]: RedSky21,
+  [Region.GreenSky9]: GreenSky9,
+  [Region.GreenSky26]: GreenSky26,
+  [Region.GreenSky33]: GreenSky33,
+  [Region.BlueSky15]: BlueSky15,
+  [Region.BlueSky27]: BlueSky27,
+  [Region.BlueSky32]: BlueSky32,
+  [Region.YellowSky4]: YellowSky4,
+  [Region.YellowSky20]: YellowSky20,
+  [Region.YellowSky38]: YellowSky38,
+  [Region.GraySky7]: GraySky7,
+  [Region.GraySky13]: GraySky13,
+  [Region.GraySky29]: GraySky29
 }

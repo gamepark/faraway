@@ -30,7 +30,10 @@ class OnPlayerPanelLocator extends ListLocator {
 
   placeItem(item: MaterialItem, context: ItemContext): string[] {
     const transforms = super.placeItem(item, context)
-    const scale = item.location.player !== getViewPlayer(context) ? 'scale(0)' : 'scale(1)'
+    // Non-viewed players: use scale(0.001) instead of scale(0) — some browsers
+    // skip transform interpolation entirely when the matrix collapses to zero,
+    // which breaks the fly-in animation.
+    const scale = item.location.player !== getViewPlayer(context) ? 'scale(0.001)' : 'scale(1)'
     const face = faceTransform(item)
     return face ? [...transforms, scale, face] : [...transforms, scale]
   }

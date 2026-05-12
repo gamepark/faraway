@@ -1,6 +1,6 @@
 import { MaterialDeck, MaterialGame, MaterialRulesPart } from '@gamepark/rules-api'
 import { sum } from 'es-toolkit/compat'
-import { Region, getValue } from '../../cards/Region'
+import { compareTime, Region } from '../../cards/Region'
 import { Regions } from '../../cards/Regions'
 import { Sanctuaries } from '../../cards/Sanctuaries'
 import { Sanctuary } from '../../cards/Sanctuary'
@@ -17,7 +17,9 @@ export class SanctuaryHelper extends MaterialRulesPart {
 
   get sanctuariesToDrawn() {
     if (this.round === 1) return []
-    const drawSanctuary = this.cardValue > this.previousCardValue
+    // Starry Skies: on tied exploration times, the meteor card is treated as higher,
+    // so playing a meteor with the same time as the previous round still triggers a draw.
+    const drawSanctuary = compareTime(this.currentCard, this.previousCard) > 0
     if (!drawSanctuary) return []
     const hand = this.hand
     const totalSanctuaries = this.clues
@@ -45,20 +47,16 @@ export class SanctuaryHelper extends MaterialRulesPart {
     return 1 + regionClues + sanctuaryClues
   }
 
-  get cardValue() {
-    return getValue(
-      this.regionCards
-        .location((location) => location.x === (this.round - 1))
-        .getItem<Region>()!.id
-    )
+  get currentCard(): Region {
+    return this.regionCards
+      .location((location) => location.x === (this.round - 1))
+      .getItem<Region>()!.id
   }
 
-  get previousCardValue() {
-    return getValue(
-      this.regionCards
-        .location((location) => location.x === (this.round - 2))
-        .getItem()!.id
-    )
+  get previousCard(): Region {
+    return this.regionCards
+      .location((location) => location.x === (this.round - 2))
+      .getItem<Region>()!.id
   }
 
   get regionCards() {

@@ -4,9 +4,14 @@ import { BrutPointQuest } from './quests/BrutPointQuest'
 import { ChimeraQuest } from './quests/ChimeraQuest'
 import { ClueQuest } from './quests/ClueQuest'
 import { ColorQuest } from './quests/ColorQuest'
+import { MultiWonderSumQuest } from './quests/MultiWonderSumQuest'
 import { NightQuest } from './quests/NightQuest'
 import { Quest } from './quests/Quest'
+import { RequireClueQuest } from './quests/RequireClueQuest'
+import { RequireColorQuest } from './quests/RequireColorQuest'
+import { RequireNightQuest } from './quests/RequireNightQuest'
 import { RockQuest } from './quests/RockQuest'
+import { SacrificeQuest } from './quests/SacrificeQuest'
 import { ThistleQuest } from './quests/ThistleQuest'
 import { WonderSetQuest } from './quests/WonderSetQuest'
 import { Region } from './Region'
@@ -84,6 +89,22 @@ export const RegionQuests: Partial<Record<Region, Quest>> = {
   [Region.YellowExp73]: new ColorQuest(5, [Color.Gray], [Wonder.Thistle, Wonder.Thistle, Wonder.Thistle, Wonder.Thistle]),
   [Region.GrayExp74]: new WonderSetQuest(7),
   [Region.BlueExp75]: new BrutPointQuest(28, [Wonder.Rock, Wonder.Rock, Wonder.Rock, Wonder.Rock, Wonder.Rock, Wonder.Rock]),
-  [Region.GrayExp76]: new ColorQuest(4, [Color.Gray], [Wonder.Rock, Wonder.Rock, Wonder.Chimera, Wonder.Chimera, Wonder.Thistle, Wonder.Thistle])
+  [Region.GrayExp76]: new ColorQuest(4, [Color.Gray], [Wonder.Rock, Wonder.Rock, Wonder.Chimera, Wonder.Chimera, Wonder.Thistle, Wonder.Thistle]),
+
+  // Starry Skies — card 02 (RedSky5) intentionally has no quest, only 2 clues
+  [Region.YellowSky4]: new BrutPointQuest(3),
+  [Region.GraySky7]: new MultiWonderSumQuest(1, [Wonder.Chimera, Wonder.Thistle]),
+  [Region.GreenSky9]: new RequireColorQuest(9, Color.Yellow, 4),
+  [Region.RedSky11]: new RequireColorQuest(11, Color.Green, 4),
+  [Region.GraySky13]: new MultiWonderSumQuest(1, [Wonder.Rock, Wonder.Thistle]),
+  [Region.BlueSky15]: new SacrificeQuest(8, 1),
+  [Region.YellowSky20]: new RequireColorQuest(13, Color.Blue, 4),
+  [Region.RedSky21]: new SacrificeQuest(10, 1),
+  [Region.GreenSky26]: new RequireClueQuest(17, 5),
+  [Region.BlueSky27]: new RequireColorQuest(15, Color.Red, 4),
+  [Region.GraySky29]: new MultiWonderSumQuest(1, [Wonder.Chimera, Wonder.Rock]),
+  [Region.BlueSky32]: new RequireNightQuest(21, 5),
+  [Region.GreenSky33]: new BrutPointQuest(4),
+  [Region.YellowSky38]: new SacrificeQuest(19, 2)
 }
 

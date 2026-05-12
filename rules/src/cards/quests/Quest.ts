@@ -3,7 +3,7 @@ import { sum } from 'es-toolkit/compat'
 import { LocationType } from '../../material/LocationType'
 import { MaterialType } from '../../material/MaterialType'
 import { PlayerId } from '../../PlayerId'
-import { Region } from '../Region'
+import { Region, stayedVisible } from '../Region'
 import { Regions } from '../Regions'
 import { Sanctuaries } from '../Sanctuaries'
 import { Sanctuary } from '../Sanctuary'
@@ -22,7 +22,8 @@ export abstract class Quest {
     const rules = new QuestRules(game)
     const card = rules.material(cardType).getItem(cardIndex)
     const locationX = card.location.x!
-    const regions = this.getRegions(game, cardType === MaterialType.Sanctuary ? undefined : locationX, playerId)
+    const sanctuaryLocationX = cardType === MaterialType.Sanctuary ? undefined : locationX
+    const regions = this.getRegions(game, sanctuaryLocationX, playerId)
     const sanctuaries = this.getSanctuaries(game, playerId)
     const chimeras = this.getPlayerWonderCount(regions, sanctuaries, Wonder.Chimera)
     const rocks = this.getPlayerWonderCount(regions, sanctuaries, Wonder.Rock)
@@ -58,12 +59,27 @@ export abstract class Quest {
 
   getRegions(game: MaterialGame, locationX: number | undefined, playerId: PlayerId) {
     const rules = new QuestRules(game)
-    return rules.material(MaterialType.Region).player(playerId).location((location) => location.type === LocationType.PlayerRegionLine && (locationX === undefined || location.x! >= locationX)).getItems<Region>()
+    const allPlayerRegions = rules.material(MaterialType.Region)
+      .player(playerId)
+      .location(LocationType.PlayerRegionLine)
+      .getItems<Region>()
+    if (locationX === undefined) return allPlayerRegions
+    // A card counts toward another card's quest scoring if it has been revealed by the
+    // time the current card is scored (x >= locationX) — OR if it stays visible across
+    // the whole decompte (Starry Skies meteors and digit-matched cards), in which case
+    // it counts even from the left of the scored card.
+    const playerCardIds = allPlayerRegions.map(r => r.id)
+    return allPlayerRegions.filter(
+      r => r.location.x! >= locationX || stayedVisible(r.id, playerCardIds)
+    )
   }
 
   getSanctuaries(game: MaterialGame, playerId: PlayerId) {
     const rules = new QuestRules(game)
-    return rules.material(MaterialType.Sanctuary).player(playerId).location(LocationType.PlayerSanctuaryLine).getItems<Sanctuary>()
+    return rules.material(MaterialType.Sanctuary)
+      .player(playerId)
+      .location(LocationType.PlayerSanctuaryLine)
+      .getItems<Sanctuary>()
   }
 
   abstract getScore(regions: MaterialItem<PlayerId, LocationType, Region>[], sanctuaries: MaterialItem<PlayerId, LocationType, Sanctuary>[], _playerId: PlayerId): number | undefined

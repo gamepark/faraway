@@ -1,12 +1,45 @@
 import { Region } from '@gamepark/faraway/cards/Region'
 import { LocationType } from '@gamepark/faraway/material/LocationType'
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
-import { RuleId } from '@gamepark/faraway/rules/RuleId'
+import { Memory } from '@gamepark/faraway/rules/Memory'
+import { css, keyframes } from '@emotion/react'
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons/faArrowUp'
-import { CardDescription, ItemContext } from '@gamepark/react-game'
+import { CardDescription, ItemContext, MaterialContext } from '@gamepark/react-game'
 import { isMoveItemType, MaterialItem, MaterialMove } from '@gamepark/rules-api'
 import { FarawayMenuButton, HandIcon, TrashIcon } from '../components/ItemMenuButton'
+
+/** True when this region card is the one currently being resolved by ScoringRule
+ *  (or its SacrificeSanctuary sub-rule). Exposed so the OverviewMode can paint the
+ *  exact same highlight on its mini-cards. */
+export const isCurrentlyResolvingRegion = (item: MaterialItem, context: MaterialContext): boolean => {
+  if (item.location.type !== LocationType.PlayerRegionLine) return false
+  const x = context.rules.remind(Memory.CurrentScoringX)
+  if (x === undefined) return false
+  return item.location.x === x
+}
+
+/**
+ * True when this region card should display its score bubble.
+ *  - During scoring: cards at x >= currentScoringX (the current one is included so the
+ *    on-card bubble pops in sync with the panel's ScoringIndicator). The bubble itself
+ *    holds back rendering while the reveal rotation is still animating.
+ *  - Outside scoring: only when the game is over (memory was forgotten on the last tick).
+ */
+export const isResolvedRegion = (item: MaterialItem, context: MaterialContext): boolean => {
+  if (item.location.type !== LocationType.PlayerRegionLine || item.location.x === undefined) return false
+  const x = context.rules.remind(Memory.CurrentScoringX)
+  if (typeof x === 'number') return item.location.x >= x
+  return context.rules.isOver()
+}
+
+export const currentlyResolvingCss = css`
+  border-radius: 0.5em;
+  animation: ${keyframes`
+    0%, 100% { box-shadow: 0 0 0.6em 0.15em rgba(238, 184, 58, 0.55), 0 0 1.2em 0.4em rgba(238, 184, 58, 0.3); }
+    50%      { box-shadow: 0 0 1.1em 0.4em rgba(238, 184, 58, 0.95), 0 0 2em 0.8em rgba(238, 184, 58, 0.5); }
+  `} 1.4s ease-in-out infinite;
+`
 import Blue13 from '../images/region/region_blue_13.jpg'
 import Blue17 from '../images/region/region_blue_17.jpg'
 import Blue2 from '../images/region/region_blue_2.jpg'
@@ -85,6 +118,22 @@ import Yellow59 from '../images/region/region_yellow_59.jpg'
 import Yellow62 from '../images/region/region_yellow_62.jpg'
 import Yellow65 from '../images/region/region_yellow_65.jpg'
 import YellowExp73 from '../images/region/region_yellow_exp_73.jpg'
+// Starry Skies extension
+import BlueSky15 from '../images/region/starrySkies/region_starrySkies_blue_15.jpg'
+import BlueSky27 from '../images/region/starrySkies/region_starrySkies_blue_27.jpg'
+import BlueSky32 from '../images/region/starrySkies/region_starrySkies_blue_32.jpg'
+import GraySky7 from '../images/region/starrySkies/region_starrySkies_gray_7.jpg'
+import GraySky13 from '../images/region/starrySkies/region_starrySkies_gray_13.jpg'
+import GraySky29 from '../images/region/starrySkies/region_starrySkies_gray_29.jpg'
+import GreenSky9 from '../images/region/starrySkies/region_starrySkies_green_9.jpg'
+import GreenSky26 from '../images/region/starrySkies/region_starrySkies_green_26.jpg'
+import GreenSky33 from '../images/region/starrySkies/region_starrySkies_green_33.jpg'
+import RedSky5 from '../images/region/starrySkies/region_starrySkies_red_5.jpg'
+import RedSky11 from '../images/region/starrySkies/region_starrySkies_red_11.jpg'
+import RedSky21 from '../images/region/starrySkies/region_starrySkies_red_21.jpg'
+import YellowSky4 from '../images/region/starrySkies/region_starrySkies_yellow_4.jpg'
+import YellowSky20 from '../images/region/starrySkies/region_starrySkies_yellow_20.jpg'
+import YellowSky38 from '../images/region/starrySkies/region_starrySkies_yellow_38.jpg'
 import { RegionCardHelp } from './help/RegionCardHelp'
 
 export class RegionCardDescription extends CardDescription {
@@ -174,10 +223,32 @@ export class RegionCardDescription extends CardDescription {
     [Region.GrayExp72]: GrayExp72,
     [Region.GrayExp74]: GrayExp74,
     [Region.GrayExp76]: GrayExp76,
+
+    // Starry Skies
+    [Region.RedSky5]: RedSky5,
+    [Region.RedSky11]: RedSky11,
+    [Region.RedSky21]: RedSky21,
+    [Region.GreenSky9]: GreenSky9,
+    [Region.GreenSky26]: GreenSky26,
+    [Region.GreenSky33]: GreenSky33,
+    [Region.BlueSky15]: BlueSky15,
+    [Region.BlueSky27]: BlueSky27,
+    [Region.BlueSky32]: BlueSky32,
+    [Region.YellowSky4]: YellowSky4,
+    [Region.YellowSky20]: YellowSky20,
+    [Region.YellowSky38]: YellowSky38,
+    [Region.GraySky7]: GraySky7,
+    [Region.GraySky13]: GraySky13,
+    [Region.GraySky29]: GraySky29,
   }
 
   getLocations(item: MaterialItem, context: ItemContext) {
-    if (item.location.type !== LocationType.PlayerRegionLine || (context.rules.game.rule && context.rules.game.rule?.id !== RuleId.Scoring)) return []
+    if (item.location.type !== LocationType.PlayerRegionLine) return []
+    // Show the score bubble only on cards that have already been resolved by ScoringRule.
+    // The rule iterates from x=7 down to x=0, so a card has been scored iff its x is
+    // strictly greater than the current scoring x. Once scoring is over (memory cleared)
+    // every card has been resolved.
+    if (!isResolvedRegion(item, context)) return []
     return [{
       type: LocationType.RegionScorePoints,
       parent: context.index
@@ -186,6 +257,17 @@ export class RegionCardDescription extends CardDescription {
 
   isFlippedOnTable(item: MaterialItem, context: ItemContext) {
     return this.isFlipped(item, context) || (item.location.type === LocationType.PlayerRegionLine && !item.location.rotation)
+  }
+
+  // While ScoringRule is iterating x → 0, the card sitting at the current x is the
+  // one being resolved (across all players, simultaneously). We paint a pulsing
+  // golden halo on it — same visual whether we're in Scoring proper, the
+  // SacrificeSanctuary sub-rule, or HideRegionLine right before the decompte starts.
+  getItemExtraCss(item: MaterialItem, context: ItemContext) {
+    if (isCurrentlyResolvingRegion(item, context)) {
+      return currentlyResolvingCss
+    }
+    return
   }
 
   canShortClick(move: MaterialMove, context: ItemContext) {

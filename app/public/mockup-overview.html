@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Faraway — Maquette vue d'ensemble</title>
+<style>
+  :root {
+    --ink: #1a2638;
+    --cream: #f7ecd0;
+    --sun: #eeb83a;
+    --tile-bg: #2a3a55;
+    --shadow: 0 0.2em 0.4em rgba(0, 0, 0, 0.3);
+    --c-red: #b6505a;
+    --c-green: #5fa069;
+    --c-blue: #4a7bb0;
+    --c-yellow: #d8a850;
+    --c-gray: #8a8a8a;
+    --c-purple: #7a4a8a;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    height: 100%;
+    background:
+      radial-gradient(circle at 30% 20%, #2a3a55 0%, #131a28 70%);
+    color: var(--cream);
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow: hidden;
+  }
+
+  body { display: flex; flex-direction: column; }
+
+  /* ---------- Top bar ---------- */
+  .topbar {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6em 1em;
+    background: rgba(0, 0, 0, 0.25);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    z-index: 10;
+  }
+
+  .panels {
+    display: flex;
+    gap: 0.4em;
+  }
+
+  .panel {
+    background: var(--cream);
+    color: var(--ink);
+    border: 0.18em solid var(--ink);
+    border-radius: 0.4em;
+    padding: 0.35em 0.7em;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.85em;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+    transition: transform 0.1s;
+  }
+  .panel:hover { transform: translateY(-1px); }
+  .panel.active {
+    background: var(--sun);
+    box-shadow: 0 0 0.4em rgba(238, 184, 58, 0.6), var(--shadow);
+  }
+  .panel .dot {
+    width: 0.6em; height: 0.6em;
+    border-radius: 50%;
+    background: var(--ink);
+  }
+
+  .toggle-overview {
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+    background: var(--cream);
+    color: var(--ink);
+    border: 0.18em solid var(--ink);
+    border-radius: 0.4em;
+    padding: 0.45em 0.9em;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 0.9em;
+    box-shadow: var(--shadow);
+  }
+  .toggle-overview:hover { filter: brightness(1.06); }
+  .toggle-overview.active {
+    background: var(--sun);
+    box-shadow: 0 0 0.5em rgba(238, 184, 58, 0.7), var(--shadow);
+  }
+
+  .icon {
+    width: 1.1em; height: 1.1em;
+    display: inline-block;
+    background: var(--ink);
+    -webkit-mask-size: contain;
+            mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+  }
+  .icon-grid {
+    -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z'/></svg>");
+            mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z'/></svg>");
+  }
+  .icon-eye {
+    -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 5C6 5 2 12 2 12s4 7 10 7 10-7 10-7-4-7-10-7zm0 11a4 4 0 110-8 4 4 0 010 8zm0-2a2 2 0 100-4 2 2 0 000 4z'/></svg>");
+            mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 5C6 5 2 12 2 12s4 7 10 7 10-7 10-7-4-7-10-7zm0 11a4 4 0 110-8 4 4 0 010 8zm0-2a2 2 0 100-4 2 2 0 000 4z'/></svg>");
+  }
+
+  /* ---------- Stage ---------- */
+  .stage {
+    flex: 1 1 auto;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ---------- Single-player view ---------- */
+  .single {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+
+  .board-large {
+    transform: scale(1.6);
+    transform-origin: center;
+  }
+
+  /* ---------- Overview grid ---------- */
+  .overview {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 1em;
+    padding: 1em;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+
+  .overview .cell {
+    position: relative;
+    background: rgba(0, 0, 0, 0.18);
+    border-radius: 0.6em;
+    padding: 0.6em 0.8em 0.6em 0.8em;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: border-color 0.15s ease, transform 0.1s ease;
+  }
+  .overview .cell:hover {
+    border-color: var(--sun);
+    transform: translateY(-2px);
+  }
+  .overview .cell.active {
+    border-color: var(--sun);
+    box-shadow: 0 0 0.6em rgba(238, 184, 58, 0.5);
+  }
+
+  .cell-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.4em;
+  }
+  .cell-name {
+    font-weight: 700;
+    font-size: 0.95em;
+  }
+  .cell-score {
+    background: var(--sun);
+    color: var(--ink);
+    font-weight: 800;
+    font-size: 0.85em;
+    padding: 0.15em 0.6em;
+    border-radius: 0.3em;
+    border: 0.12em solid var(--ink);
+  }
+
+  /* ---------- Player board (shared between views) ---------- */
+  .board {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.45em;
+    flex: 1;
+  }
+
+  .region-line {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 0.18em;
+  }
+
+  .card {
+    aspect-ratio: 1 / 1;
+    border-radius: 0.25em;
+    width: 100%;
+    min-width: 0;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    color: white;
+    font-weight: 700;
+    font-size: 0.7em;
+    padding: 0.25em;
+  }
+
+  .card.r { background: linear-gradient(135deg, var(--c-red), #6a2030); }
+  .card.g { background: linear-gradient(135deg, var(--c-green), #1f4a28); }
+  .card.b { background: linear-gradient(135deg, var(--c-blue), #1f3a60); }
+  .card.y { background: linear-gradient(135deg, var(--c-yellow), #6a4a18); }
+  .card.gr { background: linear-gradient(135deg, var(--c-gray), #404040); }
+  .card.empty { background: rgba(255, 255, 255, 0.04); box-shadow: none; }
+  .card.back { background:
+    repeating-linear-gradient(45deg, #2a3a55 0 6px, #1a2638 6px 12px); }
+
+  .card .badge {
+    background: rgba(0,0,0,0.55);
+    border-radius: 0.25em;
+    padding: 0 0.3em;
+  }
+
+  .sanctuary-row {
+    display: flex;
+    gap: 0.18em;
+    align-items: flex-end;
+  }
+
+  .sanc {
+    aspect-ratio: 4 / 6;
+    border-radius: 0.2em;
+    box-shadow: var(--shadow);
+    width: 1.2em;
+    background: linear-gradient(180deg, #aaa, #555);
+  }
+  .sanc.r { background: linear-gradient(180deg, var(--c-red), #6a2030); }
+  .sanc.g { background: linear-gradient(180deg, var(--c-green), #1f4a28); }
+  .sanc.b { background: linear-gradient(180deg, var(--c-blue), #1f3a60); }
+  .sanc.y { background: linear-gradient(180deg, var(--c-yellow), #6a4a18); }
+  .sanc.gr { background: linear-gradient(180deg, var(--c-gray), #404040); }
+  .sanc.purple { background: linear-gradient(180deg, var(--c-purple), #3a1a5a); }
+
+  /* Larger cards in single view */
+  .single .region-line { grid-template-columns: repeat(4, 5em); grid-template-rows: repeat(2, 5em); gap: 0.4em; }
+  .single .sanc { width: 2em; }
+
+  /* Overview cells: smaller cards */
+  .overview .region-line {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: repeat(2, 1fr);
+    flex: 1;
+    width: 100%;
+    max-width: 14em;
+  }
+  .overview .sanctuary-row { width: 100%; max-width: 14em; }
+
+  /* ---------- State toggle ---------- */
+  body.overview-mode .single { opacity: 0; pointer-events: none; transform: scale(0.96); }
+  body.overview-mode .overview { opacity: 1; pointer-events: auto; }
+
+  /* ---------- Highlighted card (sacrifice target style) ---------- */
+  .card.highlight {
+    box-shadow: 0 0 0.5em 0.15em rgba(238, 184, 58, 0.85), 0 0 1em 0.4em rgba(238, 184, 58, 0.4);
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0.5em 0.15em rgba(238, 184, 58, 0.6), 0 0 1em 0.4em rgba(238, 184, 58, 0.3); }
+    50%      { box-shadow: 0 0 1em 0.35em rgba(238, 184, 58, 1), 0 0 1.8em 0.7em rgba(238, 184, 58, 0.55); }
+  }
+
+  /* ---------- Footer caption ---------- */
+  .caption {
+    position: absolute;
+    bottom: 0.6em;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 0.85em;
+    color: rgba(247, 236, 208, 0.6);
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="panels">
+    <div class="panel active"><span class="dot"></span> Alice</div>
+    <div class="panel"><span class="dot"></span> Bob</div>
+    <div class="panel"><span class="dot"></span> Cléo</div>
+    <div class="panel"><span class="dot"></span> Dimitri</div>
+  </div>
+  <button class="toggle-overview" onclick="document.body.classList.toggle('overview-mode'); this.classList.toggle('active')">
+    <span class="icon icon-grid"></span>
+    <span class="label">Vue d'ensemble</span>
+  </button>
+</div>
+
+<div class="stage">
+
+  <!-- ===== Single-player view (current default) ===== -->
+  <div class="single">
+    <div class="board board-large">
+      <div class="region-line">
+        <div class="card r"><span class="badge">11</span></div>
+        <div class="card b"><span class="badge">6</span></div>
+        <div class="card g"><span class="badge">15</span></div>
+        <div class="card y"><span class="badge">26</span></div>
+        <div class="card g"><span class="badge">29</span></div>
+        <div class="card r"><span class="badge">11</span></div>
+        <div class="card y"><span class="badge">17</span></div>
+        <div class="card r"><span class="badge">5</span></div>
+      </div>
+      <div class="sanctuary-row">
+        <div class="sanc r"></div>
+        <div class="sanc g"></div>
+        <div class="sanc b"></div>
+        <div class="sanc y"></div>
+        <div class="sanc gr"></div>
+        <div class="sanc purple"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Overview grid (4 players) ===== -->
+  <div class="overview">
+
+    <div class="cell active">
+      <div class="cell-header">
+        <span class="cell-name">Alice</span>
+        <span class="cell-score">42</span>
+      </div>
+      <div class="board">
+        <div class="region-line">
+          <div class="card r highlight"><span class="badge">11</span></div>
+          <div class="card b"><span class="badge">6</span></div>
+          <div class="card g"><span class="badge">15</span></div>
+          <div class="card y"><span class="badge">26</span></div>
+          <div class="card g"><span class="badge">29</span></div>
+          <div class="card r"><span class="badge">11</span></div>
+          <div class="card y"><span class="badge">17</span></div>
+          <div class="card r"><span class="badge">5</span></div>
+        </div>
+        <div class="sanctuary-row">
+          <div class="sanc r"></div>
+          <div class="sanc g"></div>
+          <div class="sanc b"></div>
+          <div class="sanc y"></div>
+          <div class="sanc gr"></div>
+          <div class="sanc purple"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cell">
+      <div class="cell-header">
+        <span class="cell-name">Bob</span>
+        <span class="cell-score">35</span>
+      </div>
+      <div class="board">
+        <div class="region-line">
+          <div class="card y"><span class="badge">12</span></div>
+          <div class="card g"><span class="badge">8</span></div>
+          <div class="card b"><span class="badge">21</span></div>
+          <div class="card r"><span class="badge">19</span></div>
+          <div class="card r"><span class="badge">28</span></div>
+          <div class="card b"><span class="badge">9</span></div>
+          <div class="card g"><span class="badge">34</span></div>
+          <div class="card y"><span class="badge">31</span></div>
+        </div>
+        <div class="sanctuary-row">
+          <div class="sanc r"></div>
+          <div class="sanc r"></div>
+          <div class="sanc gr"></div>
+          <div class="sanc b"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cell">
+      <div class="cell-header">
+        <span class="cell-name">Cléo</span>
+        <span class="cell-score">51</span>
+      </div>
+      <div class="board">
+        <div class="region-line">
+          <div class="card g"><span class="badge">3</span></div>
+          <div class="card y"><span class="badge">25</span></div>
+          <div class="card r"><span class="badge">14</span></div>
+          <div class="card b"><span class="badge">40</span></div>
+          <div class="card y"><span class="badge">37</span></div>
+          <div class="card g"><span class="badge">22</span></div>
+          <div class="card r"><span class="badge">23</span></div>
+          <div class="card b"><span class="badge">43</span></div>
+        </div>
+        <div class="sanctuary-row">
+          <div class="sanc g"></div>
+          <div class="sanc g"></div>
+          <div class="sanc y"></div>
+          <div class="sanc purple"></div>
+          <div class="sanc gr"></div>
+          <div class="sanc gr"></div>
+          <div class="sanc r"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cell">
+      <div class="cell-header">
+        <span class="cell-name">Dimitri</span>
+        <span class="cell-score">28</span>
+      </div>
+      <div class="board">
+        <div class="region-line">
+          <div class="card r"><span class="badge">7</span></div>
+          <div class="card y"><span class="badge">29</span></div>
+          <div class="card g"><span class="badge">18</span></div>
+          <div class="card empty"></div>
+          <div class="card b"><span class="badge">17</span></div>
+          <div class="card r"><span class="badge">16</span></div>
+          <div class="card g"><span class="badge">11</span></div>
+          <div class="card empty"></div>
+        </div>
+        <div class="sanctuary-row">
+          <div class="sanc r"></div>
+          <div class="sanc b"></div>
+          <div class="sanc y"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="caption">
+    Cliquez sur "Vue d'ensemble" pour basculer • la carte halo doré = cible du sacrifice en cours
+  </div>
+</div>
+
+</body>
+</html>

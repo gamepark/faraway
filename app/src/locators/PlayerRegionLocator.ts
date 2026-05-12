@@ -1,6 +1,7 @@
 import { LocationType } from '@gamepark/faraway/material/LocationType'
+import { Memory } from '@gamepark/faraway/rules/Memory'
 import { FlexLocator, ItemContext, MaterialContext } from '@gamepark/react-game'
-import { MaterialItem } from '@gamepark/rules-api'
+import { Location, MaterialItem } from '@gamepark/rules-api'
 import { PlayerRegionAreaDescription } from './description/PlayerRegionAreaDescription'
 import { isNotViewedPlayerItem } from './hidePlayerContent'
 import { getViewPlayer } from './panelCoordinates'
@@ -27,6 +28,14 @@ export class PlayerRegionLocator extends FlexLocator {
       player: viewed,
       x
     }))
+  }
+
+  // Force a re-render of every region card when the scoring x changes (or game ends),
+  // so RegionCardDescription.getItemExtraCss (yellow halo) and getLocations (per-card
+  // score bubble) get re-evaluated. Without this, DraggableMaterial's memo keeps the
+  // halo stuck on the old card and the score bubbles never appear during scoring.
+  getPositionDependencies(_location: Location, context: MaterialContext) {
+    return { currentScoringX: context.rules.remind(Memory.CurrentScoringX) ?? null, isOver: context.rules.isOver() }
   }
 
   getHoverTransform(item: MaterialItem) {

@@ -14,14 +14,14 @@ export class RegionScorePointLocator extends Locator {
   }
 }
 
-const RegionScoreX: Partial<Record<Region, number>> = {
+export const RegionScoreX: Partial<Record<Region, number>> = {
   [Region.Blue40]: 53,
   [Region.Blue46]: 55,
   [Region.Red52]: 53,
   [Region.Blue55]: 53,
 }
 
-const RegionScoreY: Partial<Record<Region, number>> = {
+export const RegionScoreY: Partial<Record<Region, number>> = {
   [Region.Green5]: 43,
   [Region.Green15]: 27,
   [Region.Red16]: 42,

@@ -1,5 +1,5 @@
 import { MaterialGameSetup } from '@gamepark/rules-api'
-import { baseGameRegions, regions } from './cards/Region'
+import { baseGameRegions, expansion1Regions, starrySkiesRegions } from './cards/Region'
 import { baseGameSanctuaries, sanctuaries } from './cards/Sanctuary'
 import { FarawayOptions } from './FarawayOptions'
 import { FarawayRules } from './FarawayRules'
@@ -24,7 +24,11 @@ export class FarawaySetup extends MaterialGameSetup<PlayerId, MaterialType, Loca
   }
 
   setupRegions(options: FarawayOptions) {
-    const playedRegions = options.expansion1 ? regions : baseGameRegions
+    const playedRegions = [
+      ...baseGameRegions,
+      ...(options.expansion1 ? expansion1Regions : []),
+      ...(options.starrySkies ? starrySkiesRegions : [])
+    ]
     const cards = playedRegions.map(region => ({
       id: region,
       location: {

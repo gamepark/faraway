@@ -14,7 +14,7 @@ export const panelEmHeight = 8.3
 
 // Panel layout (in TABLE em — independent of the panel scale)
 export const panelMargin = 0.3
-export const panelTopMargin = 0.3
+export const panelBottomMargin = 0.3
 export const panelGapTable = 0.6
 // Horizontal shift applied to the whole panel strip (to clear the shared zone on the left).
 export const panelTranslateX = 5
@@ -83,9 +83,8 @@ export function getPanelScale(playerCount: number): number {
 export const getPanelWidth = (playerCount: number): number => panelEmWidth * getPanelScale(playerCount)
 export const getPanelHeight = (playerCount: number): number => panelEmHeight * getPanelScale(playerCount)
 
-// Panels render as a vertical column pinned to the RIGHT edge of the table.
-// Anchored at the top for n < 6, at the bottom otherwise (to clear the region line).
-export const panelAnchorsBottom = (playerCount: number): boolean => playerCount >= 6
+// Panels render as a vertical column pinned to the RIGHT edge of the table, always
+// anchored at the bottom (matches PlayerPanels.tsx — `justify-content: flex-end`).
 
 /**
  * Center coordinates (table em) of a panel, given its index in the "sorted-from-me"
@@ -96,9 +95,7 @@ export function getPanelPosition(panelIndex: number, totalPlayers: number): { x:
   const panelWidth = getPanelWidth(totalPlayers)
   const step = panelHeight + panelGapTable
   const x = tableXMax - panelMargin - panelWidth / 2
-  const y = panelAnchorsBottom(totalPlayers)
-    ? tableYMax - panelTopMargin - panelHeight / 2 - (totalPlayers - 1 - panelIndex) * step
-    : tableYMin + panelTopMargin + panelHeight / 2 + panelIndex * step
+  const y = tableYMax - panelBottomMargin - panelHeight / 2 - (totalPlayers - 1 - panelIndex) * step
   return { x, y }
 }
 

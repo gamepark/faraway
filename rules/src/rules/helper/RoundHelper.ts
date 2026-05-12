@@ -1,5 +1,5 @@
 import { MaterialRulesPart } from '@gamepark/rules-api'
-import { getValue } from '../../cards/Region'
+import { compareTime, Region } from '../../cards/Region'
 import { LocationType } from '../../material/LocationType'
 import { MaterialType } from '../../material/MaterialType'
 import { PlayerId } from '../../PlayerId'
@@ -19,11 +19,13 @@ export class RoundHelper extends MaterialRulesPart {
     return this.remind<number>(Memory.Round)
   }
 
+  // Sort by exploration time ascending; Starry Skies cards break ties by being treated as higher.
   get turnOrder() {
     return this.regionCards
-      .sort((item) => getValue(item.id))
-      .getItems()
-      .map((item) => item.location.player!)
+      .getItems<Region>()
+      .slice()
+      .sort((a, b) => compareTime(a.id, b.id))
+      .map(item => item.location.player!)
   }
 
 

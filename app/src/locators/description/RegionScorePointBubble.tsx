@@ -1,7 +1,8 @@
-﻿import { css } from '@emotion/react'
+import { css, keyframes } from '@emotion/react'
 import { Region } from '@gamepark/faraway/cards/Region'
 import { RegionQuests } from '@gamepark/faraway/cards/RegionQuests'
 import { FarawayRules } from '@gamepark/faraway/FarawayRules'
+import { LocationType } from '@gamepark/faraway/material/LocationType'
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
 import { useRules } from '@gamepark/react-game'
 import { Location } from '@gamepark/rules-api'
@@ -10,21 +11,35 @@ import fame from '../../images/icon/fame.png'
 
 type RegionScorePointBubbleProps = {
   location: Location
+  /** Direction the arrow points to (defaults to 'left' for the on-card placement). */
+  arrow?: 'left' | 'right' | 'none'
 }
 
 export const RegionScorePointBubble: FC<RegionScorePointBubbleProps> = (props) => {
-  const { location } = props
+  const { location, arrow = 'left' } = props
   const rules = useRules<FarawayRules>()!
   const item = rules?.material(MaterialType.Region).getItem<Region>(location.parent!)
   const quest = item.id !== undefined ? RegionQuests[item.id] : undefined
-  if (!quest) return null
+  // On the line, ScoringRule rotates each card face-up at its tick; before that
+  // HideRegionLineRule has flipped them face-down. So `rotation === true` is the
+  // cleanest "card has been revealed" gate — keeps the bubble in sync with the flip
+  // without depending on animation-tracking. Outside the line (overview rendering,
+  // etc.) we don't want to gate on rotation, so the check is scoped to the line.
+  const onLine = item.location.type === LocationType.PlayerRegionLine
+  if (!quest || (onLine && item.location.rotation !== true)) return null
   const score = quest.getTotalScore(rules.game, location.parent!, MaterialType.Region, item.location.player!)
   return (
-    <div css={scoreStyle}>
+    <div css={[scoreStyle, arrow === 'left' && arrowLeftCss, arrow === 'right' && arrowRightCss]}>
       {score}
     </div>
   )
 }
+
+const popIn = keyframes`
+  0%   { opacity: 0; transform: scale(0.6); }
+  60%  { opacity: 1; transform: scale(1.08); }
+  100% { opacity: 1; transform: scale(1); }
+`
 
 const scoreStyle = css`
   background-image: url(${fame});
@@ -38,7 +53,11 @@ const scoreStyle = css`
   align-items: center;
   justify-content: center;
   filter: drop-shadow(0.1em 0.1em black);
+  position: relative;
+  animation: ${popIn} 0.35s cubic-bezier(.3, 1.4, .4, 1);
+`
 
+const arrowBaseCss = css`
   &:after {
     content: '';
     position: absolute;
@@ -46,16 +65,31 @@ const scoreStyle = css`
     height: 0;
     border-style: solid;
     border-color: transparent;
+    bottom: 0;
+    margin-bottom: 0.4em;
+    border-top-width: 0.4em;
+    border-bottom: 0;
+  }
+`
+
+const arrowLeftCss = css`
+  ${arrowBaseCss};
+  &:after {
     left: 0;
+    margin-left: -0.3em;
     border-right-color: white;
     border-right-width: 0.6em;
     border-left: 0;
-    margin-left: -0.3em;
-    bottom: 0;
-    border-top-width: 0.4em;
-    border-bottom: 0;
-    margin-bottom: 0.4em;
   }
+`
 
-
+const arrowRightCss = css`
+  ${arrowBaseCss};
+  &:after {
+    right: 0;
+    margin-right: -0.3em;
+    border-left-color: white;
+    border-left-width: 0.6em;
+    border-right: 0;
+  }
 `

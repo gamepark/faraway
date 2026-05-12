@@ -1,4 +1,4 @@
-import { css } from '@emotion/react'
+import { css, keyframes } from '@emotion/react'
 import { faEye } from '@fortawesome/free-solid-svg-icons/faEye'
 import { faStar } from '@fortawesome/free-solid-svg-icons/faStar'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -10,6 +10,8 @@ import { MaterialType } from '@gamepark/faraway/material/MaterialType'
 import { PlayerId } from '@gamepark/faraway/PlayerId'
 import { ScoreHelper } from '@gamepark/faraway/rules/helper/ScoreHelper'
 import { Memory } from '@gamepark/faraway/rules/Memory'
+import { RegionQuests } from '@gamepark/faraway/cards/RegionQuests'
+import fameIcon from '../images/icon/fame.png'
 import { Player } from '@gamepark/react-client'
 import {
   Avatar,
@@ -55,7 +57,58 @@ export const FarawayPlayerPanel: FC<FarawayPlayerPanelProps> = ({ player, isView
       <Timer player={player} />
       <PlacedCard player={player} />
       <Score player={player} />
+      <ScoringIndicator player={player} />
       {isViewed && <FontAwesomeIcon icon={faEye} css={viewedIconCss} />}
+    </div>
+  )
+}
+
+/**
+ * Live score badge for the region card currently being resolved by ScoringRule. Always
+ * renders during the scoring phase — even cards with no quest show "0" — so all panels
+ * react in sync (the previous component returned null when the quest was missing,
+ * leaving some panels blank). Sits to the LEFT of the panel (table side); replaces the
+ * old "card flips beside panel" reveal animation.
+ *
+ * Every panel gates on the VIEWED player's card flip — not its own player's — so the
+ * bubbles pop together when the visible reveal completes. The non-viewed players'
+ * rotation moves run at duration 0 (their state flips immediately), so without this
+ * shared gate their panels would light up before the viewed flip animation finished,
+ * staggering the reveals. When the viewed player has no flip to play (Starry Skies
+ * card already face-up, or no card at this x), the gate falls through and every panel
+ * shows its score immediately.
+ */
+const ScoringIndicator: FC<{ player: Player }> = ({ player }) => {
+  const rules = useRules<FarawayRules>()
+  const currentX = rules?.game.memory?.[Memory.CurrentScoringX] as number | undefined
+  if (typeof currentX !== 'number') return null
+
+  const viewedPlayer = (rules as unknown as { game: { view?: PlayerId } }).game.view
+  const viewedCard = viewedPlayer !== undefined
+    ? rules!.material(MaterialType.Region)
+        .location(LocationType.PlayerRegionLine)
+        .player(viewedPlayer)
+        .location(loc => loc.x === currentX)
+        .getItem()
+    : undefined
+  if (viewedCard !== undefined && viewedCard.location.rotation !== true) return null
+
+  const cardIndexes = rules!
+    .material(MaterialType.Region)
+    .location(LocationType.PlayerRegionLine)
+    .player(player.id)
+    .location(loc => loc.x === currentX)
+    .getIndexes()
+  if (cardIndexes.length === 0) return null
+  const cardIndex = cardIndexes[0]
+  const item = rules!.material(MaterialType.Region).getItem<Region>(cardIndex)
+  const quest = item.id !== undefined ? RegionQuests[item.id] : undefined
+  const score = quest && item.location.player !== undefined
+    ? quest.getTotalScore(rules!.game, cardIndex, MaterialType.Region, item.location.player)
+    : 0
+  return (
+    <div css={scoringIndicatorCss} key={cardIndex}>
+      <div css={fameBadgeCss}>{score}</div>
     </div>
   )
 }
@@ -129,6 +182,67 @@ const placedCard = css`
 
 const scoreStyle = css`
   color: #28B8CE;
+`
+
+const popIn = keyframes`
+  0%   { opacity: 0; transform: translate(0, -50%) scale(0.6); }
+  60%  { opacity: 1; transform: translate(-0.4em, -50%) scale(1.08); }
+  100% { opacity: 1; transform: translate(0, -50%) scale(1); }
+`
+
+/**
+ * Sized to ~6em — matches roughly the panel's vertical real-estate left of the avatar
+ * so the score is the eye-catcher during scoring. Sits to the LEFT of the panel —
+ * same direction the old beside-panel reveal trajectory used to fly to.
+ */
+const scoringIndicatorCss = css`
+  position: absolute;
+  left: -5.5em;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 5em;
+  height: 5em;
+  font-size: 1.4em;
+  z-index: 5;
+  pointer-events: none;
+  animation: ${popIn} 0.35s cubic-bezier(.3, 1.4, .4, 1);
+`
+
+/**
+ * Same fame.png medal style as the on-card RegionScorePointBubble, but with the arrow
+ * on the RIGHT side pointing toward the panel.
+ */
+const fameBadgeCss = css`
+  background-image: url(${fameIcon});
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  color: black;
+  font-weight: bold;
+  font-size: 1.6em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0.05em 0.05em 0 black);
+  position: relative;
+
+  &:after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-color: transparent;
+    bottom: 0;
+    margin-bottom: 0.4em;
+    border-top-width: 0.4em;
+    border-bottom: 0;
+    right: 0;
+    margin-right: -0.3em;
+    border-left-color: white;
+    border-left-width: 0.6em;
+    border-right: 0;
+  }
 `
 
 const panelPlayerStyle = css`

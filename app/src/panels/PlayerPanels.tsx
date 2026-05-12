@@ -4,7 +4,7 @@ import { PlayerId } from '@gamepark/faraway/PlayerId'
 import { usePlayerId, usePlayers, useRules } from '@gamepark/react-game'
 import { FC } from 'react'
 import { FarawayPlayerPanel } from './FarawayPlayerPanel'
-import { getPanelScale, panelGapTable, panelMargin, panelTopMargin } from './PanelConstants'
+import { getPanelScale, panelBottomMargin, panelGapTable, panelMargin } from './PanelConstants'
 
 export const PlayerPanels: FC = () => {
   const players = usePlayers({ sortFromMe: true })
@@ -14,19 +14,8 @@ export const PlayerPanels: FC = () => {
   const n = rules.game.players.length
   const scale = getPanelScale(n)
 
-  const anchorBottom = n >= 6
-
   return (
-    <div
-      css={[containerCss, anchorBottom && anchorBottomCss]}
-      style={{
-        fontSize: `${scale}em`,
-        gap: `${panelGapTable / scale}em`,
-        padding: `0 ${panelMargin / scale}em`,
-        top: anchorBottom ? undefined : `${panelTopMargin / scale}em`,
-        bottom: anchorBottom ? `${panelTopMargin / scale}em` : undefined
-      }}
-    >
+    <div css={[containerCss, sizingCss(scale)]}>
       {players.map((player) => (
         <FarawayPlayerPanel
           key={player.id}
@@ -47,7 +36,7 @@ const containerCss = css`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  justify-content: flex-start;
+  justify-content: flex-end;
   pointer-events: none;
 
   > * {
@@ -55,6 +44,9 @@ const containerCss = css`
   }
 `
 
-const anchorBottomCss = css`
-  justify-content: flex-end;
+const sizingCss = (scale: number) => css`
+  font-size: ${scale}em;
+  gap: ${panelGapTable / scale}em;
+  padding: 0 ${panelMargin / scale}em;
+  bottom: ${panelBottomMargin / scale}em;
 `
