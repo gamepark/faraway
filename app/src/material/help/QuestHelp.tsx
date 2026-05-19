@@ -1,6 +1,12 @@
 ﻿import { ColorQuest } from '@gamepark/faraway/cards/quests/ColorQuest'
+import { MultiWonderSumQuest } from '@gamepark/faraway/cards/quests/MultiWonderSumQuest'
 import { Quest } from '@gamepark/faraway/cards/quests/Quest'
 import { QuestType } from '@gamepark/faraway/cards/quests/QuestType'
+import { RequireClueQuest } from '@gamepark/faraway/cards/quests/RequireClueQuest'
+import { RequireColorQuest } from '@gamepark/faraway/cards/quests/RequireColorQuest'
+import { RequireNightQuest } from '@gamepark/faraway/cards/quests/RequireNightQuest'
+import { SacrificeQuest } from '@gamepark/faraway/cards/quests/SacrificeQuest'
+import { Wonder } from '@gamepark/faraway/cards/Wonder'
 import { Trans, useTranslation } from 'react-i18next'
 
 export const QuestHelp = ({ quest }: { quest: Quest }) => {
@@ -32,5 +38,52 @@ export const QuestHelp = ({ quest }: { quest: Quest }) => {
     case QuestType.WonderSet:
       return <Trans i18nKey="help.quest.wonder-set" values={{ points: quest.points }}><em/></Trans>
 
+    // ----- Starry Skies extension -----
+    case QuestType.RequireColor: {
+      const q = quest as RequireColorQuest
+      return <Trans i18nKey="help.quest.require-color"
+                    values={{ points: q.points, threshold: q.threshold, biome: t(`biome.${q.color}`) }}>
+        <em/><strong/>
+      </Trans>
+    }
+    case QuestType.RequireClue: {
+      const q = quest as RequireClueQuest
+      return <Trans i18nKey="help.quest.require-clue" values={{ points: q.points, threshold: q.threshold }}>
+        <em/><strong/>
+      </Trans>
+    }
+    case QuestType.RequireNight: {
+      const q = quest as RequireNightQuest
+      return <Trans i18nKey="help.quest.require-night" values={{ points: q.points, threshold: q.threshold }}>
+        <em/><strong/>
+      </Trans>
+    }
+    case QuestType.MultiWonderSum: {
+      const q = quest as MultiWonderSumQuest
+      const wonders = q.scoringWonders.map(w => t(`wonder.${wonderKey[w]}`))
+      if (wonders.length === 1) {
+        return <Trans i18nKey="help.quest.multi-wonder.one"
+                      values={{ points: q.pointsPerWonder, wonder1: wonders[0] }}>
+          <em/><strong/>
+        </Trans>
+      }
+      return <Trans i18nKey="help.quest.multi-wonder.two"
+                    values={{ points: q.pointsPerWonder, wonder1: wonders[0], wonder2: wonders[1] }}>
+        <em/><strong/>
+      </Trans>
+    }
+    case QuestType.Sacrifice: {
+      const q = quest as SacrificeQuest
+      return <Trans i18nKey="help.quest.sacrifice"
+                    values={{ points: q.points, count: q.sanctuariesToSacrifice }}>
+        <em/><strong/>
+      </Trans>
+    }
   }
+}
+
+const wonderKey: Record<Wonder, string> = {
+  [Wonder.Rock]: 'rock',
+  [Wonder.Chimera]: 'chimera',
+  [Wonder.Thistle]: 'thistle'
 }

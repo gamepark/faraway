@@ -289,22 +289,22 @@ const GrayExp76: CardDescription = {
 }
 
 // --- Starry Skies extension ---
-// All cards are night.
+// Day/night verified from the printed cards (sun ring vs moon-on-dark ring).
 const RedSky5: CardDescription = { night: 1, clue: 2 }
 const RedSky11: CardDescription = { night: 1 }
-const RedSky21: CardDescription = { night: 1 }
+const RedSky21: CardDescription = {}
 const GreenSky9: CardDescription = { night: 1 }
-const GreenSky26: CardDescription = { night: 1 }
-const GreenSky33: CardDescription = { night: 1, clue: 2 }
+const GreenSky26: CardDescription = {}
+const GreenSky33: CardDescription = { clue: 2 }
 const BlueSky15: CardDescription = { night: 1 }
-const BlueSky27: CardDescription = { night: 1 }
-const BlueSky32: CardDescription = { night: 1 }
+const BlueSky27: CardDescription = {}
+const BlueSky32: CardDescription = {}
 const YellowSky4: CardDescription = { night: 1, clue: 1 }
-const YellowSky20: CardDescription = { night: 1, clue: 1 }
-const YellowSky38: CardDescription = { night: 1 }
+const YellowSky20: CardDescription = { clue: 1 }
+const YellowSky38: CardDescription = {}
 const GraySky7: CardDescription = { night: 1, clue: 1 }
 const GraySky13: CardDescription = { night: 1, clue: 1 }
-const GraySky29: CardDescription = { night: 1, clue: 1 }
+const GraySky29: CardDescription = { clue: 1 }
 
 export const Regions: Partial<Record<Region, CardDescription>> = {
   [Region.Red1]: Red1,
