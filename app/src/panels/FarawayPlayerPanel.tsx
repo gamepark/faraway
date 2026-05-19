@@ -4,13 +4,15 @@ import { faStar } from '@fortawesome/free-solid-svg-icons/faStar'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { getValue, Region } from '@gamepark/faraway/cards/Region'
 import { Regions } from '@gamepark/faraway/cards/Regions'
+import { RegionQuests } from '@gamepark/faraway/cards/RegionQuests'
+import { Sanctuary } from '@gamepark/faraway/cards/Sanctuary'
+import { SanctuaryQuests } from '@gamepark/faraway/cards/SanctuaryQuests'
 import { FarawayRules } from '@gamepark/faraway/FarawayRules'
 import { LocationType } from '@gamepark/faraway/material/LocationType'
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
 import { PlayerId } from '@gamepark/faraway/PlayerId'
-import { ScoreHelper } from '@gamepark/faraway/rules/helper/ScoreHelper'
+import { getRegionCardScore } from '@gamepark/faraway/rules/helper/ScoreHelper'
 import { Memory } from '@gamepark/faraway/rules/Memory'
-import { RegionQuests } from '@gamepark/faraway/cards/RegionQuests'
 import fameIcon from '../images/icon/fame.png'
 import { Player } from '@gamepark/react-client'
 import {
@@ -64,34 +66,21 @@ export const FarawayPlayerPanel: FC<FarawayPlayerPanelProps> = ({ player, isView
 }
 
 /**
- * Live score badge for the region card currently being resolved by ScoringRule. Always
- * renders during the scoring phase — even cards with no quest show "0" — so all panels
- * react in sync (the previous component returned null when the quest was missing,
- * leaving some panels blank). Sits to the LEFT of the panel (table side); replaces the
- * old "card flips beside panel" reveal animation.
+ * Live score badge for the region card currently being resolved by ScoringRule. Sits to
+ * the LEFT of the panel (table side); replaces the old "card flips beside panel" reveal.
  *
- * Every panel gates on the VIEWED player's card flip — not its own player's — so the
- * bubbles pop together when the visible reveal completes. The non-viewed players'
- * rotation moves run at duration 0 (their state flips immediately), so without this
- * shared gate their panels would light up before the viewed flip animation finished,
- * staggering the reveals. When the viewed player has no flip to play (Starry Skies
- * card already face-up, or no card at this x), the gate falls through and every panel
- * shows its score immediately.
+ * Sync gate: every panel holds back until EVERY card at the current scoring x is
+ * revealed (rotation === true and id known). Two reasons we can't just gate per-panel:
+ *  - the viewer's own card animates at 800ms while non-viewed rotations are duration 0,
+ *    so per-card gates would stagger the pop-ins by the flip duration;
+ *  - when the viewer has a Starry Skies card already face-up at this x (rotation true
+ *    from the start), their bubble would appear before any other player's reveal lands.
+ * Players without a card at this x simply never render a bubble.
  */
 const ScoringIndicator: FC<{ player: Player }> = ({ player }) => {
   const rules = useRules<FarawayRules>()
   const currentX = rules?.game.memory?.[Memory.CurrentScoringX] as number | undefined
   if (typeof currentX !== 'number') return null
-
-  const viewedPlayer = (rules as unknown as { game: { view?: PlayerId } }).game.view
-  const viewedCard = viewedPlayer !== undefined
-    ? rules!.material(MaterialType.Region)
-        .location(LocationType.PlayerRegionLine)
-        .player(viewedPlayer)
-        .location(loc => loc.x === currentX)
-        .getItem()
-    : undefined
-  if (viewedCard !== undefined && viewedCard.location.rotation !== true) return null
 
   const cardIndexes = rules!
     .material(MaterialType.Region)
@@ -102,10 +91,21 @@ const ScoringIndicator: FC<{ player: Player }> = ({ player }) => {
   if (cardIndexes.length === 0) return null
   const cardIndex = cardIndexes[0]
   const item = rules!.material(MaterialType.Region).getItem<Region>(cardIndex)
-  const quest = item.id !== undefined ? RegionQuests[item.id] : undefined
-  const score = quest && item.location.player !== undefined
-    ? quest.getTotalScore(rules!.game, cardIndex, MaterialType.Region, item.location.player)
-    : 0
+  if (item.id === undefined) return null
+
+  const allRevealed = rules!.material(MaterialType.Region)
+    .location(LocationType.PlayerRegionLine)
+    .location(loc => loc.x === currentX)
+    .getItems()
+    .every(i => i.location.rotation === true && i.id !== undefined)
+  if (!allRevealed) return null
+
+  const quest = RegionQuests[item.id]
+  // Cards without a quest still show a bubble but with a "/" placeholder — matches the
+  // scoresheet's `'/'` for the same case so the two views stay in sync.
+  const score: number | string = quest && item.location.player !== undefined
+    ? getRegionCardScore(rules!.game, cardIndex)
+    : '/'
   return (
     <div css={scoringIndicatorCss} key={cardIndex}>
       <div css={fameBadgeCss}>{score}</div>
@@ -119,13 +119,51 @@ const Timer: FC<{ player: Player }> = ({ player }) => {
   return <PlayerTimer customStyle={[(playing) => !playing && css`color: lightgray !important;`]} playerId={player.id} css={[timerStyle, data]} />
 }
 
+/**
+ * Running score badge: shows the live total as scoring reveals cards, and the final total
+ * once the game is over. Hidden during regular play (no scoring x set, game not over).
+ *
+ * Partial total sums:
+ *  - region quests for cards that are already face-up (`rotation === true`) — naturally
+ *    matches the per-card bubble visibility, so the panel total goes up at the same moment
+ *    the per-card bubbles appear.
+ *  - sanctuary quests, but only when no region is still face-down. Sanctuary quests often
+ *    depend on the full region tableau, so we wait until everything is revealed before
+ *    folding them in.
+ */
 const Score: FC<{ player: Player }> = ({ player }) => {
   const rules = useRules<FarawayRules>()!
-  if (!rules?.isOver()) return null
+  const currentX = rules?.game.memory?.[Memory.CurrentScoringX] as number | undefined
+  const isOver = rules?.isOver() ?? false
+  if (currentX === undefined && !isOver) return null
+
+  let total = 0
+  const playerRegions = rules.material(MaterialType.Region).location(LocationType.PlayerRegionLine).player(player.id)
+  for (const index of playerRegions.getIndexes()) {
+    const item = rules.material(MaterialType.Region).getItem<Region>(index)
+    if (item.location.rotation !== true || item.id === undefined) continue
+    // Skip cards scoring hasn't reached yet (Starry-Skies cards stay face-up from the start;
+    // we only count their score once their x has been resolved, matching the score sheet rows).
+    if (currentX !== undefined && (item.location.x ?? -1) < currentX) continue
+    total += getRegionCardScore(rules.game, index)
+  }
+  // Sanctuary scores fold in only once the game is fully over — same gate as the score
+  // sheet's last two rows, so the running totals on both views stay in lock-step.
+  if (isOver) {
+    const sanctuaries = rules.material(MaterialType.Sanctuary).location(LocationType.PlayerSanctuaryLine).player(player.id)
+    for (const index of sanctuaries.getIndexes()) {
+      const item = rules.material(MaterialType.Sanctuary).getItem<Sanctuary>(index)
+      if (item.id === undefined) continue
+      const quest = SanctuaryQuests[item.id]
+      if (!quest) continue
+      total += quest.getTotalScore(rules.game, index, MaterialType.Sanctuary, player.id)
+    }
+  }
+
   return (
     <span css={[placedCard, data]}>
       <FontAwesomeIcon icon={faStar} css={scoreStyle} fill="#28B8CE" />
-      <span>{new ScoreHelper(rules.game, player.id).score}</span>
+      <span>{total}</span>
     </span>
   )
 }
@@ -134,13 +172,15 @@ const PlacedCard: FC<{ player: Player }> = ({ player }) => {
   const rules = useRules<FarawayRules>()!
   const round = rules.remind(Memory.Round)
   const speedDisabled = player.time?.availableTime === undefined
+  const currentX = rules?.game.memory?.[Memory.CurrentScoringX] as number | undefined
   const card = rules
     .material(MaterialType.Region)
     .location((l) => l.type === LocationType.PlayerRegionLine && l.x === (round - 1))
     .player(player.id)
     .getItem<Region>()
 
-  if (!card?.id || !rules?.game.rule) return null
+  // Hide during the scoring phase or after game over — the Score component takes over there.
+  if (!card?.id || !rules?.game.rule || currentX !== undefined || rules.isOver()) return null
   const night = Regions[card.id]?.night === 1
   return (
     <span css={[data, placedCard, speedDisabled && rightAlignment]}>
@@ -172,6 +212,7 @@ const placedCard = css`
   left: initial;
   right: 0.25em;
   display: flex;
+  align-items: center;
   height: 1.35em;
 
   > span {
@@ -185,32 +226,32 @@ const scoreStyle = css`
 `
 
 const popIn = keyframes`
-  0%   { opacity: 0; transform: translate(0, -50%) scale(0.6); }
-  60%  { opacity: 1; transform: translate(-0.4em, -50%) scale(1.08); }
-  100% { opacity: 1; transform: translate(0, -50%) scale(1); }
+  0%   { opacity: 0; transform: translateY(-50%) scale(0.88); }
+  100% { opacity: 1; transform: translateY(-50%) scale(1); }
 `
 
 /**
  * Sized to ~6em — matches roughly the panel's vertical real-estate left of the avatar
- * so the score is the eye-catcher during scoring. Sits to the LEFT of the panel —
- * same direction the old beside-panel reveal trajectory used to fly to.
+ * so the score is the eye-catcher during scoring. Sits to the LEFT of the panel; its
+ * right edge lines up with the avatar's left edge. Centred a hair above the avatar's
+ * exact midline so the lower-right arrow can land near the middle of the avatar.
  */
 const scoringIndicatorCss = css`
   position: absolute;
-  left: -5.5em;
-  top: 50%;
+  right: 100%;
+  top: 1em;
   transform: translateY(-50%);
   width: 5em;
   height: 5em;
   font-size: 1.4em;
   z-index: 5;
   pointer-events: none;
-  animation: ${popIn} 0.35s cubic-bezier(.3, 1.4, .4, 1);
+  animation: ${popIn} 0.55s cubic-bezier(.2, .8, .4, 1);
 `
 
 /**
- * Same fame.png medal style as the on-card RegionScorePointBubble, but with the arrow
- * on the RIGHT side pointing toward the panel.
+ * Same fame.png medal style as the on-card RegionScorePointBubble, with an asymmetric
+ * arrow at the bottom-right pointing toward the avatar.
  */
 const fameBadgeCss = css`
   background-image: url(${fameIcon});
@@ -219,29 +260,26 @@ const fameBadgeCss = css`
   height: 100%;
   color: black;
   font-weight: bold;
-  font-size: 1.6em;
+  font-size: 2.4em;
   display: flex;
   align-items: center;
   justify-content: center;
-  filter: drop-shadow(0.05em 0.05em 0 black);
   position: relative;
 
+  /* Solid white triangle via clip-path rather than CSS borders. The previous
+     border-triangle had a transparent top edge, which let the medal's darker rim
+     pixels show through and read as a thin black line on the left of the arrow. */
   &:after {
     content: '';
     position: absolute;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-color: transparent;
     bottom: 0;
-    margin-bottom: 0.4em;
-    border-top-width: 0.4em;
-    border-bottom: 0;
     right: 0;
-    margin-right: -0.3em;
-    border-left-color: white;
-    border-left-width: 0.6em;
-    border-right: 0;
+    margin-bottom: 0.55em;
+    margin-right: -0.25em;
+    width: 0.6em;
+    height: 0.4em;
+    background: white;
+    clip-path: polygon(0 0, 100% 100%, 0 100%);
   }
 `
 

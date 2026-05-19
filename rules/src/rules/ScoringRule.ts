@@ -25,8 +25,18 @@ export class ScoringRule extends MaterialRulesPart {
     // tempo), `Memory.CurrentScoringX` still points to the JUST-resolved card. The UI
     // (panels' ScoringIndicator) shows that card's score during the wait, then the new
     // x kicks in here and reveals the next column.
-    let x = this.remind<number | undefined>(Memory.CurrentScoringX)
-    x = x === undefined ? 7 : x - 1
+    const previousX = this.remind<number | undefined>(Memory.CurrentScoringX)
+
+    // Lock the score of every card at the JUST-resolved x before we advance to the
+    // next one — at this point any SacrificeSanctuaryRule for that x has run, so the
+    // game state reflects everything that should affect this card's score. Later
+    // sacrifices on other x positions must NOT retroactively change it (the live
+    // recomputation in consumers reads the current sanctuary set, which would shrink).
+    if (previousX !== undefined && previousX >= 0) {
+      this.lockScoresAtX(previousX)
+    }
+
+    const x = previousX === undefined ? 7 : previousX - 1
     this.memorize(Memory.CurrentScoringX, x)
 
     if (x < 0) {
@@ -58,6 +68,30 @@ export class ScoringRule extends MaterialRulesPart {
 
   get lineCards() {
     return this.material(MaterialType.Region).location(LocationType.PlayerRegionLine)
+  }
+
+  /**
+   * Capture every region card at `x` and write its final score into
+   * {@link Memory.RegionScoresByIndex}. Called once `x` is fully resolved so the score
+   * doesn't drift when later sacrifices change the visible sanctuary set.
+   */
+  private lockScoresAtX(x: number): void {
+    const indexes = this.material(MaterialType.Region)
+      .location(LocationType.PlayerRegionLine)
+      .location(loc => loc.x === x)
+      .getIndexes()
+    if (indexes.length === 0) return
+    this.memorize<Record<number, number>>(Memory.RegionScoresByIndex, prev => {
+      const map = { ...(prev ?? {}) }
+      for (const index of indexes) {
+        const item = this.material(MaterialType.Region).getItem<Region>(index)
+        if (item.location.player === undefined) continue
+        const quest = RegionQuests[item.id]
+        if (!quest) continue
+        map[index] = quest.getTotalScore(this.game, index, MaterialType.Region, item.location.player as PlayerId)
+      }
+      return map
+    })
   }
 
   /**

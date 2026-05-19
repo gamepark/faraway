@@ -4,6 +4,7 @@ import { RegionQuests } from '@gamepark/faraway/cards/RegionQuests'
 import { FarawayRules } from '@gamepark/faraway/FarawayRules'
 import { LocationType } from '@gamepark/faraway/material/LocationType'
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
+import { getRegionCardScore } from '@gamepark/faraway/rules/helper/ScoreHelper'
 import { useRules } from '@gamepark/react-game'
 import { Location } from '@gamepark/rules-api'
 import { FC } from 'react'
@@ -27,7 +28,7 @@ export const RegionScorePointBubble: FC<RegionScorePointBubbleProps> = (props) =
   // etc.) we don't want to gate on rotation, so the check is scoped to the line.
   const onLine = item.location.type === LocationType.PlayerRegionLine
   if (!quest || (onLine && item.location.rotation !== true)) return null
-  const score = quest.getTotalScore(rules.game, location.parent!, MaterialType.Region, item.location.player!)
+  const score = getRegionCardScore(rules.game, location.parent!)
   return (
     <div css={[scoreStyle, arrow === 'left' && arrowLeftCss, arrow === 'right' && arrowRightCss]}>
       {score}
@@ -36,8 +37,7 @@ export const RegionScorePointBubble: FC<RegionScorePointBubbleProps> = (props) =
 }
 
 const popIn = keyframes`
-  0%   { opacity: 0; transform: scale(0.6); }
-  60%  { opacity: 1; transform: scale(1.08); }
+  0%   { opacity: 0; transform: scale(0.88); }
   100% { opacity: 1; transform: scale(1); }
 `
 
@@ -54,7 +54,7 @@ const scoreStyle = css`
   justify-content: center;
   filter: drop-shadow(0.1em 0.1em black);
   position: relative;
-  animation: ${popIn} 0.35s cubic-bezier(.3, 1.4, .4, 1);
+  animation: ${popIn} 0.55s cubic-bezier(.2, .8, .4, 1);
 `
 
 const arrowBaseCss = css`
