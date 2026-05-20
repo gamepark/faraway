@@ -66,6 +66,13 @@ export class RegionHandLocator extends HandLocator {
     }
   }
 
+  // Help-dialog navigation arrows must walk the hand in the same order the fan
+  // displays cards. With `clockwise = false` and getItemIndex sorting by -value,
+  // the leftmost card on screen is the HIGHEST value but the rightmost end of
+  // the navigation arc (last index in the sort). So "next" must walk from low
+  // to high value to read left-to-right visually.
+  navigationSorts = [(item: MaterialItem) => getValue(item.id)]
+
   getHoverTransform(item: MaterialItem, context: ItemContext) {
     return super.getHoverTransform(item, context).concat('translateY(-1em)').concat('translateZ(16em)')
   }

@@ -47,6 +47,11 @@ export default defineConfig(({ mode }) => {
     },
     server: {
       port: 3000,
+      // Only in dev: allow Cloudflare quick tunnels & ngrok hosts so the dev
+      // server accepts requests coming through a tunnel for ad-hoc sharing.
+      ...(mode === 'development' && {
+        allowedHosts: ['.trycloudflare.com', '.ngrok-free.app', '.ngrok.io', 'localhost']
+      })
     },
     resolve: {
       alias: {

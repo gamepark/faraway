@@ -1,4 +1,6 @@
 import { LocationType } from '@gamepark/faraway/material/LocationType'
+import { MaterialType } from '@gamepark/faraway/material/MaterialType'
+import { Memory } from '@gamepark/faraway/rules/Memory'
 import { FlexLocator, isItemContext, ItemContext, MaterialContext } from '@gamepark/react-game'
 import { Location, MaterialItem } from '@gamepark/rules-api'
 import { sanctuaryCardDescription } from '../material/SanctuaryCardDescription'
@@ -35,6 +37,22 @@ export class PlayerSanctuaryLocator extends FlexLocator {
     // Single location covering the whole sanctuary zone — FlexLocator still
     // positions individual items via its grid formula based on list order.
     return [{ type: LocationType.PlayerSanctuaryLine, player: viewed }]
+  }
+
+  // Force a re-render of every sanctuary card when the scoring x changes, the game
+  // ends, or the count of still-hidden regions changes. SanctuaryCardDescription's
+  // getLocations gates the score bubble on those three signals; without this hook
+  // DraggableMaterial's memo keeps the previous result and the score bubbles never
+  // appear until the user refreshes the page.
+  getPositionDependencies(_location: Location, context: MaterialContext) {
+    return {
+      currentScoringX: context.rules.remind(Memory.CurrentScoringX) ?? null,
+      isOver: context.rules.isOver(),
+      hiddenRegions: context.rules.material(MaterialType.Region)
+        .location(LocationType.PlayerRegionLine)
+        .rotation(r => !r)
+        .length
+    }
   }
 
   getHoverTransform() {

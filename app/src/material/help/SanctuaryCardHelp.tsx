@@ -1,5 +1,4 @@
 ﻿import { css } from '@emotion/react'
-import { Color } from '@gamepark/faraway/cards/Color'
 import { getColor } from '@gamepark/faraway/cards/Region'
 import { Sanctuaries } from '@gamepark/faraway/cards/Sanctuaries'
 import { Sanctuary } from '@gamepark/faraway/cards/Sanctuary'
@@ -11,17 +10,8 @@ import { MaterialType } from '@gamepark/faraway/material/MaterialType'
 import { MaterialHelpProps, Picture, PlayMoveButton, useLegalMove, usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
 import { isMoveItemType, Location, MoveItem } from '@gamepark/rules-api'
 import { Trans, useTranslation } from 'react-i18next'
-import chimera from '../../images/icon/chimera.png'
-import autumn from '../../images/icon/City.jpg'
-import clueIcon from '../../images/icon/clue.png'
-import winter from '../../images/icon/Desert.jpg'
-import summer from '../../images/icon/Forest.jpg'
-import MysticHeaven from '../../images/icon/MysticHeaven.jpg'
-import spring from '../../images/icon/River.jpg'
-import rock from '../../images/icon/rock.png'
-import thistle from '../../images/icon/thistle.png'
-import nightIcon from '../../images/time/night.png'
-import { QuestHelp } from './QuestHelp'
+import { biomeIcon, clueIcon, nightIcon, wonderIcon } from './icons'
+import { QuestHelp, ResourceEm } from './QuestHelp'
 
 export const SanctuaryCardHelp = ({ item, itemIndex, closeDialog }: MaterialHelpProps) => {
   const { t } = useTranslation()
@@ -90,36 +80,43 @@ const SanctuaryHelp = ({ sanctuary }: { sanctuary: Sanctuary }) => {
         <Picture src={clueIcon}/>&nbsp;<Trans i18nKey="help.clue"><strong/></Trans>
       </p>
     }
-    {wonders &&
+    {wonders && <>
       <p css={alignIcon}>
-        {wonders.map((wonder, index) => <Picture key={index} src={wonderIcon[wonder]}/>)}&nbsp;<Trans i18nKey="help.wonders"><strong/><em/></Trans>
+        {wonders.map((wonder, index) => <Picture key={index} src={wonderIcon[wonder]}/>)}
       </p>
-    }
+      <p css={[alignIcon, tightTop]}>
+        <Trans i18nKey="help.wonders">
+          <strong/>
+          <ResourceEm icon={wonderIcon[Wonder.Rock]}/>
+          <ResourceEm icon={wonderIcon[Wonder.Chimera]}/>
+          <ResourceEm icon={wonderIcon[Wonder.Thistle]}/>
+          <em/>
+        </Trans>
+      </p>
+    </>}
   </>
 }
 
-const biomeIcon = {
-  [Color.Green]: spring,
-  [Color.Red]: summer,
-  [Color.Yellow]: autumn,
-  [Color.Blue]: winter,
-  [Color.Gray]: MysticHeaven
-}
-
-const wonderIcon = {
-  [Wonder.Rock]: rock,
-  [Wonder.Chimera]: chimera,
-  [Wonder.Thistle]: thistle
-}
 
 export const alignIcon = css`
-  > * {
-    vertical-align: middle;
+  picture {
+    display: contents;
   }
 
-  picture, img {
+  /* !important forces our sizing over the framework's MaterialRulesDialog
+     wrapper rule (\`p img { height: 1em; ... }\`) which has equal specificity
+     and can win on cascade order, snap-shrinking icons on dialog close. */
+  picture img,
+  > img {
     vertical-align: middle;
-    height: 1.5em;
-    margin-right: 0.1em;
+    height: 1.5em !important;
+    margin-right: 0.15em;
+    transform: translateY(-0.1em) !important;
+    position: static !important;
+    top: auto !important;
   }
+`
+
+export const tightTop = css`
+  margin-top: -0.4em;
 `

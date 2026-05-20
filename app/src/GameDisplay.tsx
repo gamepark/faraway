@@ -3,7 +3,7 @@ import { css } from '@emotion/react'
 import { DevToolsHub, GameTable, usePlay, usePlayerId } from '@gamepark/react-game'
 import { MaterialMoveBuilder } from '@gamepark/rules-api'
 import { FC, useCallback } from 'react'
-import { OverviewMode } from './overview/OverviewMode'
+import { DevCardViewer } from './dev/DevCardViewer'
 import { tableSize } from './panels/PanelConstants'
 import { PlayerPanels } from './panels/PlayerPanels'
 
@@ -25,8 +25,7 @@ export const GameDisplay: FC = () => {
       margin={{ top: 7, left: 0, right: 0, bottom: 0 }} css={process.env.NODE_ENV === 'development' ? borderCss : undefined}>
       <PlayerPanels />
       <SwitchViewOnDrag />
-      <OverviewMode />
-      {import.meta.env.DEV && <DevToolsHub />}
+      {import.meta.env.DEV && <DevToolsHub><DevCardViewer /></DevToolsHub>}
     </GameTable>
   )
 }

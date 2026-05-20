@@ -1,6 +1,5 @@
 import { css, keyframes } from '@emotion/react'
 import { faStar } from '@fortawesome/free-solid-svg-icons/faStar'
-import { faTableCellsLarge } from '@fortawesome/free-solid-svg-icons/faTableCellsLarge'
 import { faXmark } from '@fortawesome/free-solid-svg-icons/faXmark'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Region } from '@gamepark/faraway/cards/Region'
@@ -14,7 +13,9 @@ import { Memory } from '@gamepark/faraway/rules/Memory'
 import { Player } from '@gamepark/react-client'
 import { MaterialComponent, usePlay, usePlayerName, usePlayers, useRules } from '@gamepark/react-game'
 import { MaterialMoveBuilder } from '@gamepark/rules-api'
-import { FC, useCallback, useEffect, useState } from 'react'
+import { CSSProperties, FC, MouseEvent, useCallback, useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
+import { useTranslation } from 'react-i18next'
 import { RegionScorePointBubble } from '../locators/description/RegionScorePointBubble'
 import { SanctuaryScorePointBubble } from '../locators/description/SanctuaryScorePointBubble'
 import { RegionScoreX, RegionScoreY } from '../locators/RegionScorePointLocator'
@@ -22,14 +23,17 @@ import { currentlyResolvingCss, regionCardDescription } from '../material/Region
 import { sanctuaryCardDescription } from '../material/SanctuaryCardDescription'
 
 /**
- * Adds an "Overview" toggle and a full-screen overlay grid that shows every player's
- * board side by side, using {@link MaterialComponent} for the cards and the same
- * {@link RegionScorePointBubble} / {@link SanctuaryScorePointBubble} components the
- * live game table uses for per-card scores. UI-only mode — no game-state mutation.
- * Clicking on a player's mini-board switches the in-game view to that player.
+ * Single self-contained piece of the overview feature:
+ *   - the toggle button (rendered in place — PlayerPanels positions it via `style`)
+ *   - the full-screen overlay (portaled to <body> when open)
+ *
+ * Mounted once from PlayerPanels — the `open` state is local useState, no context
+ * needed since the button and overlay live in the same component instance.
  */
-export const OverviewMode: FC = () => {
+export const OverviewMode: FC<{ style?: CSSProperties }> = ({ style }) => {
   const [open, setOpen] = useState(false)
+  const { t } = useTranslation()
+  const label = t('overview.toggle', "Vue d'ensemble")
 
   // Esc closes the overlay so it doesn't trap the user.
   useEffect(() => {
@@ -39,30 +43,61 @@ export const OverviewMode: FC = () => {
     return () => window.removeEventListener('keydown', onKey)
   }, [open])
 
-  // We render INSIDE the GameTable so the em-based scaling stays consistent. The
-  // GameTable uses 3D transforms, so z-index alone won't lift us above the panels —
-  // we lift the toggle and the overlay with translateZ() above the panels' 5em.
+  const onToggle = (e: MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation()
+    setOpen(o => !o)
+  }
+  const onClose = useCallback(() => setOpen(false), [])
+
   return (
     <>
-      <button
-        type="button"
-        css={[toggleButtonCss, open && toggleButtonActiveCss]}
-        onClick={() => setOpen(o => !o)}
-        aria-label="Vue d'ensemble"
-        title="Vue d'ensemble"
-      >
-        <FontAwesomeIcon icon={open ? faXmark : faTableCellsLarge}/>
+      <button type="button" css={toggleButtonCss} style={style} onClick={onToggle} aria-label={label} title={label}>
+        <span className="halo"/>
+        <span className="peg tl"/>
+        <span className="peg tr"/>
+        <span className="peg bl"/>
+        <span className="peg br"/>
+        <span className="body" css={toggleBodyCss(open)}>
+          <PanelsGlyph/>
+        </span>
       </button>
-      {open && <OverviewOverlay onClose={() => setOpen(false)}/>}
+      {open && createPortal(<OverviewOverlay onClose={onClose}/>, document.body)}
     </>
   )
 }
+
+const PanelsGlyph: FC = () => (
+  <svg viewBox="0 0 24 24" css={glyphCss} fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" aria-hidden>
+    <rect x="3" y="3"    width="18" height="5" rx="1.2"/>
+    <rect x="3" y="9.5"  width="18" height="5" rx="1.2"/>
+    <rect x="3" y="16"   width="18" height="5" rx="1.2"/>
+    <circle cx="6.5" cy="5.5"  r="0.95" fill="currentColor" stroke="none"/>
+    <circle cx="6.5" cy="12"   r="0.95" fill="currentColor" stroke="none"/>
+    <circle cx="6.5" cy="18.5" r="0.95" fill="currentColor" stroke="none"/>
+  </svg>
+)
 
 const OverviewOverlay: FC<{ onClose: () => void }> = ({ onClose }) => {
   const players = usePlayers({ sortFromMe: true })
 
   return (
     <div css={overlayCss} onClick={onClose}>
+      <button
+        type="button"
+        css={[toggleButtonCss, closeButtonPositionCss]}
+        onClick={(e) => { e.stopPropagation(); onClose() }}
+        aria-label="Fermer la vue d'ensemble"
+        title="Fermer"
+      >
+        <span className="halo"/>
+        <span className="peg tl"/>
+        <span className="peg tr"/>
+        <span className="peg bl"/>
+        <span className="peg br"/>
+        <span className="body" css={toggleBodyCss(false)}>
+          <FontAwesomeIcon icon={faXmark} css={glyphCss}/>
+        </span>
+      </button>
       <div css={gridCss} onClick={e => e.stopPropagation()}>
         {players.map(player => (
           <PlayerCell key={player.id} player={player} onSwitched={onClose}/>
@@ -119,10 +154,12 @@ const PlayerCell: FC<{ player: Player; onSwitched: () => void }> = ({ player, on
     >
       <div css={cellHeaderCss}>
         <span css={cellNameCss}>{name ?? `Joueur ${player.id}`}</span>
-        <span css={scorePillCss}>
-          <FontAwesomeIcon icon={faStar} css={scoreIconCss}/>
-          <span>{totalScore}</span>
-        </span>
+        {(currentScoringX !== undefined || isOver) && (
+          <span css={scorePillCss}>
+            <FontAwesomeIcon icon={faStar} css={scoreIconCss}/>
+            <span>{totalScore}</span>
+          </span>
+        )}
       </div>
 
       <div css={regionGridCss}>
@@ -203,60 +240,148 @@ const INK = '#1a2638'
 const CREAM = '#f7ecd0'
 const SUN = '#eeb83a'
 
+const fadeIn = keyframes`from { opacity: 0; } to { opacity: 1; }`
+
+// ----- Toggle button (in-place, positioned by PlayerPanels via style) -----
+// Same visual language as FarawayMenuButton: cream body, ink border, 4 corner
+// gold pegs. The glyph is a stack of mini-panels to hint at the overlay content.
 const toggleButtonCss = css`
   position: absolute;
-  top: 0.5em;
-  right: 0.5em;
-  /* Panels sit at translateZ(5em); we go higher so we always paint on top. */
-  transform: translateZ(50em);
-  width: 2.4em;
-  height: 2.4em;
-  border-radius: 0.45em;
-  border: 0.16em solid ${INK};
-  background: ${CREAM};
-  color: ${INK};
-  font-size: 1.1em;
+  /* Matches the in-game FarawayMenuButton dimensions so both affordances feel
+     equally weighted on screen. */
+  width: 2em;
+  height: 2em;
+  padding: 0;
+  background: transparent;
+  border: 0;
   cursor: pointer;
+  pointer-events: auto;
+  transform: translateZ(5em);
+  transform-style: preserve-3d;
+
+  /* Halo kept in the JSX for layout stability but never shown — the hover
+     uses a peg-slide animation + a body scale instead of a yellow glow. */
+  .halo { display: none; }
+
+  .peg {
+    position: absolute;
+    width: 0.85em;
+    height: 0.85em;
+    background: ${SUN};
+    border: 0.14em solid ${INK};
+    border-radius: 50%;
+    transform: translateZ(-0.01em);
+  }
+  .peg.tl { top: -0.25em; left: -0.25em; right: auto; bottom: auto; }
+  .peg.tr { top: -0.25em; right: -0.25em; left: auto; bottom: auto; }
+  .peg.bl { bottom: -0.25em; left: -0.25em; right: auto; top: auto; }
+  .peg.br { bottom: -0.25em; right: -0.25em; left: auto; top: auto; }
+
+  .peg, .body {
+    transition: top 0.18s ease, right 0.18s ease, bottom 0.18s ease, left 0.18s ease,
+                transform 0.18s cubic-bezier(.3, 1.4, .4, 1),
+                box-shadow 0.14s ease, filter 0.14s ease;
+  }
+
+  &:hover .body {
+    transform: translateZ(0.01em) scale(1.1);
+    filter: brightness(1.04);
+  }
+
+  &:hover .peg.tl {
+    top: -0.4em;
+    left: 50%;
+    transform: translate(-50%, 0) translateZ(-0.01em);
+  }
+  &:hover .peg.tr {
+    top: 50%;
+    right: -0.4em;
+    transform: translate(0, -50%) translateZ(-0.01em);
+  }
+  &:hover .peg.br {
+    bottom: -0.4em;
+    right: 50%;
+    transform: translate(50%, 0) translateZ(-0.01em);
+  }
+  &:hover .peg.bl {
+    bottom: 50%;
+    left: -0.4em;
+    transform: translate(0, 50%) translateZ(-0.01em);
+  }
+
+  &:active .body {
+    transform: translateZ(0.01em) scale(0.96);
+    box-shadow: 0 0.08em 0.2em rgba(26, 38, 56, 0.35);
+  }
+`
+
+const toggleBodyCss = (open: boolean) => css`
+  position: absolute;
+  inset: 0;
+  border-radius: 0.3em;
+  background: ${open
+    ? `linear-gradient(180deg, #ffe39a 0%, ${SUN} 100%)`
+    : `linear-gradient(180deg, #fdf3d0 0%, ${CREAM} 100%)`};
+  border: 0.18em solid ${INK};
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0.2em 0.4em rgba(0, 0, 0, 0.35);
-  transition: filter 0.12s ease;
-
-  &:hover { filter: brightness(1.06); }
+  /* Keep the body in front of pegs in 3D space (Firefox respects Z over
+     z-index in preserve-3d contexts — see ItemMenuButton). */
+  transform: translateZ(0.01em);
+  box-shadow:
+    0 0.2em 0.4em rgba(0, 0, 0, 0.4),
+    inset 0 -0.14em 0.25em rgba(184, 138, 26, 0.22),
+    inset 0 0.14em 0.2em rgba(255, 255, 255, 0.4);
 `
 
-const toggleButtonActiveCss = css`
-  background: ${SUN};
-  box-shadow: 0 0.2em 0.4em rgba(0, 0, 0, 0.35), 0 0 0.6em rgba(238, 184, 58, 0.6);
+const glyphCss = css`
+  width: 1.4em;
+  height: 1.4em;
+  color: ${INK};
 `
 
-const fadeIn = keyframes`from { opacity: 0; } to { opacity: 1; }`
+// ----- Overlay (portaled to body) -----
+
+/**
+ * Top-right close button. Re-uses the toggle button's visual language (cream
+ * body, ink border, 4 corner gold pegs) so opening and closing share the same
+ * affordance. Only the positioning is overridden here.
+ */
+const closeButtonPositionCss = css`
+  position: fixed;
+  top: 0.6em;
+  right: 0.6em;
+  z-index: 1001;
+`
 
 const overlayCss = css`
-  position: absolute;
+  position: fixed;
   inset: 0;
-  /* Lift above the panels (5em) so the overlay sits in front in 3D space. */
-  transform: translateZ(40em);
+  z-index: 1000;
+  /* Portal escape from GameTable means we lose the table's scaled em base.
+     A viewport-relative font-size keeps the cards and grid sized to the screen
+     instead of falling back to the 16px browser default. */
+  font-size: clamp(14px, 1.9vmin, 26px);
   background: rgba(10, 14, 22, 0.88);
   /* Allow vertical scroll when too many players or too tall on a small viewport. */
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 4em 1em 1em;
+  padding: 3.5em 1em 1em;
   animation: ${fadeIn} 0.18s ease-out;
 `
 
 /**
- * Auto-fit cells around the natural region row width (~30em). On phones (<600px)
- * we lock to a single column so cards stay readable.
+ * Two columns of player cells. Falls back to a single column on narrow screens
+ * so cards stay readable on mobile.
  */
 const gridCss = css`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(32em, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   grid-auto-rows: min-content;
   gap: 1em;
   margin: 0 auto;
-  max-width: 100em;
+  max-width: 120em;
 
   @media (max-width: 600px) {
     grid-template-columns: 1fr;

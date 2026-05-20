@@ -8,38 +8,6 @@ import { faArrowUp } from '@fortawesome/free-solid-svg-icons/faArrowUp'
 import { CardDescription, ItemContext, MaterialContext } from '@gamepark/react-game'
 import { isMoveItemType, MaterialItem, MaterialMove } from '@gamepark/rules-api'
 import { FarawayMenuButton, HandIcon, TrashIcon } from '../components/ItemMenuButton'
-
-/** True when this region card is the one currently being resolved by ScoringRule
- *  (or its SacrificeSanctuary sub-rule). Exposed so the OverviewMode can paint the
- *  exact same highlight on its mini-cards. */
-export const isCurrentlyResolvingRegion = (item: MaterialItem, context: MaterialContext): boolean => {
-  if (item.location.type !== LocationType.PlayerRegionLine) return false
-  const x = context.rules.remind(Memory.CurrentScoringX)
-  if (x === undefined) return false
-  return item.location.x === x
-}
-
-/**
- * True when this region card should display its score bubble.
- *  - During scoring: cards at x >= currentScoringX (the current one is included so the
- *    on-card bubble pops in sync with the panel's ScoringIndicator). The bubble itself
- *    holds back rendering while the reveal rotation is still animating.
- *  - Outside scoring: only when the game is over (memory was forgotten on the last tick).
- */
-export const isResolvedRegion = (item: MaterialItem, context: MaterialContext): boolean => {
-  if (item.location.type !== LocationType.PlayerRegionLine || item.location.x === undefined) return false
-  const x = context.rules.remind(Memory.CurrentScoringX)
-  if (typeof x === 'number') return item.location.x >= x
-  return context.rules.isOver()
-}
-
-export const currentlyResolvingCss = css`
-  border-radius: 0.5em;
-  animation: ${keyframes`
-    0%, 100% { box-shadow: 0 0 0.6em 0.15em rgba(238, 184, 58, 0.55), 0 0 1.2em 0.4em rgba(238, 184, 58, 0.3); }
-    50%      { box-shadow: 0 0 1.1em 0.4em rgba(238, 184, 58, 0.95), 0 0 2em 0.8em rgba(238, 184, 58, 0.5); }
-  `} 1.4s ease-in-out infinite;
-`
 import Blue13 from '../images/region/region_blue_13.jpg'
 import Blue17 from '../images/region/region_blue_17.jpg'
 import Blue2 from '../images/region/region_blue_2.jpg'
@@ -270,11 +238,6 @@ export class RegionCardDescription extends CardDescription {
     return
   }
 
-  canShortClick(move: MaterialMove, context: ItemContext) {
-    return isMoveItemType(MaterialType.Region)(move) && move.itemIndex === context.index && move.location.type === LocationType.PlayerRegionHand
-      || super.canShortClick(move, context)
-  }
-
   menuAlwaysVisible = true
 
   getItemMenu(item: MaterialItem, context: ItemContext, legalMoves: MaterialMove[]) {
@@ -342,5 +305,50 @@ export class RegionCardDescription extends CardDescription {
 
   help = RegionCardHelp
 }
+
+/** True when this region card is the one currently being resolved by ScoringRule
+ *  (or its SacrificeSanctuary sub-rule). Exposed so the OverviewMode can paint the
+ *  exact same highlight on its mini-cards. */
+export const isCurrentlyResolvingRegion = (item: MaterialItem, context: MaterialContext): boolean => {
+  if (item.location.type !== LocationType.PlayerRegionLine) return false
+  const x = context.rules.remind(Memory.CurrentScoringX)
+  if (x === undefined) return false
+  return item.location.x === x
+}
+
+/**
+ * True when this region card should display its score bubble.
+ *  - During scoring: cards at x >= currentScoringX (the current one is included so the
+ *    on-card bubble pops in sync with the panel's ScoringIndicator). The bubble itself
+ *    holds back rendering while the reveal rotation is still animating.
+ *  - Outside scoring: only when the game is over (memory was forgotten on the last tick).
+ */
+export const isResolvedRegion = (item: MaterialItem, context: MaterialContext): boolean => {
+  if (item.location.type !== LocationType.PlayerRegionLine || item.location.x === undefined) return false
+  const x = context.rules.remind(Memory.CurrentScoringX)
+  if (typeof x === 'number') return item.location.x >= x
+  return context.rules.isOver()
+}
+
+// Glow is rendered on a ::before pseudo so it doesn't squat the `animation` CSS
+// property of the card element — otherwise it would collide with the framework's
+// rotation/elevation animations and cancel the reveal flip (only the very first
+// scoring card, where the glow class lands at the exact moment the rotation
+// animation starts).
+export const currentlyResolvingCss = css`
+  position: relative;
+  border-radius: 0.5em;
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    animation: ${keyframes`
+      0%, 100% { box-shadow: 0 0 0.6em 0.15em rgba(238, 184, 58, 0.55), 0 0 1.2em 0.4em rgba(238, 184, 58, 0.3); }
+      50%      { box-shadow: 0 0 1.1em 0.4em rgba(238, 184, 58, 0.95), 0 0 2em 0.8em rgba(238, 184, 58, 0.5); }
+    `} 1.4s ease-in-out infinite;
+  }
+`
 
 export const regionCardDescription = new RegionCardDescription()
