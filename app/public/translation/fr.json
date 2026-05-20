@@ -52,6 +52,7 @@
   "help.quest.night": "{points, plural, one{# point} other{# points}} de réputation par carte de Nuit.",
   "help.quest.points": "{points, plural, one{# point} other{# points}} de réputation.",
   "help.quest.wonder-set": "{points, plural, one{# point} other{# points}} par ensemble de 3 ressources différentes.",
+  "scoring.total": "Total",
   "help.region.discard.title": "Défausse de cartes Région",
   "help.region.discard.count": "Il y a {number, plural, one{# carte} other{# cartes}} dans cette défausse.",
   "help.quest.require-color": "Si au moins <0>{threshold} cartes {biome}</0> visibles : <1>{points, plural, one{# point} other{# points}}</1> de réputation.",
