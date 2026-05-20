@@ -6,7 +6,7 @@ import { css, keyframes } from '@emotion/react'
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons/faArrowUp'
 import { CardDescription, ItemContext, MaterialContext } from '@gamepark/react-game'
-import { isMoveItemType, MaterialItem, MaterialMove } from '@gamepark/rules-api'
+import { isMoveItemType, MaterialItem, MaterialMove, MaterialMoveBuilder } from '@gamepark/rules-api'
 import { FarawayMenuButton, HandIcon, TrashIcon } from '../components/ItemMenuButton'
 import Blue13 from '../images/region/region_blue_13.jpg'
 import Blue17 from '../images/region/region_blue_17.jpg'
@@ -208,6 +208,16 @@ export class RegionCardDescription extends CardDescription {
     [Region.GraySky7]: GraySky7,
     [Region.GraySky13]: GraySky13,
     [Region.GraySky29]: GraySky29,
+  }
+
+  // Clicking a card in the discard opens the discard location help (a grid
+  // listing every discarded card with click-through), not that single card's
+  // own help.
+  displayHelp(item: MaterialItem, context: ItemContext) {
+    if (item.location.type === LocationType.RegionDiscard) {
+      return MaterialMoveBuilder.displayLocationHelp(item.location)
+    }
+    return super.displayHelp(item, context)
   }
 
   getLocations(item: MaterialItem, context: ItemContext) {

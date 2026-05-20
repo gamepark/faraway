@@ -5,7 +5,7 @@ import { usePlayerId, usePlayers, useRules } from '@gamepark/react-game'
 import { FC } from 'react'
 import { OverviewMode } from '../overview/OverviewMode'
 import { FarawayPlayerPanel } from './FarawayPlayerPanel'
-import { getPanelHeight, getPanelScale, panelBottomMargin, panelGapTable, panelMargin } from './PanelConstants'
+import { getPanelHeight, getPanelScale, getPanelWidth, panelBottomMargin, panelGapTable, panelMargin } from './PanelConstants'
 
 export const PlayerPanels: FC = () => {
   const players = usePlayers({ sortFromMe: true })
@@ -15,11 +15,12 @@ export const PlayerPanels: FC = () => {
   const n = rules.game.players.length
   const scale = getPanelScale(n)
 
-  // OverviewMode's toggle sits ABOVE the panel column, right-aligned with the
-  // panels. Using GameTable em (no panel scaling) so it stays a comfortable hit
-  // target whatever the player count.
+  // OverviewMode's toggle sits ABOVE the panel column, shifted LEFT so it lands
+  // just past the panel's left edge instead of its right edge. Using GameTable em
+  // (no panel scaling) so it stays a comfortable hit target whatever the player count.
   const panelStackHeight = n * getPanelHeight(n) + (n - 1) * panelGapTable
   const buttonBottom = panelBottomMargin + panelStackHeight + 0.5
+  const buttonRight = panelMargin + getPanelWidth(n) - 2 // 2em = button width
 
   return (
     <>
@@ -33,7 +34,7 @@ export const PlayerPanels: FC = () => {
         ))}
       </div>
       <OverviewMode
-        style={{ right: `${panelMargin}em`, bottom: `${buttonBottom}em` }}
+        style={{ right: `${buttonRight}em`, bottom: `${buttonBottom}em` }}
       />
     </>
   )

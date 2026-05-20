@@ -62,7 +62,7 @@ export const regionDiscardX = regionDeckX + regionLineOffsetFromDeck + 7.5 * 5
 
 export function getRegionDiscardPosition(playerCount: number): { x: number; y: number } {
   if (playerCount === 7) {
-    return { x: tableXMax - regionDiscardCardHalf - 1.5, y: tableYMin + regionDiscardCardHalf + 1 + 7 }
+    return { x: tableXMax - regionDiscardCardHalf - 1, y: tableYMin + regionDiscardCardHalf + 1 + 7 }
   }
   return { x: tableXMax - regionDiscardCardHalf - 0.5, y: tableYMin + regionDiscardCardHalf + 0.5 }
 }
