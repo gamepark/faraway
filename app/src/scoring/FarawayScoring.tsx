@@ -105,18 +105,10 @@ const SanctuaryScoreCell: FC<{ sanctuaryId: Sanctuary; index: number; score: num
 
 // Region card description is 7×7em; the result-dialog em is large, so we shrink
 // the cell so the card lands at a digestible size next to the player avatars.
-// On hover the card pops to scale 1.5 (lifted with z-index so it overlaps siblings).
 const cellCss = css`
   position: relative;
   display: inline-flex;
   font-size: 0.7em;
-  transition: transform 0.18s ease;
-  transform-origin: center center;
-
-  &:hover {
-    transform: scale(1.5);
-    z-index: 5;
-  }
 `
 
 const headerCss = css`
