@@ -63,7 +63,7 @@
   "tuto.biome": "Cada Región representa un bioma específico, indicado por un color y un símbolo asociado.",
   "tuto.biome.quest": "<0>Algunas misiones te dan puntos según los biomas explorados.</0>\nPor ejemplo, la misión de la carta 27 da 1 punto por cada carta de Ciudad y carta de Desierto.",
   "tuto.hour": "Cada Región requiere cierto tiempo para ser explorada.\r\nCada carta tiene un número único entre 1 y 68: este número indica cuántas horas lleva explorar la región.\nLa exploración puede darse de día <2/> o de noche <3/>, lo que puede ser importante para ciertas misiones.",
-  "tuto.region.draw": "Al final de la fase de exploración, cada jugador elige una carta de Región de entre las visibles en el centro de la mesa.\n<0>Empezamos por el jugador que ha jugado la carta de menor valor</0>, y continuamos en orden ascendente.",
+  "tuto.region.draw": "Al final de la fase de exploración, cada jugador elige una carta de Región de entre las visibles en el centro de la mesa.\n<0>Empezamos por el jugador que ha jugado la carta de menor valor</0>, y continuamos en orden ascendente.\nEl valor de la carta jugada por cada jugador se muestra directamente en su panel.",
   "tuto.region.draw.me": "Has jugado la carta 6, tu oponente la carta 67.\nPor lo tanto, es tu turno: coge la carta de tu elección.",
   "tuto.round": "Este es un nuevo turno. Se juegan 8 cartas de Región, lo que significa 8 turnos.",
   "tuto.quest": "Este habitante te confía una misión: debes regresar con <2/> <2/> para obtener 8 puntos.",

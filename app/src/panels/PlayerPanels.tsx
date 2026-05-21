@@ -15,12 +15,16 @@ export const PlayerPanels: FC = () => {
   const n = rules.game.players.length
   const scale = getPanelScale(n)
 
-  // OverviewMode's toggle sits ABOVE the panel column, shifted LEFT so it lands
-  // just past the panel's left edge instead of its right edge. Using GameTable em
-  // (no panel scaling) so it stays a comfortable hit target whatever the player count.
+  // OverviewMode's toggle sits ABOVE the panel column. At 7 players the panel
+  // stack reaches the top and crowds out the right edge, so we shift the button
+  // LEFT to the panel's left edge; below 7 players we keep it right-aligned with
+  // the panels. Using GameTable em (no panel scaling) so it stays a comfortable
+  // hit target whatever the player count.
   const panelStackHeight = n * getPanelHeight(n) + (n - 1) * panelGapTable
   const buttonBottom = panelBottomMargin + panelStackHeight + 0.5
-  const buttonRight = panelMargin + getPanelWidth(n) - 2 // 2em = button width
+  const buttonRight = n >= 7
+    ? panelMargin + getPanelWidth(n) - 2 // 2em = button width
+    : panelMargin
 
   return (
     <>

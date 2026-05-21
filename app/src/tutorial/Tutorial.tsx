@@ -30,18 +30,18 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
   steps: TutorialStep[] = [
     {
       popup: {
-        text: () => <Trans i18nKey="tuto.welcome"><strong/></Trans>
+        text: () => <Trans i18nKey="tuto.welcome"><strong /></Trans>
       }
     },
     {
       popup: {
-        text: () => <Trans i18nKey="tuto.goal"><strong/><i/></Trans>
+        text: () => <Trans i18nKey="tuto.goal"><strong /><i /></Trans>
       }
     },
     {
       popup: {
-        text: () => <Trans i18nKey="tuto.region"><strong/><i/></Trans>,
-        position: { x: 0, y: -7 }
+        text: () => <Trans i18nKey="tuto.region"><strong /><i /></Trans>,
+        position: { x: 40, y: -20 }
       },
       focus: (game) => ({
         materials: [
@@ -56,22 +56,23 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
     },
     {
       popup: {
-        text: () => <Trans i18nKey="tuto.place.region"><strong/><i/></Trans>,
-        position: { y: 1, x: 0 }
+        text: () => <Trans i18nKey="tuto.place.region"><strong /><i /></Trans>,
+        position: { y: 14, x: 50 },
+        size: { width: 55 }
       },
       focus: (game) =>
-        ({
-          materials: [
-            this.material(game, MaterialType.Region).player(me).id(Region.Blue6)
-          ],
-          locations: [
-            this.location(LocationType.PlayerRegionLine).player(me).x(0).location
-          ],
-          margin: {
-            top: 2,
-            bottom: 2
-          }
-        }),
+      ({
+        materials: [
+          this.material(game, MaterialType.Region).player(me).id(Region.Blue6)
+        ],
+        locations: [
+          this.location(LocationType.PlayerRegionLine).player(me).x(0).location
+        ],
+        margin: {
+          top: 2,
+          bottom: 2
+        }
+      }),
       move: {
         player: me,
         filter: (move, game) => {
@@ -92,7 +93,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
     },
     {
       popup: {
-        text: () => <Trans i18nKey="tuto.place.region.other"><strong/><i/></Trans>,
+        text: () => <Trans i18nKey="tuto.place.region.other"><strong /><i /></Trans>,
         position: { y: 0, x: 20 }
       },
       move: {}
@@ -101,96 +102,96 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
       popup: {
         text: (t) => (
           <>
-            <Trans i18nKey="tuto.biome"><strong/></Trans>
-            <br/><span css={[icon(Forest), radius(20)]}/> {t('biome.1')}<br/>
-            <br/><span css={[icon(River), radius(20)]}/> {t('biome.2')}<br/>
-            <br/><span css={[icon(Desert), radius(20)]}/> {t('biome.3')}<br/>
-            <br/><span css={[icon(City), radius(20)]}/> {t('biome.4')}<br/>
-            <br/><Trans i18nKey="tuto.biome.quest"><strong/></Trans>
+            <Trans i18nKey="tuto.biome"><strong /></Trans>
+            <br /><span css={[icon(Forest), radius(20)]} /> {t('biome.1')}<br />
+            <br /><span css={[icon(River), radius(20)]} /> {t('biome.2')}<br />
+            <br /><span css={[icon(Desert), radius(20)]} /> {t('biome.3')}<br />
+            <br /><span css={[icon(City), radius(20)]} /> {t('biome.4')}<br />
+            <br /><Trans i18nKey="tuto.biome.quest"><strong /></Trans>
           </>
         ),
-        position: { x: 30, y: 0 }
+        position: { x: 20, y: 0 }
       },
       focus: (game) =>
-        ({
-          locations: [
-            this
-              .location(LocationType.CardCharacteristics)
-              .id(Characteristic.Biome)
-              .parent(this.material(game, MaterialType.Region).location((location) => location.type === LocationType.Region && location.x === 0).getIndex())
-              .location
-          ],
-          margin: {
-            right: 17,
-            top: 3
-          }
-        })
+      ({
+        locations: [
+          this
+            .location(LocationType.CardCharacteristics)
+            .id(Characteristic.Biome)
+            .parent(this.material(game, MaterialType.Region).location((location) => location.type === LocationType.Region && location.x === 0).getIndex())
+            .location
+        ],
+        margin: {
+          right: 17,
+          top: 3
+        }
+      })
     },
     {
       popup: {
         text: () => (
           <Trans i18nKey="tuto.hour">
-            <strong/><i/>
-            <span css={icon(Day)}/>
-            <span css={icon(Night)}/>
+            <strong /><i />
+            <span css={icon(Day)} />
+            <span css={icon(Night)} />
           </Trans>
         ),
-        position: { x: 30, y: 0 }
+        position: { x: 20, y: -15 }
       },
       focus: (game) =>
-        ({
-          locations: [
-            this
-              .location(LocationType.CardCharacteristics)
-              .id(Characteristic.Time)
-              .parent(this.material(game, MaterialType.Region).location((location) => location.type === LocationType.Region && location.x === 0).getIndex())
-              .location
-          ],
-          margin: {
-            right: 17
-          }
-        })
+      ({
+        locations: [
+          this
+            .location(LocationType.CardCharacteristics)
+            .id(Characteristic.Time)
+            .parent(this.material(game, MaterialType.Region).location((location) => location.type === LocationType.Region && location.x === 0).getIndex())
+            .location
+        ],
+        margin: {
+          right: 17
+        }
+      })
     },
     {
       popup: {
         text: () => (
           <Trans i18nKey="tuto.region.draw">
-            <strong/><i/>
+            <strong /><i />
           </Trans>
         ),
-        position: { x: 0, y: -23 }
+        position: { x: 40, y: -20 }
       },
       focus: (game) =>
-        ({
-          materials: [
-            this.material(game, MaterialType.Region).location(LocationType.Region)
-          ],
-          margin: {
-            top: 7.5
-          }
-        })
+      ({
+        materials: [
+          this.material(game, MaterialType.Region).location(LocationType.Region)
+        ],
+        margin: {
+          top: 7.5
+        }
+      })
     },
     {
       popup: {
         text: () => (
           <Trans i18nKey="tuto.region.draw.me">
-            <strong/><i/>
+            <strong /><i />
           </Trans>
         )
       },
       focus: (game) =>
-        ({
-          materials: [
-            this.material(game, MaterialType.Region).location(LocationType.Region)
-          ],
-          locations: [
-            this.location(LocationType.PlayerRegionHand).player(me).location
-          ],
-          margin: {
-            top: 2,
-            bottom: 2
-          }
-        }),
+      ({
+        materials: [
+          this.material(game, MaterialType.Region).location(LocationType.Region)
+        ],
+        locations: [
+          this.location(LocationType.PlayerRegionHand).player(me).location
+        ],
+        margin: {
+          top: 2,
+          bottom: 2
+        }
+      }),
       move: {
         player: me
       }
@@ -204,7 +205,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
       popup: {
         text: () => (
           <Trans i18nKey="tuto.round">
-            <strong/><i/>
+            <strong /><i />
           </Trans>
         ),
         position: { x: 0, y: -5 }
@@ -212,22 +213,23 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
     },
     {
       popup: {
-        text: () => <Trans i18nKey="tuto.place.region"><strong/><i/></Trans>,
-        position: { y: 1, x: 0 }
+        text: () => <Trans i18nKey="tuto.place.region"><strong /><i /></Trans>,
+        position: { y: 14, x: 50 },
+        size: { width: 55 }
       },
       focus: (game) =>
-        ({
-          materials: [
-            this.material(game, MaterialType.Region).player(me).id(Region.Blue21)
-          ],
-          locations: [
-            this.location(LocationType.PlayerRegionLine).player(me).x(1).location
-          ],
-          margin: {
-            top: 2,
-            bottom: 2
-          }
-        }),
+      ({
+        materials: [
+          this.material(game, MaterialType.Region).player(me).id(Region.Blue21)
+        ],
+        locations: [
+          this.location(LocationType.PlayerRegionLine).player(me).x(1).location
+        ],
+        margin: {
+          top: 2,
+          bottom: 2
+        }
+      }),
       move: {
         player: me,
         filter: (move, game) => {
@@ -249,11 +251,11 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
     {
       popup: {
         text: () => <Trans i18nKey="tuto.quest">
-          <strong/>
-          <i/>
-          <span css={resource(Rock)}/>
+          <strong />
+          <i />
+          <span css={resource(Rock)} />
         </Trans>,
-        position: { y: 5, x: 30 }
+        position: { y: 20, x: 30 }
       },
       focus: (game) => ({
         materials: [
@@ -266,7 +268,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
     },
     {
       popup: {
-        text: () => <Trans i18nKey="tuto.scoring"><strong/><i/><span css={resource(Rock)}/></Trans>,
+        text: () => <Trans i18nKey="tuto.scoring"><strong /><i /><span css={resource(Rock)} /></Trans>,
         position: { y: -17, x: 0 }
       },
       focus: (game) => ({
@@ -281,40 +283,40 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
     },
     {
       popup: {
-        text: () => <Trans i18nKey="tuto.sanctuary"><strong/><i/></Trans>,
-        position: { y: -17, x: 0 }
+        text: () => <Trans i18nKey="tuto.sanctuary"><strong /><i /></Trans>,
+        position: { y: 0, x: 0 }
       },
       focus: (game) =>
-        ({
-          materials: [
-            this.material(game, MaterialType.Region).player(me).id(Region.Blue21),
-            this.material(game, MaterialType.Region).player(me).id(Region.Blue6)
-          ],
-          locations: this
-            .material(game, MaterialType.Region)
-            .location(LocationType.PlayerRegionLine)
-            .player(me)
-            .getIndexes()
-            .map((index) => (
-              this
-                .location(LocationType.CardCharacteristics)
-                .id(Characteristic.Time)
-                .parent(index)
-                .location
-            )),
-          margin: {
-            top: 9
-          }
-        })
+      ({
+        materials: [
+          this.material(game, MaterialType.Region).player(me).id(Region.Blue21),
+          this.material(game, MaterialType.Region).player(me).id(Region.Blue6)
+        ],
+        locations: this
+          .material(game, MaterialType.Region)
+          .location(LocationType.PlayerRegionLine)
+          .player(me)
+          .getIndexes()
+          .map((index) => (
+            this
+              .location(LocationType.CardCharacteristics)
+              .id(Characteristic.Time)
+              .parent(index)
+              .location
+          )),
+        margin: {
+          top: 9
+        }
+      })
     },
     {
       popup: {
         text: () => <Trans i18nKey="tuto.clue">
-          <strong/>
-          <i/>
-          <span css={icon(Clue)}/>
+          <strong />
+          <i />
+          <span css={icon(Clue)} />
         </Trans>,
-        position: { y: -17, x: 0 }
+        position: { y: 0, x: 0 }
       },
       focus: (game) => ({
         materials: [
@@ -336,11 +338,11 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
     {
       popup: {
         text: () => <Trans i18nKey="tuto.sanctuary.drawn">
-          <strong/>
-          <i/>
-          <span css={icon(Clue)}/>
+          <strong />
+          <i />
+          <span css={icon(Clue)} />
         </Trans>,
-        position: { y: -20, x: -5 }
+        position: { y: 0, x: 0 }
       },
       focus: (game) => ({
         materials: [
@@ -354,23 +356,23 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
     {
       popup: {
         text: () => <Trans i18nKey="tuto.region.draw.2">
-          <strong/>
-          <i/>
+          <strong />
+          <i />
         </Trans>
       },
       focus: (game) =>
-        ({
-          materials: [
-            this.material(game, MaterialType.Region).location(LocationType.Region)
-          ],
-          locations: [
-            this.location(LocationType.PlayerRegionHand).player(me).location
-          ],
-          margin: {
-            top: 2,
-            bottom: 2
-          }
-        }),
+      ({
+        materials: [
+          this.material(game, MaterialType.Region).location(LocationType.Region)
+        ],
+        locations: [
+          this.location(LocationType.PlayerRegionHand).player(me).location
+        ],
+        margin: {
+          top: 2,
+          bottom: 2
+        }
+      }),
       move: {
         player: me
       }
@@ -378,8 +380,8 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
     {
       popup: {
         text: () => <Trans i18nKey="tuto.sanctuary.choose">
-          <strong/>
-          <i/>
+          <strong />
+          <i />
         </Trans>,
         position: { y: 0, x: 15 }
       },
@@ -399,8 +401,8 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
     {
       popup: {
         text: () => <Trans i18nKey="tuto.sanctuary.why">
-          <strong/>
-          <i/>
+          <strong />
+          <i />
         </Trans>,
         position: { x: 25, y: 3.5 }
       },
@@ -416,8 +418,8 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
     {
       popup: {
         text: () => <Trans i18nKey="tuto.end">
-          <strong/>
-          <i/>
+          <strong />
+          <i />
         </Trans>
       }
     }

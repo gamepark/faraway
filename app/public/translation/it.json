@@ -68,7 +68,7 @@
   "tuto.biome": "Ogni Regione rappresenta un bioma specifico, indicato da un colore e un simbolo associato.",
   "tuto.biome.quest": "<0>Alcune missioni ti danno punti in base ai biomi esplorati.</0>\nPer esempio, la missione sulla carta 27 dà 1 punto per ogni carta Città e ogni carta Deserto.",
   "tuto.hour": "Ogni Regione richiede un certo tempo per essere esplorata.\r\nOgni carta ha un numero unico tra 1 e 68: questo numero indica quante ore servono per esplorare la regione.\nL'esplorazione può svolgersi di giorno <2/> o di notte <3/>, il che può essere importante per alcune missioni.",
-  "tuto.region.draw": "Alla fine della fase di esplorazione, ogni giocatore sceglie una carta Regione tra quelle visibili al centro del tavolo.\n<0>Iniziamo dal giocatore che ha giocato la carta di valore più basso</0>, poi continuiamo in ordine crescente.",
+  "tuto.region.draw": "Alla fine della fase di esplorazione, ogni giocatore sceglie una carta Regione tra quelle visibili al centro del tavolo.\n<0>Iniziamo dal giocatore che ha giocato la carta di valore più basso</0>, poi continuiamo in ordine crescente.\nIl valore della carta giocata da ciascun giocatore è mostrato direttamente sul suo pannello.",
   "tuto.region.draw.me": "Hai giocato la carta 6, il tuo avversario la carta 67.\nQuindi tocca a te: prendi la carta che preferisci.",
   "tuto.round": "Questo è un nuovo turno. Si giocano 8 carte Regione, quindi 8 turni.",
   "tuto.quest": "Questo abitante ti affida una missione: devi tornare con <2/> <2/> per guadagnare 8 punti.",

@@ -68,7 +68,7 @@
   "tuto.biome": "Jede Region stellt ein bestimmtes Biom dar, gekennzeichnet durch eine Farbe und ein zugehöriges Symbol.",
   "tuto.biome.quest": "<0>Manche Aufträge bringen dir Punkte basierend auf den erkundeten Biomen ein.</0>\nZum Beispiel bringt der Auftrag auf Karte 27 je 1 Punkt für jede Stadt-Karte und Wüsten-Karte.",
   "tuto.hour": "Jede Region braucht eine bestimmte Zeit zum Erkunden.\r\nJede Karte hat eine eindeutige Zahl zwischen 1 und 68: Diese Zahl gibt an, wie viele Stunden die Erkundung der Region dauert.\nDie Erkundung kann tagsüber <2/> oder nachts <3/> stattfinden, was für manche Aufträge wichtig sein kann.",
-  "tuto.region.draw": "Am Ende der Erkundungsphase wählt jeder Spieler eine Regions-Karte aus denen in der Tischmitte.\n<0>Wir beginnen mit dem Spieler, der die Karte mit dem niedrigsten Wert gespielt hat</0>, und fahren in aufsteigender Reihenfolge fort.",
+  "tuto.region.draw": "Am Ende der Erkundungsphase wählt jeder Spieler eine Regions-Karte aus denen in der Tischmitte.\n<0>Wir beginnen mit dem Spieler, der die Karte mit dem niedrigsten Wert gespielt hat</0>, und fahren in aufsteigender Reihenfolge fort.\nDer Wert der von jedem Spieler gespielten Karte wird direkt auf seinem Panel angezeigt.",
   "tuto.region.draw.me": "Du hast Karte 6 gespielt, dein Gegner Karte 67.\nDu bist also zuerst an der Reihe: nimm die Karte deiner Wahl.",
   "tuto.round": "Das ist eine neue Runde. Es werden 8 Regions-Karten gespielt, also gibt es 8 Runden.",
   "tuto.quest": "Dieser Bewohner gibt dir einen Auftrag: Du musst mit <2/> <2/> zurückkehren, um 8 Punkte zu erhalten.",
