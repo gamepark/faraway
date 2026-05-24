@@ -35,23 +35,9 @@ export const useExtensionPopups = (): { popups: ReactNode[]; storageKey: string 
           eyebrow={t('extension.starrySkies.eyebrow')}
           title={t('extension.starrySkies.title')}
           description={<Trans i18nKey="extension.starrySkies.desc"><strong/></Trans>}
-          rules={(
-            <dl>
-              <dt>{t('extension.starrySkies.rules.cards.term')}</dt>
-              <dd>{t('extension.starrySkies.rules.cards')}</dd>
-              <dt>{t('extension.starrySkies.rules.faceUp.term')}</dt>
-              <dd>{t('extension.starrySkies.rules.faceUp')}</dd>
-              <dt>{t('extension.starrySkies.rules.sacrifice.term')}</dt>
-              <dd>{t('extension.starrySkies.rules.sacrifice')}</dd>
-              <dt>{t('extension.starrySkies.rules.quests.term')}</dt>
-              <dd>{t('extension.starrySkies.rules.quests')}</dd>
-              <dt>{t('extension.starrySkies.rules.tieBreak.term')}</dt>
-              <dd>{t('extension.starrySkies.rules.tieBreak')}</dd>
-            </dl>
-          )}
           regions={starrySkiesRegions}
           regionsPerRow={5}
-          layout="rules-split"
+          layout="compact"
         />
       )
     }

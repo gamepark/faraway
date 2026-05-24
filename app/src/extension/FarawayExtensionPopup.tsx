@@ -14,31 +14,19 @@ type Props = {
   eyebrow: ReactNode
   title: ReactNode
   description: ReactNode
-  /** Optional structured rules list, rendered as a "Rules" callout
-   *  between the description and the card grids. Used by Starry Skies
-   *  to spell out its new mechanics (meteor face-up scoring, last-digit
-   *  matching, sanctuary sacrifice, tie-breaker, new quest types) that
-   *  don't fit in a one-paragraph lede. The lede stays the narrative
-   *  hook; this prop adds the precise gameplay info. */
-  rules?: ReactNode
   regions: Region[]
   sanctuaries?: Sanctuary[]
   /** Number of regions per row in the grid. Defaults to 3 (expansion1 layout).
    *  Starry Skies has 15 regions and reads better on a wider 5-column grid. */
   regionsPerRow?: number
   /** Layout flavour:
-   *   - 'split'      : 2 columns body — regions left, sanctuaries right —
-   *                    after a full-width lede + rules block above.
-   *                    Original expansion1 layout.
-   *   - 'compact'    : single auto-sized column (regions only), used when
-   *                    the popup ships no sanctuaries and no rules block.
-   *   - 'rules-split': 2 columns body — narrative (lede + rules bullets)
-   *                    on the LEFT, regions grid on the RIGHT. Used by
-   *                    Starry Skies where the extension introduces enough
-   *                    new mechanics that the rules block deserves its
-   *                    own column next to the visual card list.
+   *   - 'split'   : 2 columns body — regions left, sanctuaries right —
+   *                 below a full-width lede. Original expansion1 layout.
+   *   - 'compact' : single auto-sized column (regions only). Used when the
+   *                 popup ships no sanctuaries — the dialog then hugs its
+   *                 content width instead of reserving an empty 2nd column.
    *  Defaults to 'split'. */
-  layout?: 'split' | 'compact' | 'rules-split'
+  layout?: 'split' | 'compact'
 }
 
 /**
@@ -55,7 +43,7 @@ type Props = {
  * Tailles de fonte alignées sur la version précédente (le user a explicitement
  * demandé de ne pas grossir la typo).
  */
-export const FarawayExtensionPopup: FC<Props> = ({ eyebrow, title, description, rules, regions, sanctuaries, regionsPerRow = 3, layout = 'split' }) => {
+export const FarawayExtensionPopup: FC<Props> = ({ eyebrow, title, description, regions, sanctuaries, regionsPerRow = 3, layout = 'split' }) => {
   const { t } = useTranslation()
   const total = regions.length + (sanctuaries?.length ?? 0)
 
@@ -119,31 +107,11 @@ export const FarawayExtensionPopup: FC<Props> = ({ eyebrow, title, description, 
 
       <div css={dividerCss}/>
 
-      {layout === 'rules-split' ? (
-        /* RULES-SPLIT: narrative column on the left (lede + rules
-           callout), region grid on the right. Best for extensions
-           that introduce enough new mechanics that the rules block
-           deserves equal billing with the card visuals. */
-        <div css={rulesSplitBodyCss}>
-          <div css={rulesSplitNarrativeCss}>
-            <p css={ledeCss}>{description}</p>
-            {rules && <div css={rulesBoxCss}>{rules}</div>}
-          </div>
-          <div css={rulesSplitCardsCss}>
-            {regionsSection}
-            {sanctuariesSection}
-          </div>
-        </div>
-      ) : (
-        <>
-          <p css={ledeCss}>{description}</p>
-          {rules && <div css={rulesBoxCss}>{rules}</div>}
-          <div css={cardsAreaCss(layout)}>
-            {regionsSection}
-            {sanctuariesSection}
-          </div>
-        </>
-      )}
+      <p css={ledeCss}>{description}</p>
+      <div css={cardsAreaCss(layout)}>
+        {regionsSection}
+        {sanctuariesSection}
+      </div>
     </article>
   )
 }
@@ -280,72 +248,6 @@ const dividerCss = css`
   margin: 1em 0 1em;
 `
 
-/* Rules callout box — compact paper inset with a dotted violet outline
-   and an uppercase "Règles" eyebrow tab top-left. Echoes the printed
-   rulebook's "VARIANTE" / "NOTE" callouts. Children are a dl/dt/dd
-   series (term + body), styled below. */
-const rulesBoxCss = css`
-  position: relative;
-  background: rgba(245, 235, 214, 0.55);
-  border: 1.5px dotted ${INK_DOTS};
-  border-radius: 0.25em;
-  padding: 0.7em 0.9em 0.6em;
-  margin: 0 0 1em;
-  /* Cap the rules box width so the dl rows wrap at a comfortable line
-     length even when the narrative column above is wider — the box was
-     getting too dominant beside the regions grid. */
-  max-width: 32em;
-  font-family: 'Crimson Pro', serif;
-  line-height: 1.4;
-  color: ${INK};
-
-  &::before {
-    content: 'Règles';
-    position: absolute;
-    top: -0.55em;
-    left: 0.7em;
-    background: ${ORANGE};
-    color: ${PAPER};
-    font-family: 'Fjalla One', sans-serif;
-    font-size: 0.65em;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    padding: 0.12em 0.55em;
-    border-radius: 0.15em;
-    border: 0.1em solid ${INK};
-    text-shadow: 0 0.05em 0 ${ORANGE_DEEP};
-  }
-
-  dl {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    column-gap: 0.6em;
-    row-gap: 0.3em;
-    /* Top margin keeps the first dl row clear of the "Règles" eyebrow
-       tab which sits at top: -0.55em over the box. */
-    margin: 0.5em 0 0;
-  }
-
-  dt {
-    font-family: 'Fjalla One', sans-serif;
-    font-size: 0.8em;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: ${ORANGE_DEEP};
-    white-space: nowrap;
-    padding-top: 0.12em;
-  }
-
-  dd {
-    margin: 0;
-  }
-
-  strong {
-    font-weight: 600;
-    color: ${INK};
-  }
-`
-
 const ledeCss = css`
   font-family: 'Crimson Pro', serif;
   font-style: italic;
@@ -379,44 +281,11 @@ const ledeCss = css`
 /* 'split' = two columns side by side (regions / sanctuaries), used by
    expansion1 which ships both kinds. 'compact' = single auto-sized
    column, used when the popup hugs its actual content width instead
-   of reserving an empty 2nd column. ('rules-split' has its own layout
-   handled inline in the component; never passed here.) */
-const cardsAreaCss = (layout: 'split' | 'compact' | 'rules-split') => css`
+   of reserving an empty 2nd column. */
+const cardsAreaCss = (layout: 'split' | 'compact') => css`
   display: grid;
   grid-template-columns: ${layout === 'split' ? 'minmax(0, 1.05fr) minmax(0, 0.95fr)' : 'auto'};
   gap: 1.4em;
-`
-
-/* RULES-SPLIT body grid: narrative left, card grid right. The right
-   column is sized to fit a 5-column region grid plus a touch of breathing
-   room, while the narrative absorbs the remaining width. align-items:
-   start so the rules box doesn't stretch to match the (often taller)
-   card grid height. */
-const rulesSplitBodyCss = css`
-  display: grid;
-  grid-template-columns: minmax(20em, 1fr) auto;
-  gap: 1.8em;
-  align-items: start;
-`
-
-const rulesSplitNarrativeCss = css`
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
-  min-width: 0;
-
-  /* The lede's bottom margin (1.4em) was meant for the original layout
-     where the cards followed it directly. Inside the narrative column
-     the rules box sits right below the lede with its own ::before tab,
-     so we cancel the lede's margin and let the parent grid gap handle
-     spacing instead. */
-  & > p {
-    margin-bottom: 0;
-  }
-`
-
-const rulesSplitCardsCss = css`
-  min-width: 0;
 `
 
 const cardsColCss = css`
