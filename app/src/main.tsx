@@ -7,6 +7,7 @@ import { createRoot } from 'react-dom/client'
 import { farawayAnimations } from './animation/FarawayAnimations'
 import App from './App'
 import { Locators } from './locators/Locators'
+import { FarawayLogs } from './logs/FarawayLogs'
 import { Material } from './material/Material'
 import { FarawayScoring } from './scoring/FarawayScoring'
 import { theme } from './theme'
@@ -25,6 +26,7 @@ createRoot(document.getElementById('root')!).render(
       animations={farawayAnimations}
       tutorial={new Tutorial()}
       scoring={new FarawayScoring()}
+      logs={new FarawayLogs()}
       theme={theme}
     >
       <App />

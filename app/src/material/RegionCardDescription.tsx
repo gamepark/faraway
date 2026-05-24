@@ -5,7 +5,7 @@ import { Memory } from '@gamepark/faraway/rules/Memory'
 import { css, keyframes } from '@emotion/react'
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons/faArrowUp'
-import { CardDescription, ItemContext, MaterialContext } from '@gamepark/react-game'
+import { CardDescription, fontSizeCss, ItemContext, MaterialContext } from '@gamepark/react-game'
 import { isMoveItemType, MaterialItem, MaterialMove, MaterialMoveBuilder } from '@gamepark/rules-api'
 import { FarawayMenuButton, HandIcon, TrashIcon } from '../components/ItemMenuButton'
 import Blue13 from '../images/region/region_blue_13.jpg'
@@ -248,7 +248,16 @@ export class RegionCardDescription extends CardDescription {
     return
   }
 
+  // Shrink the help dialog card. The framework defaults to fontSizeCss(min(75/H,75/W,10))
+  // = 10em for a 7x7 card, which reads oversized inside our rulebook-padded dialog.
+  // We must keep super's return value too — that's where the rotateY(180deg) for back-face
+  // display lives. Dropping it hides the card whenever it's shown back-up.
+  getHelpDisplayExtraCss(item: MaterialItem, context: ItemContext) {
+    return [fontSizeCss(7), super.getHelpDisplayExtraCss(item, context)]
+  }
+
   menuAlwaysVisible = true
+
 
   getItemMenu(item: MaterialItem, context: ItemContext, legalMoves: MaterialMove[]) {
     const isRegionMove = isMoveItemType(MaterialType.Region)

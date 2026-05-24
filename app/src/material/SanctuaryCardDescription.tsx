@@ -4,7 +4,7 @@ import { MaterialType } from '@gamepark/faraway/material/MaterialType'
 import { RuleId } from '@gamepark/faraway/rules/RuleId'
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons/faArrowUp'
 import { faXmark } from '@fortawesome/free-solid-svg-icons/faXmark'
-import { CardDescription, ItemContext } from '@gamepark/react-game'
+import { CardDescription, fontSizeCss, ItemContext } from '@gamepark/react-game'
 import { isMoveItemType, MaterialItem, MaterialMove } from '@gamepark/rules-api'
 import { FarawayMenuButton } from '../components/ItemMenuButton'
 import Blue1 from '../images/sanctuary/sanctuary_blue_1.jpg'
@@ -184,6 +184,14 @@ export class SanctuaryCardDescription extends CardDescription {
     }
 
     return null
+  }
+
+  // Shrink the help dialog card. Match RegionCardDescription's override so both
+  // card types render at the same scale (regions stay slightly larger because
+  // sanctuaries are physically narrower — that matches the table feel).
+  // Keep super's CSS — that's where rotateY(180deg) for the back face lives.
+  getHelpDisplayExtraCss(item: MaterialItem, context: ItemContext) {
+    return [fontSizeCss(7), super.getHelpDisplayExtraCss(item, context)]
   }
 
   help = SanctuaryCardHelp
