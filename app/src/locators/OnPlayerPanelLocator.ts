@@ -41,7 +41,12 @@ class OnPlayerPanelLocator extends ListLocator {
   getCoordinates(location: Location, context: MaterialContext) {
     const index = getRelativePlayerIndex(context, location.player)
     const { x, y } = getPanelPosition(index, context.rules.players.length)
-    return { x, y, z: 10 }
+    // Default z=10 keeps panel-anchored cards above the rest of the table during
+    // animations. Trajectories can override this on a per-waypoint basis by
+    // passing `location.z` (e.g. the discard-from-panel trajectory drops the
+    // card to z=0 at the start so it slides UNDER the viewed player's hand
+    // before flying to the deck).
+    return { x, y, z: location.z ?? 10 }
   }
 }
 

@@ -78,19 +78,21 @@ const pickTrajectory = (_context: unknown, move: MoveItem) => {
 }
 
 /**
- * "Discard from panel" trajectory: the source hand of a non-viewed player is off-screen, so we
- * surface the card on/beside their panel for a brief beat — symmetric to {@link pickTrajectory}
- * in reverse — and then let the framework fly it to its actual destination (the deck).
+ * "Discard from panel" trajectory: the source hand of a non-viewed player is off-screen,
+ * so we anchor the card on the player's panel as the starting point, then let the framework
+ * fly it straight to the deck.
+ *
+ * Explicit `rotation: false` keeps the card face-down throughout. Without it the framework
+ * tweens away the rotateY(180deg) inherited from the hidden hand → the card flashes face-up
+ * mid-flight before snapping face-down on the deck.
  */
 const discardFromPanelTrajectory = (context: ItemContext, move: MoveItem) => {
   const item = context.rules.material(MaterialType.Region).getItem(move.itemIndex)
   const sourcePlayer = item.location.player as number
-  const at = { player: sourcePlayer }
+  const at = { player: sourcePlayer, rotation: false }
   return {
     waypoints: [
-      { at: 0.00, locator: onPlayerPanelLocator, location: at },
-      { at: 0.15, locator: besidePanelCardLocator, location: at },
-      { at: 0.35, locator: besidePanelCardLocator, location: at } // brief "this is the card I'm putting back" beat
+      { at: 0.00, locator: onPlayerPanelLocator, location: at }
     ]
   }
 }
@@ -209,19 +211,37 @@ farawayAnimations
   .duration(2600)
   .trajectory((_ctx, move) => revealTrajectory(move as MoveItem))
 
-// Any region move into a non-viewed player's line — placement, rotation reveal, or
-// HideRegionLine flip — has no visible card for the viewer (their line is hidden).
-// Skip the animation entirely; the score bubble next to the player's panel
-// (ScoringIndicator) carries the scoring narration.
+// Region placements on a non-viewed player's line (and any non-reveal flip, like
+// HideRegionLine) have no visible card for the viewer — the line is hidden.
+// Skip those entirely; the score bubble beside the panel carries the narration.
+// Reveals (rotation: true) DON'T fall through here: they're the moment the viewer
+// finally gets to see the card, so we want a real animation for them — handled
+// by a separate rule below via revealTrajectory.
 farawayAnimations
   .configure((move, context) => {
     if (!isMoveItemType(MaterialType.Region)(move)) return false
     if (move.location.type !== LocationType.PlayerRegionLine) return false
+    if (move.location.rotation === true) return false
     const player = move.location.player
     const viewed = getViewPlayer(context)
     return viewed !== undefined && player !== undefined && player !== viewed
   })
   .duration(0)
+
+// Region reveal on a non-viewed player's line: card flips from face-down to face-up.
+// We surface it via the panel for a reveal-style animation so the viewer can read
+// what was just revealed.
+farawayAnimations
+  .configure((move, context) => {
+    if (!isMoveItemType(MaterialType.Region)(move)) return false
+    if (move.location.type !== LocationType.PlayerRegionLine) return false
+    if (move.location.rotation !== true) return false
+    const player = move.location.player
+    const viewed = getViewPlayer(context)
+    return viewed !== undefined && player !== undefined && player !== viewed
+  })
+  .duration(2600)
+  .trajectory((_ctx, move) => revealTrajectory(move as MoveItem))
 
 farawayAnimations
   .configure((move, context) => {
@@ -237,7 +257,7 @@ farawayAnimations
 
 // Region put-back from a non-viewed player's hand to the deck (ChooseHandCardsRule at game start —
 // players send 2 cards back to the deck after the initial deal). The source hand is off-screen for
-// the viewer, so we surface the card on the player's panel before letting it fly to the deck.
+// the viewer, so we anchor the card on the player's panel before letting it fly to the deck.
 farawayAnimations
   .configure((move, context) => {
     if (!isMoveItemType(MaterialType.Region)(move)) return false
@@ -248,7 +268,7 @@ farawayAnimations
     const viewed = getViewPlayer(context)
     return viewed !== undefined && sourcePlayer !== undefined && sourcePlayer !== viewed
   })
-  .duration(1000)
+  .duration(500)
   .trajectory((ctx, move) => discardFromPanelTrajectory(ctx, move as MoveItem))
 
 farawayAnimations

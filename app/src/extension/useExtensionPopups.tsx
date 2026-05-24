@@ -8,10 +8,14 @@ import { useActiveExtensions } from './useActiveExtensions'
 const expansion1Sanctuaries = sanctuaries.filter(s => !baseGameSanctuaries.includes(s))
 
 /**
- * Builds the carousel slides + the sessionStorage key passed to the framework's
- * `<ExtensionInfoDialog>`. Returns an empty `popups` array when no extension is active.
+ * Builds the carousel slides for the active extensions. Returns an empty `popups`
+ * array when no extension is active.
+ *
+ * The sessionStorage key for the framework's <ExtensionInfoDialog> is no longer
+ * exposed here — the framework derives a default `${gameId}-extensions` itself,
+ * which matches what we used to hardcode.
  */
-export const useExtensionPopups = (): { popups: ReactNode[]; storageKey: string } => {
+export const useExtensionPopups = (): { popups: ReactNode[] } => {
   const { t } = useTranslation()
   const active = useActiveExtensions()
   return useMemo(() => {
@@ -41,11 +45,6 @@ export const useExtensionPopups = (): { popups: ReactNode[]; storageKey: string 
         />
       )
     }
-    // Single constant key — the storageKey only gates auto-open ("show
-    // once per tab session"). When the user changes the extension combo
-    // they reload the page anyway, which already resets sessionStorage,
-    // so we don't need to encode the combo in the key.
-    const storageKey = 'faraway-extensions'
-    return { popups, storageKey }
+    return { popups }
   }, [active, t])
 }

@@ -19,7 +19,7 @@ const SwitchViewOnDrag: FC = () => {
 }
 
 export const GameDisplay: FC = () => {
-  const { popups, storageKey } = useExtensionPopups()
+  const { popups } = useExtensionPopups()
   return (
     <>
       <GameTable {...tableSize}
@@ -30,7 +30,7 @@ export const GameDisplay: FC = () => {
         <SwitchViewOnDrag />
         {import.meta.env.DEV && <DevToolsHub><DevCardViewer /></DevToolsHub>}
       </GameTable>
-      <ExtensionInfoDialog popups={popups} storageKey={storageKey}/>
+      <ExtensionInfoDialog popups={popups}/>
     </>
   )
 }
