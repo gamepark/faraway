@@ -49,7 +49,7 @@ const resultContainerCss = css`
    Default visual is the "primary" stamp (orange fill, paper text) since that
    reads as the natural CTA. Variants are picked off in the navigationCss
    block below using :first-of-type / :last-of-type selectors. */
-const stampButtonCss = css`
+export const stampButtonCss = css`
   font-family: 'Fjalla One', sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.14em;

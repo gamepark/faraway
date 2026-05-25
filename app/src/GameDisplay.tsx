@@ -4,6 +4,7 @@ import { DevToolsHub, ExtensionInfoDialog, GameTable, usePlay, usePlayerId } fro
 import { MaterialMoveBuilder } from '@gamepark/rules-api'
 import { FC, useCallback } from 'react'
 import { DevCardViewer } from './dev/DevCardViewer'
+import { ExtensionsTableButton } from './extension/ExtensionsTableButton'
 import { useExtensionPopups } from './extension/useExtensionPopups'
 import { tableSize } from './panels/PanelConstants'
 import { PlayerPanels } from './panels/PlayerPanels'
@@ -27,6 +28,7 @@ export const GameDisplay: FC = () => {
         zoom={false}
         margin={{ top: 7, left: 0, right: 0, bottom: 0 }} css={process.env.NODE_ENV === 'development' ? borderCss : undefined}>
         <PlayerPanels />
+        <ExtensionsTableButton/>
         <SwitchViewOnDrag />
         {import.meta.env.DEV && <DevToolsHub><DevCardViewer /></DevToolsHub>}
       </GameTable>

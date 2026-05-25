@@ -257,6 +257,7 @@ const ledeCss = css`
   max-width: 62ch;
   margin: 0 0 1.4em;
   font-weight: 400;
+  text-align: justify;
 
   /* Highlighter mark behind <strong> spans (Trans <0>...</0> become <strong>). */
   strong {
@@ -378,14 +379,4 @@ const cardCss = css`
   box-shadow:
     0 0.18em 0.4em rgba(58, 31, 92, 0.22),
     0 0.04em 0.1em rgba(58, 31, 92, 0.2);
-  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 200ms ease;
-  cursor: pointer;
-
-  &:hover {
-    transform: translateY(-0.18em) scale(1.06);
-    box-shadow:
-      0 0.5em 1em rgba(58, 31, 92, 0.32),
-      0 0.1em 0.25em rgba(58, 31, 92, 0.22);
-    z-index: 2;
-  }
 `
