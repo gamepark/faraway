@@ -25,7 +25,7 @@ export class RegionHandLocator extends HandLocator {
     let x = REGION_CENTER_X
     const sanctuaryHand = this.getSanctuaryHandCount(location, context)
     if (sanctuaryHand >= 6) {
-      x += Math.min((sanctuaryHand - 5) * 6, 31)
+      x += Math.min((sanctuaryHand - 6) * 5, 31)
     }
     return { x, y: HAND_Y, z: 1 }
   }
@@ -50,7 +50,11 @@ export class RegionHandLocator extends HandLocator {
       .length
   }
 
-  getRadius(): number {
+  getRadius(location: Location, context: MaterialContext): number {
+    const sanctuaryHand = this.getSanctuaryHandCount(location, context)
+    if (sanctuaryHand >= 6) {
+      return 50
+    }
     return 125
   }
 

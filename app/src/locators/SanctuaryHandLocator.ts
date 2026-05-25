@@ -18,7 +18,7 @@ export class SanctuaryHandLocator extends HandLocator {
     // From 6 cards on, shift the fan anchor right so the fan stays clear of the
     // table edge as it widens. ~4em per extra card past 5.
     if (count >= 6) {
-      x += (count - 5) * 4
+      x += (count - 6) * 3.5
     }
     return { x, y: HAND_Y, z: 3 }
   }

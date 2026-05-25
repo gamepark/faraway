@@ -16,7 +16,12 @@ export class ChooseHandCardsRule extends SimultaneousRule {
     if (!isMoveItemType(MaterialType.Region)(move)) return []
 
     const item = this.material(MaterialType.Region).getItem(move.itemIndex)
-    const player = item.location.player!
+    const player = item.location.player
+    // The hook may fire for moves whose source isn't owned by a player
+    // (e.g. shuffles routed through the same rule, or items the framework
+    // touches in passing); ignore those — endPlayerTurn(undefined) would
+    // log a warning about "player undefined already inactive".
+    if (player === undefined) return []
     if (this.getHand(player).length > 4) return []
 
     return [this.endPlayerTurn(player)]

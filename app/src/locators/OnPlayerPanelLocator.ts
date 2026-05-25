@@ -1,3 +1,4 @@
+import { MaterialType } from '@gamepark/faraway/material/MaterialType'
 import { getRelativePlayerIndex, ItemContext, ListLocator, MaterialContext } from '@gamepark/react-game'
 import { Coordinates, Location, MaterialItem } from '@gamepark/rules-api'
 import { getPanelPosition, getPanelStagingPosition, tableYMax, tableYMin } from '../panels/PanelConstants'
@@ -89,6 +90,28 @@ class BesidePanelCardLocator extends BesidePanelLocator {
     const maxY = tableYMax - CARD_HALF_HEIGHT - CARD_TABLE_PADDING
     const clampedY = Math.min(maxY, Math.max(minY, y))
     return { x, y: clampedY, z: 10 }
+  }
+
+  placeItem(item: MaterialItem, context: ItemContext): string[] {
+    // Region cards are square (7em), sanctuaries are portrait (4.4em wide).
+    // Panels are pinned to the right edge, so region cards need a small
+    // leftward nudge to keep a comparable visual gap with the panel.
+    //
+    // The shift must be injected BEFORE the rotateY face transform — once
+    // the card is flipped (rotateY(180deg)), CSS X is mirrored, so a
+    // post-rotateY translateX would push face-down cards to the wrong side.
+    // super.placeItem() (BesidePanelLocator) appends `scale` then optional
+    // `face`; we re-do the chain here so the shift sits between scale and
+    // face.
+    const baseTransforms = super.placeItem(item, context)
+    // Strip face transform if present (last item) so we can re-append it
+    // after the shift.
+    const face = faceTransform(item)
+    const positional = face ? baseTransforms.slice(0, -1) : baseTransforms
+    const shifted = context.type === MaterialType.Region
+      ? [...positional, 'translateX(-1em)']
+      : positional
+    return face ? [...shifted, face] : shifted
   }
 }
 
