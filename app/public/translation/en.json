@@ -106,7 +106,7 @@
   "tuto.biome": "Each Region represents a specific biome, indicated by a color and associated symbol.",
   "tuto.biome.quest": "<0>Some quests give you points based on the biomes explored.</0>\nFor example, the quest on card 27 gives 1 point for each City card and Desert card.",
   "tuto.hour": "Each Region takes a certain amount of time to explore.\r\nEach card has a unique number between 1 and 68: this number indicates how many hours it takes to explore the region.\nExploration can take place during the day <2/> or at night <3/>, which can be important for certain quests.",
-  "tuto.region.draw": "At the end of the exploration phase, each player chooses a Region card from those visible in the center of the table.\n<0>We start with the player who played the lowest-value card</0>, then continue in ascending order.\nThe value of each player's played card is shown directly on their panel.",
+  "tuto.region.draw": "At the end of the exploration phase, each player chooses a Region card from those visible in the river.\n<0>We start with the player who played the lowest-value card</0>, then continue in ascending order.\nThe value of each player's played card is shown directly on their panel.",
   "tuto.region.draw.me": "You've played card 6, your opponent card 67.\nTherefore, it is your turn: take the card of your choice.",
   "tuto.round": "This is a new round. 8 Region cards are played, which means 8 rounds.",
   "tuto.quest": "This denizen gives you a quest: you must return with <2/> <2/> to earn 8 points.",
