@@ -1,4 +1,4 @@
-import { isMoveItemType, ItemMove, MaterialMove, RuleMove, SimultaneousRule } from '@gamepark/rules-api'
+import { isMoveItemType, ItemMove, MaterialMove, SimultaneousRule } from '@gamepark/rules-api'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { PlayerId } from '../PlayerId'
@@ -30,12 +30,9 @@ export class ChooseHandCardsRule extends SimultaneousRule {
   getMovesAfterPlayersDone(): MaterialMove<number, number, number>[] {
     const moves: MaterialMove[] = []
     moves.push(this.material(MaterialType.Region).location(LocationType.RegionDeck).shuffle())
+    moves.push(...this.drawRegionCardsMoves)
     moves.push(this.startSimultaneousRule(RuleId.PlaceRegion))
     return moves
-  }
-
-  onRuleEnd<RuleId extends number>(_move: RuleMove<number, RuleId>): MaterialMove<number, number, number>[] {
-    return this.drawRegionCardsMoves
   }
 
   get drawRegionCardsMoves() {

@@ -15,6 +15,10 @@ export class RefillRegionRule extends MaterialRulesPart {
     }
 
     moves.push(this.startSimultaneousRule(RuleId.PlaceRegion))
+
+    // Bump round here (read by PlaceRegion/PlaceSanctuary/scoring after).
+    this.memorize<number>(Memory.Round, (round) => round + 1)
+
     return moves
   }
 
@@ -39,11 +43,6 @@ export class RefillRegionRule extends MaterialRulesPart {
     return this
       .material(MaterialType.Region)
       .location(LocationType.Region)
-  }
-
-  onRuleEnd() {
-    this.memorize(Memory.Round, (round) => round + 1)
-    return []
   }
 
   get round() {
