@@ -159,7 +159,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
             <strong /><i />
           </Trans>
         ),
-        position: { x: 40, y: -20 }
+        position: { x: 0, y: 0 }
       },
       focus: (game) =>
       ({
@@ -208,13 +208,13 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
             <strong /><i />
           </Trans>
         ),
-        position: { x: 0, y: -5 }
+        position: { x: 40, y: -20 }
       }
     },
     {
       popup: {
         text: () => <Trans i18nKey="tuto.place.region"><strong /><i /></Trans>,
-        position: { y: 14, x: 50 },
+        position: { y: 0, x: 50 },
         size: { width: 55 }
       },
       focus: (game) =>
@@ -269,7 +269,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
     {
       popup: {
         text: () => <Trans i18nKey="tuto.scoring"><strong /><i /><span css={resource(Rock)} /></Trans>,
-        position: { y: -17, x: 0 }
+        position: { y: 20, x: 30 }
       },
       focus: (game) => ({
         materials: [
@@ -284,7 +284,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
     {
       popup: {
         text: () => <Trans i18nKey="tuto.sanctuary"><strong /><i /></Trans>,
-        position: { y: 0, x: 0 }
+        position: { y: 20, x: 30 }
       },
       focus: (game) =>
       ({
@@ -316,7 +316,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
           <i />
           <span css={icon(Clue)} />
         </Trans>,
-        position: { y: 0, x: 0 }
+        position: { y: 20, x: 30 }
       },
       focus: (game) => ({
         materials: [
@@ -342,7 +342,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
           <i />
           <span css={icon(Clue)} />
         </Trans>,
-        position: { y: 0, x: 0 }
+        position: { y: 20, x: 30 }
       },
       focus: (game) => ({
         materials: [
@@ -383,7 +383,7 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
           <strong />
           <i />
         </Trans>,
-        position: { y: 0, x: 15 }
+        position: { y: 20, x: 30 }
       },
       focus: (game) => ({
         materials: [
