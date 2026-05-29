@@ -29,12 +29,21 @@ export const RegionScorePointBubble: FC<RegionScorePointBubbleProps> = (props) =
   const onLine = item.location.type === LocationType.PlayerRegionLine
   if (!quest || (onLine && item.location.rotation !== true)) return null
   const score = getRegionCardScore(rules.game, location.parent!)
-  return (
-    <div css={[scoreStyle, arrow === 'left' && arrowLeftCss, arrow === 'right' && arrowRightCss]}>
-      {score}
-    </div>
-  )
+  return <ScoreBubble score={score} arrow={arrow}/>
 }
+
+type ScoreBubbleProps = {
+  score: number | string
+  arrow?: 'left' | 'right' | 'none'
+}
+
+/** Reusable bubble (background image + score). Decoupled from useRules so
+ *  it can be used from log entries that need to display a historical score. */
+export const ScoreBubble: FC<ScoreBubbleProps> = ({ score, arrow = 'none' }) => (
+  <div css={[scoreStyle, arrow === 'left' && arrowLeftCss, arrow === 'right' && arrowRightCss]}>
+    {score}
+  </div>
+)
 
 const popIn = keyframes`
   0%   { opacity: 0; transform: scale(0.88); }

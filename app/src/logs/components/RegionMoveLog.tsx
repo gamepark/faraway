@@ -1,11 +1,16 @@
 /** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react'
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons/faArrowRight'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Region } from '@gamepark/faraway/cards/Region'
 import { Regions } from '@gamepark/faraway/cards/Regions'
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
 import { FarawayRules } from '@gamepark/faraway/FarawayRules'
+import { getRegionCardScore } from '@gamepark/faraway/rules/helper/ScoreHelper'
 import { MaterialLogProps, PlayMoveButton, usePlayerName } from '@gamepark/react-game'
 import { FC } from 'react'
 import { Trans } from 'react-i18next'
+import { ScoreBubble } from '../../locators/description/RegionScorePointBubble'
 import { linkCss } from '../logStyles'
 import { buildOpenItemHelpMove } from '../useOpenItemHelp'
 import { MiniCard } from './MiniCard'
@@ -60,17 +65,48 @@ export const RegionMoveLog: FC<Props> = ({ move, context, variant }) => {
   const i18nKey = showCard
     ? `log.region.${variant}`
     : `log.region.${variant}.unknown`
+  // For reveal entries (final scoring), surface the score earned by the
+  // card alongside the mini-card so the journal acts as a per-tick recap.
+  // Read from the replayed-game state (rules.game above) so the figure is
+  // historical, not affected by later sacrifices that retroactively change
+  // live scores.
+  const revealScore = variant === 'reveal' && showCard
+    ? getRegionCardScore(rules.game, itemIndex)
+    : undefined
   return (
-    <Trans
-      i18nKey={i18nKey}
-      values={{ player: name }}
-      components={{
-        ref: <PlayMoveButton css={linkCss} move={helpMove} transient/>,
-        time: showCard ? <TimeIcon isNight={isNight} value={cardValue}/> : <span/>,
-        card: showCard
-          ? <MiniCard itemType={MaterialType.Region} itemId={id!} tiltRight={itemIndex % 2 === 1} move={helpMove}/>
-          : <span/>
-      }}
-    />
+    <>
+      <Trans
+        i18nKey={i18nKey}
+        values={{ player: name }}
+        components={{
+          ref: <PlayMoveButton css={linkCss} move={helpMove} transient/>,
+          time: showCard ? <TimeIcon isNight={isNight} value={cardValue}/> : <span/>,
+          card: showCard
+            ? <MiniCard itemType={MaterialType.Region} itemId={id!} tiltRight={itemIndex % 2 === 1} move={helpMove}/>
+            : <span/>
+        }}
+      />
+      {revealScore !== undefined && (
+        <>
+          <FontAwesomeIcon icon={faArrowRight} css={arrowCss}/>
+          <span css={bubbleSlotCss}>
+            <ScoreBubble score={revealScore}/>
+          </span>
+        </>
+      )}
+    </>
   )
 }
+
+const bubbleSlotCss = css`
+  display: inline-flex;
+  width: 2.6em;
+  height: 2.6em;
+  vertical-align: middle;
+`
+
+const arrowCss = css`
+  margin: 0 0.5em;
+  opacity: 0.7;
+  vertical-align: middle;
+`
