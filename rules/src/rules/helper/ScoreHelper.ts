@@ -61,4 +61,27 @@ export class ScoreHelper extends MaterialRulesPart {
     }
     return score
   }
+
+  /**
+   * Live running total during scoring. Sums revealed regions whose x has
+   * already been resolved; folds sanctuaries in only when `isOver`. Caller
+   * decides game-over because `MaterialRulesPart` has no canonical way to
+   * read it (Memory.CurrentScoringX is cleared on the last tick).
+   * Returns `undefined` when nothing should be displayed.
+   */
+  runningTotal(isOver: boolean): number | undefined {
+    const currentX = this.remind<number | undefined>(Memory.CurrentScoringX)
+    if (currentX === undefined && !isOver) return undefined
+
+    let total = 0
+    const regionIndexes = this.material(MaterialType.Region).location(LocationType.PlayerRegionLine).player(this.player).getIndexes()
+    for (const index of regionIndexes) {
+      const item = this.material(MaterialType.Region).getItem<Region>(index)
+      if (item.location.rotation !== true || item.id === undefined) continue
+      if (currentX !== undefined && (item.location.x ?? -1) < currentX) continue
+      total += getRegionCardScore(this.game, index)
+    }
+    if (isOver) total += this.sanctuaryScore
+    return total
+  }
 }

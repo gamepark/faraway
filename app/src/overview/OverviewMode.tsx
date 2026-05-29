@@ -141,9 +141,8 @@ const PlayerCell: FC<{ player: Player; onSwitched: () => void }> = ({ player, on
     .getIndexes()
     .map(index => ({ index, id: rules.material(MaterialType.Sanctuary).getItem(index).id as Sanctuary | undefined }))
 
-  // Running total — meaningful from the scoring phase onwards. ScoreHelper just sums
-  // each quest's getTotalScore against the current state, so it works at any moment.
-  const totalScore = new ScoreHelper(rules.game, player.id).score
+  // Same running total as the player panel — partial during scoring, full once over.
+  const totalScore = new ScoreHelper(rules.game, player.id).runningTotal(isOver)
 
   return (
     <button
@@ -154,7 +153,7 @@ const PlayerCell: FC<{ player: Player; onSwitched: () => void }> = ({ player, on
     >
       <div css={cellHeaderCss}>
         <span css={cellNameCss}>{name ?? `Joueur ${player.id}`}</span>
-        {(currentScoringX !== undefined || isOver) && (
+        {totalScore !== undefined && (
           <span css={scorePillCss}>
             <FontAwesomeIcon icon={faStar} css={scoreIconCss}/>
             <span>{totalScore}</span>

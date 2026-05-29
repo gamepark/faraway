@@ -5,13 +5,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { getValue, Region } from '@gamepark/faraway/cards/Region'
 import { Regions } from '@gamepark/faraway/cards/Regions'
 import { RegionQuests } from '@gamepark/faraway/cards/RegionQuests'
-import { Sanctuary } from '@gamepark/faraway/cards/Sanctuary'
-import { SanctuaryQuests } from '@gamepark/faraway/cards/SanctuaryQuests'
 import { FarawayRules } from '@gamepark/faraway/FarawayRules'
 import { LocationType } from '@gamepark/faraway/material/LocationType'
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
 import { PlayerId } from '@gamepark/faraway/PlayerId'
-import { getRegionCardScore } from '@gamepark/faraway/rules/helper/ScoreHelper'
+import { getRegionCardScore, ScoreHelper } from '@gamepark/faraway/rules/helper/ScoreHelper'
 import { Memory } from '@gamepark/faraway/rules/Memory'
 import fameIcon from '../images/icon/fame.png'
 import { Player } from '@gamepark/react-client'
@@ -133,32 +131,8 @@ const Timer: FC<{ player: Player }> = ({ player }) => {
  */
 const Score: FC<{ player: Player }> = ({ player }) => {
   const rules = useRules<FarawayRules>()!
-  const currentX = rules?.game.memory?.[Memory.CurrentScoringX] as number | undefined
-  const isOver = rules?.isOver() ?? false
-  if (currentX === undefined && !isOver) return null
-
-  let total = 0
-  const playerRegions = rules.material(MaterialType.Region).location(LocationType.PlayerRegionLine).player(player.id)
-  for (const index of playerRegions.getIndexes()) {
-    const item = rules.material(MaterialType.Region).getItem<Region>(index)
-    if (item.location.rotation !== true || item.id === undefined) continue
-    // Skip cards scoring hasn't reached yet (Starry-Skies cards stay face-up from the start;
-    // we only count their score once their x has been resolved, matching the score sheet rows).
-    if (currentX !== undefined && (item.location.x ?? -1) < currentX) continue
-    total += getRegionCardScore(rules.game, index)
-  }
-  // Sanctuary scores fold in only once the game is fully over — same gate as the score
-  // sheet's last two rows, so the running totals on both views stay in lock-step.
-  if (isOver) {
-    const sanctuaries = rules.material(MaterialType.Sanctuary).location(LocationType.PlayerSanctuaryLine).player(player.id)
-    for (const index of sanctuaries.getIndexes()) {
-      const item = rules.material(MaterialType.Sanctuary).getItem<Sanctuary>(index)
-      if (item.id === undefined) continue
-      const quest = SanctuaryQuests[item.id]
-      if (!quest) continue
-      total += quest.getTotalScore(rules.game, index, MaterialType.Sanctuary, player.id)
-    }
-  }
+  const total = new ScoreHelper(rules.game, player.id).runningTotal(rules.isOver())
+  if (total === undefined) return null
 
   return (
     <span css={[placedCard, data]}>
