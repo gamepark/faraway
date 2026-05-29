@@ -19,7 +19,7 @@ import { useTranslation } from 'react-i18next'
 import { RegionScorePointBubble } from '../locators/description/RegionScorePointBubble'
 import { SanctuaryScorePointBubble } from '../locators/description/SanctuaryScorePointBubble'
 import { RegionScoreX, RegionScoreY } from '../locators/RegionScorePointLocator'
-import { currentlyResolvingCss, regionCardDescription } from '../material/RegionCardDescription'
+import { currentlyResolvingCss, isResolvedRegion, regionCardDescription } from '../material/RegionCardDescription'
 import { sanctuaryCardDescription } from '../material/SanctuaryCardDescription'
 
 /**
@@ -171,10 +171,10 @@ const PlayerCell: FC<{ player: Player; onSwitched: () => void }> = ({ player, on
           // when it sits face-down on the line (rotation === false). MaterialComponent
           // alone doesn't flip the card; we render the back image directly instead.
           const faceDown = entry.id === undefined || entry.rotation === false
-          // Same predicate as RegionCardDescription.getLocations: scored cards are the ones
-          // ScoringRule has already passed (x > currentScoringX); once memory is forgotten,
-          // the game is over and every card is scored.
-          const showRegionScore = currentScoringX !== undefined ? x > currentScoringX : isOver
+          // Same predicate as the game table (RegionCardDescription.getLocations) so
+          // the overview bubble appears in sync — not one tick later.
+          const regionItem = rules.material(MaterialType.Region).getItem<Region>(entry.index)
+          const showRegionScore = isResolvedRegion(regionItem, { rules })
           // Match the locator's per-card bubble position (RegionScorePointLocator).
           const bubbleX = entry.id !== undefined ? RegionScoreX[entry.id] ?? 60 : 60
           const bubbleY = entry.id !== undefined ? RegionScoreY[entry.id] ?? 35 : 35

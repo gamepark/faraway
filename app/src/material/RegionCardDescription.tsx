@@ -342,7 +342,7 @@ export const isCurrentlyResolvingRegion = (item: MaterialItem, context: Material
  *    holds back rendering while the reveal rotation is still animating.
  *  - Outside scoring: only when the game is over (memory was forgotten on the last tick).
  */
-export const isResolvedRegion = (item: MaterialItem, context: MaterialContext): boolean => {
+export const isResolvedRegion = (item: MaterialItem, context: Pick<MaterialContext, 'rules'>): boolean => {
   if (item.location.type !== LocationType.PlayerRegionLine || item.location.x === undefined) return false
   const x = context.rules.remind(Memory.CurrentScoringX)
   if (typeof x === 'number') return item.location.x >= x

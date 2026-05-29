@@ -92,16 +92,9 @@ export const stampButtonCss = css`
   }
 `
 
-/* CSS overrides for the framework's BottomBarNavigation bar.
-   BottomBarNavigation applies its own btnCss directly via `css={btnCss(primary)}`
-   on each button — pill-shaped, transparent, primary-coloured. That CSS is
-   sibling-specific and beats anything coming from theme.buttons via the
-   ThemeProvider. So we can't rely on the global stamp recipe here: we have
-   to re-stamp explicitly, with `!important` to win against btnCss.
-   - rectangular stamp (not pill), 3D drop shadow
-   - Previous = secondary (paper bg + violet text)
-   - Next = primary (orange fill + paper text + orange-deep text-shadow)
-   - bottom margin so the dotted outline doesn't cut through the bar */
+/* Help-dialog nav stamps — all buttons share the orange primary look (active
+   + disabled handled below) so Previous / Next read as one consistent CTA
+   row, matching the rest of the theme. */
 const navigationCss = css`
   margin-bottom: 0.6em;
 
@@ -113,31 +106,15 @@ const navigationCss = css`
     border-radius: 0.3em !important;
     border: 0.13em solid ${ink} !important;
     box-shadow: 0 0.18em 0 ${ink} !important;
-    /* Same vertical-balance trick as the global stamp: Fjalla One sits high
-       in its em box, so more padding-top than padding-bottom. */
+    background: ${orange} !important;
+    color: ${paper} !important;
+    text-shadow: 0 0.05em 0 ${orangeDeep};
+    /* Fjalla One sits high in its em box → more padding-top than -bottom. */
     padding: 0.45em 1em 0.35em !important;
     transition: transform 120ms ease, background 200ms ease !important;
   }
 
-  /* Previous (first button) — secondary: paper outline */
-  button:first-of-type {
-    background: ${paper} !important;
-    color: ${ink} !important;
-    text-shadow: none !important;
-  }
-
-  button:first-of-type:hover:not(:disabled) {
-    background: ${paperWarm} !important;
-  }
-
-  /* Next (last button) — primary: orange filled stamp */
-  button:last-of-type {
-    background: ${orange} !important;
-    color: ${paper} !important;
-    text-shadow: 0 0.05em 0 ${orangeDeep};
-  }
-
-  button:last-of-type:hover:not(:disabled) {
+  button:hover:not(:disabled) {
     background: ${orangeDeep} !important;
   }
 
@@ -148,6 +125,7 @@ const navigationCss = css`
 
   button:disabled {
     opacity: 0.4;
+    background: ${paper} !important;
     box-shadow: 0 0.1em 0 ${inkSoft} !important;
     border-color: ${inkSoft} !important;
     color: ${inkSoft} !important;
