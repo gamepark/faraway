@@ -258,6 +258,9 @@ const ledeCss = css`
   margin: 0 0 1.4em;
   font-weight: 400;
   text-align: justify;
+  /* Honour explicit "\n" line breaks in the translation strings (other
+     whitespace still collapses, so wrapping is unaffected). */
+  white-space: pre-line;
 
   /* Highlighter mark behind <strong> spans (Trans <0>...</0> become <strong>). */
   strong {

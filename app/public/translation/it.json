@@ -5,7 +5,7 @@
   "extension.expansion1.desc": "Aggiunge <0>9 nuove Regioni</0> e <0>8 nuovi Santuari</0>. Introduce il colore <0>grigio</0>, che vale come qualsiasi altro bioma per le missioni. Permette di giocare <0>fino a 7 giocatori</0>.",
   "extension.starrySkies.eyebrow": "ESPANSIONE II",
   "extension.starrySkies.title": "Cieli stellati",
-  "extension.starrySkies.desc": "Aggiunge <0>15 nuove carte Regione</0> e nuovi tipi di missione: <0>condizioni di soglia</0> (Indizi, Notte, bioma), <0>sacrificio di un santuario</0> per attivare la missione e <0>accumulo di Meraviglie</0>. Alcune carte possono essere <0>giocate scoperte</0> fin dall'inizio.",
+  "extension.starrySkies.desc": "Aggiunge <0>15 carte Regione Meteorite</0> al mazzo, con nuovi tipi di missione (serie di bioma, soglie, sacrificio). La loro particolarità: durante il conteggio, ogni Meteorite E ogni Regione che condivide la sua <0>ultima cifra</0> restano scoperte — i loro simboli contano allora per le missioni delle tue altre carte, anche quelle giocate dopo, che normalmente non potrebbero più accedervi.\nA parità di <0>tempo di esplorazione</0>, una Meteorite è sempre considerata superiore all'altra Regione.",
   "extension.cards.label": "{count, plural, one{# nuova carta} other{# nuove carte}}",
   "extension.cards.label.short": "nuove carte",
   "extension.regions.label": "{count, plural, one{# nuova Regione} other{# nuove Regioni}}",

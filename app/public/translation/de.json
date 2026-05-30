@@ -5,7 +5,7 @@
   "extension.expansion1.desc": "Fügt <0>9 neue Regionen</0> und <0>8 neue Heiligtümer</0> hinzu. Führt die <0>graue</0> Farbe ein, die für Aufträge als jeder beliebige Biom zählt. Erlaubt das Spiel mit <0>bis zu 7 Spielern</0>.",
   "extension.starrySkies.eyebrow": "ERWEITERUNG II",
   "extension.starrySkies.title": "Sternenhimmel",
-  "extension.starrySkies.desc": "Fügt <0>15 neue Regions-Karten</0> sowie neue Auftragstypen hinzu: <0>Schwellenbedingungen</0> (Hinweise, Nacht, Biom), <0>Opferung eines Heiligtums</0> zur Aktivierung eines Auftrags und <0>Wunder-Sammlung</0>. Manche Karten können <0>von Beginn an offen ausgelegt</0> werden.",
+  "extension.starrySkies.desc": "Fügt <0>15 Meteoriten-Regionskarten</0> zum Stapel hinzu, mit neuen Auftragstypen (Biom-Reihen, Schwellen, Opferung). Ihre Besonderheit: Bei der Wertung bleiben jede Meteoriten-Karte UND jede Region mit gleicher <0>letzter Ziffer</0> offen liegen — ihre Symbole zählen dann für die Aufträge deiner anderen Karten, selbst für danach gespielte, die normalerweise keinen Zugriff mehr darauf hätten.\nBei gleicher <0>Erkundungszeit</0> gilt eine Meteoriten-Karte stets als höher als die andere Region.",
   "extension.cards.label": "{count, plural, one{# neue Karte} other{# neue Karten}}",
   "extension.cards.label.short": "neue Karten",
   "extension.regions.label": "{count, plural, one{# neue Region} other{# neue Regionen}}",

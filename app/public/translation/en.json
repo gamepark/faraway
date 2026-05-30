@@ -5,7 +5,7 @@
   "extension.expansion1.desc": "<0>Two ancient peoples</0> meet you on Alula: the <0>Guides</0> and the <0>Three-Eyed Ones</0>. Adds <0>9 new Regions</0> and <0>8 new Sanctuaries</0>, introduces the <0>Mystical Havens</0> gray biome on Region cards, and lets you play with <0>up to 7 players</0>.",
   "extension.starrySkies.eyebrow": "EXPANSION II",
   "extension.starrySkies.title": "Under Starry Skies",
-  "extension.starrySkies.desc": "Adds <0>15 Meteor Region cards</0> to the deck, with brand-new quest types (biome series, thresholds, sacrifice). Their key trick: at scoring, each Meteor AND every Region sharing its <0>last digit</0> stay face up — turning normally-hidden quests into reachable ones.",
+  "extension.starrySkies.desc": "Adds <0>15 Meteorite Region cards</0> to the deck, with new quest types (biome series, thresholds, sacrifice). Their key trick: at scoring, each Meteorite AND every Region sharing its <0>last digit</0> stay face up — their symbols then count toward your other cards' quests, even those played after them, which normally could no longer reach them.\nWith equal <0>exploration time</0>, a Meteorite is always considered higher than the other Region.",
   "extension.cards.label": "{count, plural, one{# new card} other{# new cards}}",
   "extension.cards.label.short": "new cards",
   "extension.regions.label": "{count, plural, one{# new Region} other{# new Regions}}",
