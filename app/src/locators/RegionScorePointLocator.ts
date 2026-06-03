@@ -62,6 +62,16 @@ export const RegionScoreY: Partial<Record<Region, number>> = {
   [Region.GrayExp74]: 42,
   [Region.BlueExp75]: 30,
   [Region.GrayExp76]: 32,
+  [Region.RedSky11]: 30,
+  [Region.RedSky21]: 45,
+  [Region.GreenSky9]: 30,
+  [Region.GreenSky33]: 45,
+  [Region.YellowSky4]: 44,
+  [Region.YellowSky20]: 30,
+  [Region.YellowSky38]: 44,
+  [Region.GraySky7]: 46,
+  [Region.GraySky13]: 46,
+  [Region.GraySky29]: 48
 }
 
 export const regionScorePointLocator = new RegionScorePointLocator()
