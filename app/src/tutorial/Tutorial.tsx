@@ -277,7 +277,8 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
           this.material(game, MaterialType.Region).player(me).id(Region.Blue6)
         ],
         margin: {
-          top: 9
+          top: 9,
+          right: 12
         }
       })
     },
@@ -305,7 +306,8 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
               .location
           )),
         margin: {
-          top: 9
+          top: 9,
+          right: 12
         }
       })
     },
@@ -330,7 +332,8 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
             .location
         ],
         margin: {
-          top: 7
+          top: 7,
+          right: 12
         }
       }),
       move: {}
@@ -349,7 +352,8 @@ export class Tutorial extends MaterialTutorial<PlayerId, MaterialType, LocationT
           this.material(game, MaterialType.Sanctuary).player(me).location(LocationType.PlayerSanctuaryHand)
         ],
         margin: {
-          top: 7
+          top: 7,
+          right: 14
         }
       })
     },
