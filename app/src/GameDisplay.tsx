@@ -25,14 +25,13 @@ export const GameDisplay: FC = () => {
     <>
       <GameTable {...tableSize}
         verticalCenter
-        zoom={false}
         margin={{ top: 7, left: 0, right: 0, bottom: 0 }} css={process.env.NODE_ENV === 'development' ? borderCss : undefined}>
         <PlayerPanels />
-        <ExtensionsTableButton/>
+        <ExtensionsTableButton />
         <SwitchViewOnDrag />
         {import.meta.env.DEV && <DevToolsHub><DevCardViewer /></DevToolsHub>}
       </GameTable>
-      <ExtensionInfoDialog popups={popups}/>
+      <ExtensionInfoDialog popups={popups} />
     </>
   )
 }
