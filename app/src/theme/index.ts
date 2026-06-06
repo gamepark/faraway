@@ -138,6 +138,27 @@ export const theme: Partial<GameTheme> = {
      header, ThemeButton). See stampButtonCss above for the rationale. */
   buttons: stampButtonCss,
 
+  /* Calibrate the stamp button so its visual height lines up with the header
+     title (framework default 4.5em, line-height ~1.2 → ~5.4em). The stamp
+     recipe (padding 0.45/0.35 + border 0.13 + line-height) sums to ~2.26em
+     per font-size unit, so font-size ≈ 5.4 / (4.5 × 2.26) ≈ 0.53em matches.
+     Everything else stays in stampButtonCss and scales with this font-size —
+     same look as the dialog and tutorial stamps. The small margin keeps the
+     button from kissing the last word of the title. */
+  header: {
+    /* vertical-align: middle aligns the button's box-middle to the parent
+       baseline + x-height/2, which sits below the text optical centre; the
+       button looks low. The position/top nudge pulls it up onto the cap-height
+       span (in button-em — 0.15 x 0.53 ≈ 0.08 of the title em). */
+    buttons: css`
+      font-size: 0.53em;
+      margin-left: 0.6em;
+      position: relative;
+      top: -0.15em;
+      vertical-align: middle;
+    `
+  },
+
   palette: {
     /* Orange is the action accent in the rulebook — used on the numbered
        pastilles and "next step" callouts. So it stays primary CTA color. */
