@@ -117,5 +117,6 @@
   "tuto.sanctuary.why": "Sanctuaries are interesting, because at the end of the game they are taken into account for the scoring of all your Regions, and all your Regions are included for Sanctuary quests.",
   "tuto.region.draw.2": "Now choose a new Region card and add it to your hand.",
   "tuto.end": "This is a new round.\nAt any time, you can click on the cards for a reminder of the associated rules.\n<0>You can also click on the score sheet for an explanation of the final scoring, when you retrace your steps at the end of your exploration.</0>\nNow it's your turn to play, good luck!",
-  "quantity.tooltip": "Quantity: {n}"
+  "quantity.tooltip": "Quantity: {n}",
+  "overview.toggle": "Overview"
 }

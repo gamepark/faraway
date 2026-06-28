@@ -84,5 +84,6 @@
   "tuto.sanctuary.why": "Los Santuarios son interesantes, porque al final de la partida se tienen en cuenta para la puntuación de todas tus Regiones, y todas tus Regiones se incluyen para las misiones de Santuario.",
   "tuto.region.draw.2": "Ahora elige una nueva carta de Región y añádela a tu mano.",
   "tuto.end": "Este es un nuevo turno.\nEn cualquier momento, puedes hacer clic en las cartas para recordar las reglas asociadas.\n<0>También puedes hacer clic en la hoja de puntuación para obtener una explicación de la puntuación final, cuando vuelvas sobre tus pasos al final de tu exploración.</0>\nAhora es tu turno, ¡buena suerte!",
-  "quantity.tooltip": "Cantidad: {n}"
+  "quantity.tooltip": "Cantidad: {n}",
+  "overview.toggle": "Vista general"
 }

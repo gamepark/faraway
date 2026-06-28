@@ -89,5 +89,6 @@
   "tuto.sanctuary.why": "Heiligtümer sind interessant, denn am Spielende werden sie für die Wertung all deiner Regionen berücksichtigt, und all deine Regionen zählen für Heiligtums-Aufträge.",
   "tuto.region.draw.2": "Wähle jetzt eine neue Regions-Karte und nimm sie auf deine Hand.",
   "tuto.end": "Das ist eine neue Runde.\nJederzeit kannst du auf die Karten klicken, um dir die zugehörigen Regeln noch einmal anzeigen zu lassen.\n<0>Du kannst auch auf den Wertungsbogen klicken, um die Schlusswertung zu verstehen, wenn du am Ende deiner Erkundung deinen Weg zurückverfolgst.</0>\nJetzt bist du am Zug, viel Glück!",
-  "quantity.tooltip": "Anzahl: {n}"
+  "quantity.tooltip": "Anzahl: {n}",
+  "overview.toggle": "Übersicht"
 }

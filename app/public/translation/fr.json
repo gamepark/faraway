@@ -117,5 +117,6 @@
   "tuto.sanctuary.why": "Les Sanctuaires sont intéressants, car à la fin de la partie ils comptent pour toutes les Régions, et toutes les Régions comptent pour les quêtes de Sanctuaires.",
   "tuto.region.draw.2": "À présent, choisissez une nouvelle carte Région et ajoutez-la à votre main",
   "tuto.end": "C'est un nouveau tour.\nÀ tout moment, vous pouvez cliquer sur les cartes pour un rappel des règles associées.\n<0>Vous pouvez aussi cliquez sur la feuille de score pour avoir l'explication du décompte final, lorsque vous revenez sur vos pas à la fin de votre exploration.</0>\nÀ vous de jouer à présent, bonne chance !",
-  "quantity.tooltip": "Quantité : {n}"
+  "quantity.tooltip": "Quantité : {n}",
+  "overview.toggle": "Vue d'ensemble"
 }
