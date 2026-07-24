@@ -1,4 +1,4 @@
-import { getValue } from '@gamepark/faraway/cards/Region'
+import { getValue, isStarrySkies } from '@gamepark/faraway/cards/Region'
 import { LocationType } from '@gamepark/faraway/material/LocationType'
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
 import { DropAreaDescription, HandLocator, ItemContext, MaterialContext } from '@gamepark/react-game'
@@ -63,7 +63,12 @@ export class RegionHandLocator extends HandLocator {
     if (item.location.player === player) {
       const hand = rules.material(MaterialType.Region).location(LocationType.PlayerRegionHand)
       const coins = hand.player(player)
-      const sorted = orderBy(coins.getIndexes(), [(index) => -getValue(hand.getItem(index).id)])
+      // Sort by descending value; on ties, Starry Skies cards count as higher (see `compareTime`),
+      // so they end up next to the card of the same value, on its higher-value side.
+      const sorted = orderBy(coins.getIndexes(), [
+        (index) => -getValue(hand.getItem(index).id),
+        (index) => (isStarrySkies(hand.getItem(index).id) ? 0 : 1)
+      ])
       return sorted.indexOf(index)
     } else {
       return item.location.x!
@@ -72,10 +77,9 @@ export class RegionHandLocator extends HandLocator {
 
   // Help-dialog navigation arrows must walk the hand in the same order the fan
   // displays cards. With `clockwise = false` and getItemIndex sorting by -value,
-  // the leftmost card on screen is the HIGHEST value but the rightmost end of
-  // the navigation arc (last index in the sort). So "next" must walk from low
-  // to high value to read left-to-right visually.
-  navigationSorts = [(item: MaterialItem) => getValue(item.id)]
+  // index 0 sits on the right of the arc, so on screen the cards read left to
+  // right by increasing value (Starry Skies last on a tie, like getItemIndex).
+  navigationSorts = [(item: MaterialItem) => getValue(item.id), (item: MaterialItem) => (isStarrySkies(item.id) ? 1 : 0)]
 
   getHoverTransform(item: MaterialItem, context: ItemContext) {
     return super.getHoverTransform(item, context).concat('translateY(-1em)').concat('translateZ(16em)')
