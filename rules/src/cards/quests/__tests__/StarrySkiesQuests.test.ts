@@ -231,14 +231,25 @@ describe('RequireNightQuest', () => {
     expect(quest.getScore(regions, [sanctuary(Sanctuary.Red5)])).toBe(21)
   })
 
-  it('all Starry Skies cards have night: 1', () => {
+  it('counts the night markers of Starry Skies cards', () => {
     const quest = new RequireNightQuest(21, 5)
-    // 5 sky cards = 5 nights
+    // 5 sky NIGHT cards = 5 nights
     const regions = [
       region(Region.RedSky11), region(Region.GreenSky9), region(Region.BlueSky15),
-      region(Region.YellowSky38), region(Region.GraySky7)
+      region(Region.YellowSky4), region(Region.GraySky7)
     ]
     expect(quest.getScore(regions, [])).toBe(21)
+  })
+
+  it('does not count Starry Skies day cards', () => {
+    const quest = new RequireNightQuest(21, 5)
+    // Only half the sky cards are night cards: RedSky21, GreenSky26 and
+    // YellowSky38 are day cards, so these 5 sky cards carry 2 nights only.
+    const regions = [
+      region(Region.RedSky11), region(Region.RedSky21), region(Region.GreenSky26),
+      region(Region.YellowSky38), region(Region.GraySky7)
+    ]
+    expect(quest.getScore(regions, [])).toBeUndefined()
   })
 })
 
