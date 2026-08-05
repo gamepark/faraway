@@ -1,0 +1,8 @@
+{
+  "option.beginner": "Mode découverte",
+  "option.beginner.help": "Les joueurs ne choisissent pas 3 cartes Région parmi 5 en début de partie, ils reçoivent simplement 3 cartes.",
+  "option.expansion1": "Le peuple du dessous",
+  "option.expansion1.help": "Cette extension ajoute 9 régions et 8 sanctuaires, et permet de jouer jusqu'à 7 joueurs.",
+  "option.starrySkies": "Sous un Ciel d'Étoiles",
+  "option.starrySkies.help": "Cette extension ajoute 15 cartes Région Météorite au deck, avec de nouveaux types de quêtes."
+}

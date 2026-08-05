@@ -1,0 +1,8 @@
+{
+  "option.beginner": "Modo descubrimiento",
+  "option.beginner.help": "Al inicio de la partida, los jugadores no eligen 3 cartas de Región entre 5, simplemente reciben 3 cartas.",
+  "option.expansion1": "Más allá de la frontera",
+  "option.expansion1.help": "Esta expansión añade 9 regiones y 8 santuarios, y permite jugar hasta con 7 jugadores.",
+  "option.starrySkies": "Cielos estrellados",
+  "option.starrySkies.help": "Esta expansión añade 15 cartas de Región Meteorito al mazo, con nuevos tipos de misión."
+}
