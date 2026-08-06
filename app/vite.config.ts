@@ -2,13 +2,13 @@ import react from '@vitejs/plugin-react-swc'
 import path from 'path'
 import { defineConfig, loadEnv, PluginOption } from 'vite'
 import { imagetools } from 'vite-imagetools'
-import { version } from './package.json'
+import { version } from './package.json' with { type: 'json' }
 
 function translationHmrPlugin(): PluginOption {
   return {
     name: 'translation-hmr',
     configureServer(server) {
-      const translationDir = path.resolve(__dirname, 'public/translation')
+      const translationDir = path.resolve(import.meta.dirname, 'public/translation')
       let timeout: ReturnType<typeof setTimeout>
       server.watcher.on('change', (file) => {
         if (file.startsWith(translationDir) && file.endsWith('.json')) {
@@ -30,8 +30,11 @@ function localeUrlPlugin(): PluginOption {
       server.printUrls = () => {
         const address = server.resolvedUrls
         if (address) {
-          const url = address.local[0] ?? `http://localhost:3000/`
-          console.log(`  ➜  Game: \x1b[36m${url}?locale=${locale}\x1b[0m`)
+          const urls = [...(address.local ?? []), ...(address.network ?? [])]
+          if (urls.length === 0) urls.push('http://localhost:3000/')
+          for (const url of urls) {
+            console.log(`  ➜  Game: \x1b[36m${url}?locale=${locale}\x1b[0m`)
+          }
         }
       }
     }
@@ -55,7 +58,7 @@ export default defineConfig(({ mode }) => {
     },
     resolve: {
       alias: {
-        '@gamepark/faraway': path.resolve(__dirname, '../rules/src')
+        '@gamepark/faraway': path.resolve(import.meta.dirname, '../rules/src')
       },
       dedupe: ['react', 'react-dom', 'react-redux', '@dnd-kit/core', '@emotion/react', 'react-i18next']
     },

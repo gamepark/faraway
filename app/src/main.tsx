@@ -1,4 +1,4 @@
-import { FarawayOptionsSpec } from '@gamepark/faraway/FarawayOptions'
+import { FarawayOptionsSpecV2 } from '@gamepark/faraway/FarawayOptions'
 import { FarawayRules } from '@gamepark/faraway/FarawayRules'
 import { FarawaySetup } from '@gamepark/faraway/FarawaySetup'
 import { GameProvider } from '@gamepark/react-game'
@@ -19,7 +19,7 @@ createRoot(document.getElementById('root')!).render(
     <GameProvider
       game="faraway"
       Rules={FarawayRules}
-      optionsSpec={FarawayOptionsSpec}
+      optionsSpec={FarawayOptionsSpecV2}
       GameSetup={FarawaySetup}
       material={Material}
       locators={Locators}
