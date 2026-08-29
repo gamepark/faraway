@@ -9,13 +9,13 @@ import { getViewPlayer } from '../locators/panelCoordinates'
 /* ============================================================================
  * Faraway animations — overall structure
  *
- *   §1  Generic durations (legacy .when() API): shuffle, low-stakes shifts,
- *       and the scoring-rule tempo.
  *   §2  Trajectory builders. Helper functions returning Trajectory objects.
  *       Most are panel-anchored — they surface a non-viewed player's card
  *       beside their panel for a beat, since their own zones are off-screen.
  *   §3  Region animations.
  *   §4  Sanctuary animations.
+ *   §5  Generic durations: shuffle, low-stakes shifts, and the scoring-rule
+ *       tempo. Last, so they never shadow the precise rules of §3 and §4.
  *
  * Single-player view note: the viewer only sees their own zone. Cards
  * belonging to other ("non-viewed") players are routed via their
@@ -25,50 +25,6 @@ import { getViewPlayer } from '../locators/panelCoordinates'
  * ============================================================================ */
 
 export const farawayAnimations = new MaterialGameAnimations()
-
-// ----------------------------------------------------------------------------
-// §1. Generic durations (legacy .when() API)
-// ----------------------------------------------------------------------------
-
-// Region drift in the river — short snap, no need for an arc.
-farawayAnimations.when()
-  .move((move) => isMoveItemType(MaterialType.Region)(move) && move.location.type === LocationType.Region)
-  .duration(0.2)
-
-// Region to discard pile — slightly slower so the viewer sees the move.
-farawayAnimations.when()
-  .move((move) => isMoveItemType(MaterialType.Region)(move) && move.location.type === LocationType.RegionDiscard)
-  .duration(0.5)
-
-// Sanctuary moves to/from the deck or hand — fast default. Each specific
-// sanctuary case (sacrifice, viewer's discard…) gets its own rule below.
-farawayAnimations.when()
-  .move((move) => isMoveItemType(MaterialType.Sanctuary)(move)
-    && (move.location.type === LocationType.SanctuaryDeck || move.location.type === LocationType.PlayerSanctuaryHand))
-  .duration(0.3)
-
-// Shuffles are pure state changes — no animation.
-farawayAnimations.when()
-  .move(isShuffle)
-  .none()
-
-// Tempo between resolutions: each re-entry into ScoringRule (one per x tick,
-// 7→0) pauses so the viewer can absorb the score that pops beside the panels
-// before the next column's reveal kicks in. The wait sits on the StartRule
-// itself, so all the score bubbles stay visible for its full duration (state —
-// and therefore CurrentScoringX — only flips at the end of the BEFORE_MOVE
-// animation). The next reveal then adds its own ~800ms before the new bubbles
-// appear, so total quiet time between two bubble sets is roughly
-// `duration + reveal duration`.
-//
-// Uses the legacy `.when()` API on purpose: it gates the duration on
-// `AnimationStep.BEFORE_MOVE` only (see AnimationConfig.getDuration), so undo
-// doesn't inherit the 2.5s wait. The new `.configure().duration()` would apply
-// to every step for non-ItemMove kinds, freezing the UI for 2.5s on every
-// undo step too.
-farawayAnimations.when()
-  .move(move => isStartRule(move) && move.id === RuleId.Scoring)
-  .duration(2.5)
 
 // ----------------------------------------------------------------------------
 // §2. Trajectory builders (panel-anchored choreographies)
@@ -354,3 +310,46 @@ farawayAnimations
   })
   .duration(350)
   .trajectory((ctx, move) => sanctuaryDrawTrajectory(ctx, move as MoveItem))
+
+// ----------------------------------------------------------------------------
+// §5. Generic durations
+//
+// Registered last on purpose: the animation API hands a move to the first
+// configuration that matches it, so these broad rules must not shadow the
+// precise, panel-anchored ones above. §4.b/c/d/e all cover sanctuary moves
+// that the "sanctuary to/from deck or hand" rule below would otherwise catch.
+// ----------------------------------------------------------------------------
+
+// Region drift in the river — short snap, no need for an arc.
+farawayAnimations
+  .configure((move) => isMoveItemType(MaterialType.Region)(move) && move.location.type === LocationType.Region)
+  .duration(200)
+
+// Region to discard pile — slightly slower so the viewer sees the move.
+farawayAnimations
+  .configure((move) => isMoveItemType(MaterialType.Region)(move) && move.location.type === LocationType.RegionDiscard)
+  .duration(500)
+
+// Sanctuary moves to/from the deck or hand — fast default. Each specific
+// sanctuary case (sacrifice, viewer's discard…) has its own rule in §4 above.
+farawayAnimations
+  .configure((move) => isMoveItemType(MaterialType.Sanctuary)(move)
+    && (move.location.type === LocationType.SanctuaryDeck || move.location.type === LocationType.PlayerSanctuaryHand))
+  .duration(300)
+
+// Shuffles are pure state changes — no animation.
+farawayAnimations
+  .configure(isShuffle)
+  .skip()
+
+// Tempo between resolutions: each re-entry into ScoringRule (one per x tick,
+// 7→0) pauses so the viewer can absorb the score that pops beside the panels
+// before the next column's reveal kicks in. The wait sits on the StartRule
+// itself, so all the score bubbles stay visible for its full duration (state —
+// and therefore CurrentScoringX — only flips at the end of the BEFORE_MOVE
+// animation). The next reveal then adds its own ~800ms before the new bubbles
+// appear, so total quiet time between two bubble sets is roughly
+// `duration + reveal duration`.
+farawayAnimations
+  .configure(move => isStartRule(move) && move.id === RuleId.Scoring)
+  .duration(2500)
