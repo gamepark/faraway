@@ -44,8 +44,9 @@ export class SpiritHelper extends MaterialRulesPart {
 
   /**
    * A player can take an available Spirit if they satisfy its conditions, and if one of the cards played this turn is part of the
-   * conditions: the Region card of this round, or the Sanctuary placed this turn. This covers the rule for the players who already
-   * satisfied the conditions when the Spirit came into play, without having to remember anything.
+   * conditions: the Region card of this round, or the Sanctuary placed this turn. Nothing needs to be remembered: a player who
+   * already satisfied the conditions when the Spirit came into play has to add a matching card before taking it, and a card
+   * played on an earlier turn is not one.
    */
   canTake(spiritIndex: number, player: PlayerId) {
     const spirit = this.material(MaterialType.Spirit).getItem<Spirit>(spiritIndex).id

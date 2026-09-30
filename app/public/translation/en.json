@@ -164,5 +164,8 @@
   "spirit.10": "Owl Spirit",
   "spirit.11": "Ram Spirit",
   "spirit.12": "Snake Spirit",
-  "spirit.13": "Turkey Spirit"
+  "spirit.13": "Turkey Spirit",
+  "button.spirit.unavailable": "This Spirit is not available",
+  "help.spirit.unavailable.title": "Spirit not available",
+  "help.spirit.unavailable": "This Spirit is the top card of the deck: it is there to be read, and cannot be taken. It will become available once one of the 2 available Spirits has been taken."
 }

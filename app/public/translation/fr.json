@@ -164,5 +164,8 @@
   "spirit.10": "Esprit Hibou",
   "spirit.11": "Esprit Bélier",
   "spirit.12": "Esprit Serpent",
-  "spirit.13": "Esprit Dindon"
+  "spirit.13": "Esprit Dindon",
+  "button.spirit.unavailable": "Cet Esprit n'est pas disponible",
+  "help.spirit.unavailable.title": "Esprit non disponible",
+  "help.spirit.unavailable": "Cet Esprit est la carte du dessus de la pioche : elle est consultable, mais ne peut pas être prise. Il deviendra disponible dès que l'un des 2 Esprits disponibles aura été pris."
 }

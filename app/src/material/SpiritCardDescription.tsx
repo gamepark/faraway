@@ -5,6 +5,7 @@ import { CardDescription, fontSizeCss, ItemContext, MaterialContext } from '@gam
 import { spiritHeight, spiritWidth } from '../panels/PanelConstants'
 import { isMoveItemType, MaterialItem, MaterialMove } from '@gamepark/rules-api'
 import { FarawayMenuButton, HandIcon } from '../components/ItemMenuButton'
+import { UnavailableSpiritButton } from '../extension/UnavailableSpiritButton'
 import Axolotl from '../images/spirit/spirit_axolotl.webp'
 import SpiritBack from '../images/spirit/spirit_back.webp'
 import Bat from '../images/spirit/spirit_bat.webp'
@@ -75,10 +76,16 @@ export class SpiritCardDescription extends CardDescription {
 
   menuAlwaysVisible = true
 
-  getItemMenu(_item: MaterialItem, context: ItemContext, legalMoves: MaterialMove[]) {
+  getItemMenu(item: MaterialItem, context: ItemContext, legalMoves: MaterialMove[]) {
     const takeMove = legalMoves.find(move => isMoveItemType(MaterialType.Spirit)(move) && move.itemIndex === context.index)
-    if (!takeMove) return null
-    return <FarawayMenuButton angle={180} radius={0} icon={HandIcon} titleKey="button.spirit.take" move={takeMove}/>
+    if (takeMove) {
+      return <FarawayMenuButton angle={180} radius={0} icon={HandIcon} titleKey="button.spirit.take" move={takeMove}/>
+    }
+    // The revealed card of the deck is easily mistaken for a 3rd available Spirit: say that it cannot be taken yet
+    if (item.location.type === LocationType.SpiritDeck && item.location.rotation) {
+      return <UnavailableSpiritButton/>
+    }
+    return null
   }
 
   getHelpDisplayExtraCss(item: MaterialItem, context: ItemContext) {

@@ -62,17 +62,28 @@ describe('Spirit acquisition', () => {
 
   it('requires a card part of the conditions played this turn', () => {
     const round = (n: number) => ({ [Memory.Round]: n })
-    // Round 3: Red7 played this turn
+    // Round 3: Red7, part of the conditions, was played this turn
     expect(new SpiritHelper(game(redRegions, [available(Spirit.Bat)], round(3))).canTake(0, 1)).toBe(true)
-    // Round 4: a blue card played this turn, the conditions were already satisfied
+    // Round 4: a blue card was played this turn, so the Bat stays out of reach even though 3 red cards are there
     const withBlue = [...redRegions, region(Region.Blue2, 3)]
     expect(new SpiritHelper(game(withBlue, [available(Spirit.Bat)], round(4))).canTake(0, 1)).toBe(false)
     expect(new SpiritHelper(game(withBlue, [available(Spirit.Bat)], round(4))).isBlocked(0, 1)).toBe(true)
-    // Round 4 with a red Sanctuary placed this turn (Blue46 > Red7)
-    const higher = [...redRegions, region(Region.Blue46, 3)]
-    const g = game(higher, [available(Spirit.Bat)], round(4))
-    g.items[MaterialType.Sanctuary] = [{ ...sanctuary(Sanctuary.Red2), location: { type: LocationType.PlayerSanctuaryLine, player: 1, x: 0 } }]
+  })
+
+  it('counts a Sanctuary played this turn (2 green regions + a green Sanctuary)', () => {
+    const greenRegions = [region(Region.Green3, 0), region(Region.Green5, 1), region(Region.Red7, 2)]
+    const g = game(greenRegions, [available(Spirit.Bear)], { [Memory.Round]: 3 })
+    g.items[MaterialType.Sanctuary] = [{ ...sanctuary(Sanctuary.Green1), location: { type: LocationType.PlayerSanctuaryLine, player: 1, x: 0 } }]
+    expect(new SpiritHelper(g).getConditionCount(Spirit.Bear, 1)).toBe(3)
     expect(new SpiritHelper(g).canTake(0, 1)).toBe(true)
+  })
+
+  it('does not count a Sanctuary played on an earlier turn', () => {
+    // Same cards, but this turn's Region (Blue2) is lower than the previous one: no Sanctuary was drawn this turn
+    const greenRegions = [region(Region.Green3, 0), region(Region.Green5, 1), region(Region.Red7, 2), region(Region.Blue2, 3)]
+    const g = game(greenRegions, [available(Spirit.Bear)], { [Memory.Round]: 4 })
+    g.items[MaterialType.Sanctuary] = [{ ...sanctuary(Sanctuary.Green1), location: { type: LocationType.PlayerSanctuaryLine, player: 1, x: 0 } }]
+    expect(new SpiritHelper(g).canTake(0, 1)).toBe(false)
   })
 
   it('counts the resources of the Spirits already taken', () => {
