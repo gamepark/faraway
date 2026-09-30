@@ -5,6 +5,7 @@ import { RegionQuests } from '../cards/RegionQuests'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { PlayerId } from '../PlayerId'
+import { getSpiritQuestScore } from './helper/SpiritHelper'
 import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
@@ -81,6 +82,7 @@ export class ScoringRule extends MaterialRulesPart {
       .location(loc => loc.x === x)
       .getIndexes()
     if (indexes.length === 0) return
+    this.lockSpiritScoresAtX(x)
     this.memorize<Record<number, number>>(Memory.RegionScoresByIndex, prev => {
       const map = { ...(prev ?? {}) }
       for (const index of indexes) {
@@ -89,6 +91,24 @@ export class ScoringRule extends MaterialRulesPart {
         const quest = RegionQuests[item.id]
         if (!quest) continue
         map[index] = quest.getTotalScore(this.game, index, MaterialType.Region, item.location.player as PlayerId)
+      }
+      return map
+    })
+  }
+
+  /**
+   * Beyond the Veil: Spirits score along with the Region card they are attached to.
+   */
+  private lockSpiritScoresAtX(x: number): void {
+    const indexes = this.material(MaterialType.Spirit)
+      .location(LocationType.PlayerSpirit)
+      .location(loc => loc.x === x)
+      .getIndexes()
+    if (indexes.length === 0) return
+    this.memorize<Record<number, number>>(Memory.SpiritScoresByIndex, prev => {
+      const map = { ...(prev ?? {}) }
+      for (const index of indexes) {
+        map[index] = getSpiritQuestScore(this.game, index)
       }
       return map
     })

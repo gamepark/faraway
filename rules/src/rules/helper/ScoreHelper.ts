@@ -7,6 +7,7 @@ import { LocationType } from '../../material/LocationType'
 import { MaterialType } from '../../material/MaterialType'
 import { PlayerId } from '../../PlayerId'
 import { Memory } from '../Memory'
+import { getSpiritQuestScore } from './SpiritHelper'
 
 class ScoreLookupRules extends MaterialRulesPart {}
 
@@ -30,6 +31,24 @@ export const getRegionCardScore = (game: MaterialGame, index: number): number =>
   return quest.getTotalScore(game, index, MaterialType.Region, item.location.player as PlayerId)
 }
 
+/**
+ * Beyond the Veil: read a Spirit card's score, preferring the value frozen when its Region card was scored.
+ */
+export const getSpiritCardScore = (game: MaterialGame, index: number): number => {
+  const locked = new ScoreLookupRules(game).remind<Record<number, number>>(Memory.SpiritScoresByIndex)
+  if (locked && index in locked) return locked[index]
+  return getSpiritQuestScore(game, index)
+}
+
+/**
+ * Beyond the Veil: score of the Spirit attached to the region card of a player at x, or undefined if there is none.
+ */
+export const getSpiritScoreAtX = (game: MaterialGame, player: PlayerId, x: number): number | undefined => {
+  const index = new ScoreLookupRules(game).material(MaterialType.Spirit).location(LocationType.PlayerSpirit).player(player)
+    .location(location => location.x === x).getIndexes()[0]
+  return index === undefined ? undefined : getSpiritCardScore(game, index)
+}
+
 export class ScoreHelper extends MaterialRulesPart {
 
   constructor(game: MaterialGame, readonly player: PlayerId) {
@@ -37,7 +56,19 @@ export class ScoreHelper extends MaterialRulesPart {
   }
 
   get score() {
-    return this.regionScore + this.sanctuaryScore
+    return this.regionScore + this.spiritScore + this.sanctuaryScore
+  }
+
+  get spiritScore() {
+    let score = 0
+    for (const index of this.spiritIndexes) {
+      score += getSpiritCardScore(this.game, index)
+    }
+    return score
+  }
+
+  get spiritIndexes() {
+    return this.material(MaterialType.Spirit).location(LocationType.PlayerSpirit).player(this.player).getIndexes()
   }
 
   get sanctuaryScore() {
@@ -80,6 +111,11 @@ export class ScoreHelper extends MaterialRulesPart {
       if (item.location.rotation !== true || item.id === undefined) continue
       if (currentX !== undefined && (item.location.x ?? -1) < currentX) continue
       total += getRegionCardScore(this.game, index)
+    }
+    for (const index of this.spiritIndexes) {
+      const spirit = this.material(MaterialType.Spirit).getItem(index)
+      if (currentX !== undefined && (spirit.location.x ?? -1) < currentX) continue
+      total += getSpiritCardScore(this.game, index)
     }
     if (isOver) total += this.sanctuaryScore
     return total

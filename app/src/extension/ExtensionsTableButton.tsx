@@ -1,24 +1,26 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
+import { FarawayRules } from '@gamepark/faraway/FarawayRules'
+import { useRules } from '@gamepark/react-game'
 import { FC, useState } from 'react'
 import { Trans } from 'react-i18next'
+import {
+  getScoreSheetPosition,
+  getTableXMin,
+  getTableYMax,
+  scoreSheetHeight,
+  scoreSheetWidth
+} from '../panels/PanelConstants'
 import { stampButtonCss } from '../theme'
+import { isBeyondTheVeil } from './isBeyondTheVeil'
 import { ExtensionsCarouselDialog } from './ExtensionsCarouselDialog'
 import { useExtensionPopups } from './useExtensionPopups'
 
-// ScoreSheet anchors to the table's bottom-left corner: 7.2 × 9.9em with a
-// 0.5em margin from each edge — so its top edge sits 0.5em + 9.9em = 10.4em
-// above the table's bottom. The button hugs the score sheet's top: same width,
-// same left offset, flush against its top edge so the two read as a single
-// bottom-left block.
-const SCORE_SHEET_WIDTH = 7.2
-const SCORE_SHEET_HEIGHT = 9.9
-const SCORE_SHEET_MARGIN = 0.5
+// The button hugs the top edge of the score sheet: same width, same left offset, so the two read as a single block.
+// The score sheet moves with Beyond the Veil (deck column instead of the bottom-left corner), so the button follows it.
 const BUTTON_HEIGHT = 2.4
-// Small gap between the button's bottom edge and the score sheet's top
-// edge so the rounded corners read cleanly (no visual fusion).
+// Small gap between the button's bottom edge and the score sheet's top edge so the rounded corners read cleanly.
 const BUTTON_GAP = 0.4
-const BUTTON_BOTTOM = SCORE_SHEET_MARGIN + SCORE_SHEET_HEIGHT + BUTTON_GAP
 
 /** Table-anchored "Extensions actives" button that sits right above the
  *  score sheet in the bottom-left corner of the game table. Clicking opens
@@ -30,11 +32,17 @@ const BUTTON_BOTTOM = SCORE_SHEET_MARGIN + SCORE_SHEET_HEIGHT + BUTTON_GAP
  *  element. */
 export const ExtensionsTableButton: FC = () => {
   const { popups } = useExtensionPopups()
+  const rules = useRules<FarawayRules>()
   const [open, setOpen] = useState(false)
   if (popups.length === 0) return null
+  const beyondTheVeil = isBeyondTheVeil(rules)
+  const scoreSheet = getScoreSheetPosition(beyondTheVeil)
+  // CSS offsets are relative to the table box, whose origin is its top-left corner
+  const left = scoreSheet.x - scoreSheetWidth / 2 - getTableXMin(beyondTheVeil)
+  const bottom = getTableYMax(beyondTheVeil) - (scoreSheet.y - scoreSheetHeight / 2) + BUTTON_GAP
   return (
     <>
-      <button type="button" css={[stampButtonCss, positionCss]} onClick={() => setOpen(true)}>
+      <button type="button" css={[stampButtonCss, positionCss(left, bottom)]} onClick={() => setOpen(true)}>
         <span css={labelCss}><Trans i18nKey="log.extensions.button"/></span>
       </button>
       <ExtensionsCarouselDialog popups={popups} open={open} onClose={() => setOpen(false)}/>
@@ -49,11 +57,11 @@ export const ExtensionsTableButton: FC = () => {
    case: padding (we want a flat banner above the score sheet, not a
    chunky stamp), width (to hug the score sheet exactly), and bottom
    border-radius (square where it meets the score sheet). */
-const positionCss = css`
+const positionCss = (left: number, bottom: number) => css`
   position: absolute;
-  left: ${SCORE_SHEET_MARGIN}em;
-  bottom: ${BUTTON_BOTTOM}em;
-  width: ${SCORE_SHEET_WIDTH}em;
+  left: ${left}em;
+  bottom: ${bottom}em;
+  width: ${scoreSheetWidth}em;
   height: ${BUTTON_HEIGHT}em;
   padding: 0;
   display: flex;

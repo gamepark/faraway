@@ -1,5 +1,6 @@
 import { ItemContext, ListLocator, MaterialContext } from '@gamepark/react-game'
 import { Location, MaterialItem } from '@gamepark/rules-api'
+import { isBeyondTheVeil } from '../extension/isBeyondTheVeil'
 import { getRegionLinePosition, regionLineGapX, tableXMax } from '../panels/PanelConstants'
 
 // Half-size of a region card on 2× hover. Bord droit du hover = centre + this.
@@ -9,7 +10,7 @@ class RegionLocator extends ListLocator {
   gap = { x: regionLineGapX }
 
   getCoordinates(_location: Location, context: MaterialContext) {
-    return getRegionLinePosition(context.rules.players.length)
+    return getRegionLinePosition(context.rules.players.length, isBeyondTheVeil(context.rules))
   }
 
   getHoverTransform(item: MaterialItem, context: ItemContext) {
@@ -21,7 +22,7 @@ class RegionLocator extends ListLocator {
     // the river still has room (e.g. 3-player layouts).
     const x = item.location.x
     if (typeof x === 'number') {
-      const cardCenterX = getRegionLinePosition(context.rules.players.length).x + x * regionLineGapX
+      const cardCenterX = getRegionLinePosition(context.rules.players.length, isBeyondTheVeil(context.rules)).x + x * regionLineGapX
       const overflow = (cardCenterX + CARD_HOVER_HALF) - tableXMax
       if (overflow > 0) {
         transforms.push(`translateX(-${overflow}em)`)

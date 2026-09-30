@@ -8,6 +8,7 @@ export type FarawayOptions = {
   beginner: boolean
   expansion1: boolean
   starrySkies: boolean
+  beyondTheVeil: boolean
   players: number
 }
 
@@ -32,6 +33,7 @@ export const FarawayOptionsSpecV2: OptionsSpecV2 = {
   options: {
     beginner: { kind: 'boolean' },
     expansion1: { kind: 'boolean', values: [{ value: false, playerCount: { max: 6 } }, true] },
-    starrySkies: { kind: 'boolean' }
+    starrySkies: { kind: 'boolean' },
+    beyondTheVeil: { kind: 'boolean' }
   }
 }

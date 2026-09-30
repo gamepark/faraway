@@ -11,6 +11,7 @@ import { PutBackCardLog } from './components/PutBackCardLog'
 import { RegionMoveLog } from './components/RegionMoveLog'
 import { RoundSeparatorLog, RoundSeparatorSetupLog } from './components/RoundSeparatorLog'
 import { SanctuaryMoveLog } from './components/SanctuaryMoveLog'
+import { SpiritMoveLog } from './components/SpiritMoveLog'
 import { ScoringStartLog } from './components/ScoringStartLog'
 import {
   biomeColor,
@@ -105,6 +106,12 @@ export class FarawayLogs implements LogDescription<MaterialMove> {
         }
       }
       return undefined
+    }
+
+    /* ---------- Beyond the Veil: Spirit taken ---------- */
+    if (isMoveItemType(MaterialType.Spirit)(move)) {
+      if (move.location.type !== LocationType.PlayerSpirit) return undefined
+      return { Component: SpiritMoveLog, player: move.location.player, depth: 0, css: entryCss }
     }
 
     /* ---------- Sanctuary moves ---------- */

@@ -31,5 +31,10 @@ export enum Memory {
    * totals) prefer this stored value and fall back to live computation only for the card
    * currently being resolved (not yet locked).
    */
-  RegionScoresByIndex
+  RegionScoresByIndex,
+  /**
+   * Beyond the Veil: frozen Spirit scores indexed by item index, locked at the same time as the
+   * score of the Region card they are attached to. See {@link RegionScoresByIndex}.
+   */
+  SpiritScoresByIndex
 }

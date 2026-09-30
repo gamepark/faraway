@@ -1,3 +1,4 @@
 export enum CustomMoveType {
-  ScoreCard = 1
+  ScoreCard = 1,
+  Pass
 }

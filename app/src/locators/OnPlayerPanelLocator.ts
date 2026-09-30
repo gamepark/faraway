@@ -1,7 +1,8 @@
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
 import { getRelativePlayerIndex, ItemContext, ListLocator, MaterialContext } from '@gamepark/react-game'
 import { Coordinates, Location, MaterialItem } from '@gamepark/rules-api'
-import { getPanelPosition, getPanelStagingPosition, tableYMax, tableYMin } from '../panels/PanelConstants'
+import { isBeyondTheVeil } from '../extension/isBeyondTheVeil'
+import { getPanelPosition, getPanelStagingPosition, getTableYMax, tableYMin } from '../panels/PanelConstants'
 import { getViewPlayer } from './panelCoordinates'
 
 // Cards are 7em tall — half-height to keep them inside the table.
@@ -41,7 +42,7 @@ class OnPlayerPanelLocator extends ListLocator {
 
   getCoordinates(location: Location, context: MaterialContext) {
     const index = getRelativePlayerIndex(context, location.player)
-    const { x, y } = getPanelPosition(index, context.rules.players.length)
+    const { x, y } = getPanelPosition(index, context.rules.players.length, isBeyondTheVeil(context.rules))
     // Default z=10 keeps panel-anchored cards above the rest of the table during
     // animations. Trajectories can override this on a per-waypoint basis by
     // passing `location.z` (e.g. the discard-from-panel trajectory drops the
@@ -64,7 +65,7 @@ class BesidePanelLocator extends ListLocator {
 
   getCoordinates(location: Location, context: MaterialContext) {
     const index = getRelativePlayerIndex(context, location.player)
-    const { x, y } = getPanelStagingPosition(index, context.rules.players.length, 2)
+    const { x, y } = getPanelStagingPosition(index, context.rules.players.length, 2, isBeyondTheVeil(context.rules))
     return { x, y, z: 10 }
   }
 
@@ -84,10 +85,10 @@ export const besidePanelLocator = new BesidePanelLocator()
 class BesidePanelCardLocator extends BesidePanelLocator {
   getCoordinates(location: Location, context: MaterialContext) {
     const index = getRelativePlayerIndex(context, location.player)
-    const { x, y } = getPanelStagingPosition(index, context.rules.players.length, 3.5)
+    const { x, y } = getPanelStagingPosition(index, context.rules.players.length, 3.5, isBeyondTheVeil(context.rules))
     // Keep the card fully on-screen: its center must stay within the table by at least half the card height.
     const minY = tableYMin + CARD_HALF_HEIGHT + CARD_TABLE_PADDING
-    const maxY = tableYMax - CARD_HALF_HEIGHT - CARD_TABLE_PADDING
+    const maxY = getTableYMax(isBeyondTheVeil(context.rules)) - CARD_HALF_HEIGHT - CARD_TABLE_PADDING
     const clampedY = Math.min(maxY, Math.max(minY, y))
     return { x, y: clampedY, z: 10 }
   }

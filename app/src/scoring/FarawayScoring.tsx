@@ -6,7 +6,7 @@ import { FarawayRules } from '@gamepark/faraway/FarawayRules'
 import { LocationType } from '@gamepark/faraway/material/LocationType'
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
 import { PlayerId } from '@gamepark/faraway/PlayerId'
-import { getRegionCardScore, ScoreHelper } from '@gamepark/faraway/rules/helper/ScoreHelper'
+import { getRegionCardScore, getSpiritScoreAtX, ScoreHelper } from '@gamepark/faraway/rules/helper/ScoreHelper'
 import { MaterialComponent, pointerCursorCss, ScoringDescription, ScoringValue, usePlay } from '@gamepark/react-game'
 import { MaterialMoveBuilder } from '@gamepark/rules-api'
 import { FC } from 'react'
@@ -76,7 +76,7 @@ export class FarawayScoring implements ScoringDescription<PlayerId, FarawayRules
     const item = rules.material(MaterialType.Region).getItem<Region>(index)
     if (item.id === undefined) return null
 
-    const score = getRegionCardScore(rules.game, index)
+    const score = getRegionCardScore(rules.game, index) + (getSpiritScoreAtX(rules.game, player, key) ?? 0)
     return <RegionScoreCell regionId={item.id} index={index} score={score}/>
   }
 }

@@ -1,6 +1,7 @@
 import { MaterialGameSetup } from '@gamepark/rules-api'
 import { baseGameRegions, expansion1Regions, starrySkiesRegions } from './cards/Region'
 import { baseGameSanctuaries, sanctuaries } from './cards/Sanctuary'
+import { spirits } from './cards/Spirit'
 import { FarawayOptions } from './FarawayOptions'
 import { FarawayRules } from './FarawayRules'
 import { LocationType } from './material/LocationType'
@@ -20,6 +21,7 @@ export class FarawaySetup extends MaterialGameSetup<PlayerId, MaterialType, Loca
     this.setupSanctuaries(options)
     this.setupPlayers(options)
     this.setupAvailableRegions(options)
+    this.setupSpirits(options)
     this.memorize(Memory.Round, 1)
   }
 
@@ -51,6 +53,14 @@ export class FarawaySetup extends MaterialGameSetup<PlayerId, MaterialType, Loca
 
     this.material(MaterialType.Sanctuary).createItems(cards)
     this.material(MaterialType.Sanctuary).shuffle()
+  }
+
+  setupSpirits(options: FarawayOptions) {
+    if (!options.beyondTheVeil) return
+    this.material(MaterialType.Spirit).createItems(spirits.map(spirit => ({ id: spirit, location: { type: LocationType.SpiritDeck } })))
+    this.material(MaterialType.Spirit).shuffle()
+    this.material(MaterialType.Spirit).location(LocationType.SpiritDeck).deck().deal({ type: LocationType.AvailableSpirit }, 2)
+    this.material(MaterialType.Spirit).location(LocationType.SpiritDeck).maxBy(item => item.location.x!).rotateItem(true)
   }
 
   setupPlayers(options: FarawayOptions) {

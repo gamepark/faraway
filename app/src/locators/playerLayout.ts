@@ -1,4 +1,7 @@
 import { regionCardDescription } from '../material/RegionCardDescription'
+import { spiritCardHeight, spiritCardWidth } from '../panels/PanelConstants'
+import { MaterialContext } from '@gamepark/react-game'
+import { isBeyondTheVeil } from '../extension/isBeyondTheVeil'
 import { sanctuaryCardDescription } from '../material/SanctuaryCardDescription'
 
 /**
@@ -42,3 +45,23 @@ export const SANCTUARY_ZONE_CENTER_Y = SANCTUARY_Y + (sanctuaryCardDescription.h
 
 // --- Hands (below the grids) ---
 export const HAND_Y = 29
+
+// --- Beyond the Veil ---
+// Spirits are slid under the Region cards, their top and bottom sticking out: the region rows need more room,
+// and the hands move down a little to make it.
+export const SPIRIT_REGION_ROW_GAP = spiritCardHeight + 0.5
+export const SPIRIT_REGION_COLUMN_GAP = spiritCardWidth + 0.45
+// First row low enough for the top of the Spirits to clear the river, second row high enough for their bottom to clear the hands
+export const SPIRIT_REGION_Y = 13.3
+export const SPIRIT_HAND_Y = 33.4
+
+export const getRegionY = (context: MaterialContext) => isBeyondTheVeil(context.rules) ? SPIRIT_REGION_Y : REGION_Y
+export const getRegionRowGap = (context: MaterialContext) => isBeyondTheVeil(context.rules) ? SPIRIT_REGION_ROW_GAP : REGION_COLUMN_GAP
+export const getRegionColumnGap = (context: MaterialContext) => isBeyondTheVeil(context.rules) ? SPIRIT_REGION_COLUMN_GAP : REGION_COLUMN_GAP
+export const getHandY = (context: MaterialContext) => isBeyondTheVeil(context.rules) ? SPIRIT_HAND_Y : HAND_Y
+
+/** Center of the region grid, where the region hand is centered: the grid is wider with Beyond the Veil. */
+export const getRegionCenterX = (context: MaterialContext) => {
+  const gap = getRegionColumnGap(context)
+  return (REGION_LEFT_EDGE + REGION_ANCHOR_X + (REGION_LINE_SIZE - 1) * gap + regionCardDescription.width / 2) / 2
+}

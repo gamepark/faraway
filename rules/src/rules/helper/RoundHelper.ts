@@ -4,6 +4,7 @@ import { LocationType } from '../../material/LocationType'
 import { MaterialType } from '../../material/MaterialType'
 import { PlayerId } from '../../PlayerId'
 import { Memory } from '../Memory'
+import { RuleId } from '../RuleId'
 
 export class RoundHelper extends MaterialRulesPart {
 
@@ -31,6 +32,18 @@ export class RoundHelper extends MaterialRulesPart {
 
   get firstPlayer() {
     return this.turnOrder[0]
+  }
+
+  /**
+   * Moves to play once a player has ended their exploration: next player, or end of the round.
+   */
+  goToNextPlayerMoves(playerId: PlayerId) {
+    const nextPlayer = this.getNextPlayer(playerId)
+    if (!nextPlayer) {
+      if (this.round === 8) return [this.startRule(RuleId.HideRegionLine)]
+      return [this.startRule(RuleId.RefillRegion)]
+    }
+    return [this.startPlayerTurn(RuleId.ChooseNewRegion, nextPlayer)]
   }
 
   getNextPlayer(playerId: PlayerId) {

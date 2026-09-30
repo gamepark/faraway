@@ -1,5 +1,6 @@
 import { expansion1Regions, starrySkiesRegions } from '@gamepark/faraway/cards/Region'
 import { baseGameSanctuaries, sanctuaries } from '@gamepark/faraway/cards/Sanctuary'
+import { spirits } from '@gamepark/faraway/cards/Spirit'
 import { ReactNode, useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { FarawayExtensionPopup } from './FarawayExtensionPopup'
@@ -41,6 +42,19 @@ export const useExtensionPopups = (): { popups: ReactNode[] } => {
           description={<Trans i18nKey="extension.starrySkies.desc"><strong/></Trans>}
           regions={starrySkiesRegions}
           regionsPerRow={5}
+          layout="compact"
+        />
+      )
+    }
+    if (active.beyondTheVeil) {
+      popups.push(
+        <FarawayExtensionPopup
+          key="beyondTheVeil"
+          eyebrow={t('extension.beyondTheVeil.eyebrow')}
+          title={t('extension.beyondTheVeil.title')}
+          description={<Trans i18nKey="extension.beyondTheVeil.desc"><strong/></Trans>}
+          regions={[]}
+          spirits={spirits}
           layout="compact"
         />
       )

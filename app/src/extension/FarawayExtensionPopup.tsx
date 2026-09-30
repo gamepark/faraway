@@ -1,9 +1,11 @@
 import { css } from '@emotion/react'
 import { Region } from '@gamepark/faraway/cards/Region'
 import { Sanctuary } from '@gamepark/faraway/cards/Sanctuary'
+import { Spirit } from '@gamepark/faraway/cards/Spirit'
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
 import { faMap } from '@fortawesome/free-solid-svg-icons/faMap'
 import { faGopuram } from '@fortawesome/free-solid-svg-icons/faGopuram'
+import { faGhost } from '@fortawesome/free-solid-svg-icons/faGhost'
 import { faStar } from '@fortawesome/free-solid-svg-icons/faStar'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { MaterialComponent } from '@gamepark/react-game'
@@ -16,6 +18,8 @@ type Props = {
   description: ReactNode
   regions: Region[]
   sanctuaries?: Sanctuary[]
+  /** Beyond the Veil: Spirit cards */
+  spirits?: Spirit[]
   /** Number of regions per row in the grid. Defaults to 3 (expansion1 layout).
    *  Starry Skies has 15 regions and reads better on a wider 5-column grid. */
   regionsPerRow?: number
@@ -43,13 +47,13 @@ type Props = {
  * Tailles de fonte alignées sur la version précédente (le user a explicitement
  * demandé de ne pas grossir la typo).
  */
-export const FarawayExtensionPopup: FC<Props> = ({ eyebrow, title, description, regions, sanctuaries, regionsPerRow = 3, layout = 'split' }) => {
+export const FarawayExtensionPopup: FC<Props> = ({ eyebrow, title, description, regions, sanctuaries, spirits, regionsPerRow = 3, layout = 'split' }) => {
   const { t } = useTranslation()
-  const total = regions.length + (sanctuaries?.length ?? 0)
+  const total = regions.length + (sanctuaries?.length ?? 0) + (spirits?.length ?? 0)
 
   // Reusable building blocks: the regions and sanctuaries sections are
   // arranged differently per layout below, so we factor them out here.
-  const regionsSection = (
+  const regionsSection = regions.length > 0 && (
     <section css={cardsColCss}>
       <div css={sectionHeadCss}>
         <span css={sectionPastilleCss}><FontAwesomeIcon icon={faMap}/></span>
@@ -89,6 +93,21 @@ export const FarawayExtensionPopup: FC<Props> = ({ eyebrow, title, description, 
     </section>
   ) : null
 
+  const spiritsSection = spirits && spirits.length > 0 ? (
+    <section css={cardsColCss}>
+      <div css={sectionHeadCss}>
+        <span css={sectionPastilleCss}><FontAwesomeIcon icon={faGhost}/></span>
+        <div css={sectionLabelCss}>{t('extension.spirits.label', { count: spirits.length })}</div>
+        <span css={sectionDotLineCss}/>
+      </div>
+      <div css={[gridCss, spiritsGridCss]}>
+        {spirits.map(id => (
+          <MaterialComponent key={`sp-${id}`} type={MaterialType.Spirit} itemId={id}/>
+        ))}
+      </div>
+    </section>
+  ) : null
+
   return (
     <article css={popupCss}>
       <header css={headerCss}>
@@ -111,6 +130,7 @@ export const FarawayExtensionPopup: FC<Props> = ({ eyebrow, title, description, 
       <div css={cardsAreaCss(layout)}>
         {regionsSection}
         {sanctuariesSection}
+        {spiritsSection}
       </div>
     </article>
   )
@@ -375,6 +395,13 @@ const sanctuariesGridCss = css`
   justify-content: start;
   gap: 0.5em;
   font-size: 0.75em;
+`
+
+const spiritsGridCss = css`
+  grid-template-columns: repeat(7, auto);
+  justify-content: start;
+  gap: 0.4em;
+  font-size: 0.55em;
 `
 
 const cardCss = css`

@@ -3,7 +3,7 @@ import { RegionQuests } from '@gamepark/faraway/cards/RegionQuests'
 import { FarawayRules } from '@gamepark/faraway/FarawayRules'
 import { LocationType } from '@gamepark/faraway/material/LocationType'
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
-import { getRegionCardScore, ScoreHelper } from '@gamepark/faraway/rules/helper/ScoreHelper'
+import { getRegionCardScore, getSpiritScoreAtX, ScoreHelper } from '@gamepark/faraway/rules/helper/ScoreHelper'
 import { Memory } from '@gamepark/faraway/rules/Memory'
 import { FlatMaterialDescription, ItemContext, MaterialContext } from '@gamepark/react-game'
 import { Location, MaterialItem } from '@gamepark/rules-api'
@@ -85,9 +85,11 @@ export class ScoreSheetDescription extends FlatMaterialDescription {
       if (currentX !== undefined && region.location.x < currentX) continue
       if (!isXRevealed(region.location.x)) continue
       const regionQuest = RegionQuests[region.id]
+      // Beyond the Veil: a Spirit and its Region are considered one card
+      const spiritScore = getSpiritScoreAtX(rules.game, region.location.player!, region.location.x)
       locations.push({
         type: LocationType.ScoreSheetBox,
-        id: regionQuest ? getRegionCardScore(rules.game, index) : '/',
+        id: regionQuest ? getRegionCardScore(rules.game, index) + (spiritScore ?? 0) : spiritScore ?? '/',
         parent: 0,
         x: region.location.player,
         y: 8 - region.location.x

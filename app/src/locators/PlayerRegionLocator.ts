@@ -5,7 +5,7 @@ import { Location, MaterialItem } from '@gamepark/rules-api'
 import { PlayerRegionAreaDescription } from './description/PlayerRegionAreaDescription'
 import { isNotViewedPlayerItem } from './hidePlayerContent'
 import { getViewPlayer } from './panelCoordinates'
-import { REGION_ANCHOR_X, REGION_COLUMN_GAP, REGION_LINE_SIZE, REGION_Y } from './playerLayout'
+import { getRegionColumnGap, getRegionRowGap, getRegionY, REGION_ANCHOR_X, REGION_COLUMN_GAP, REGION_LINE_SIZE, REGION_Y } from './playerLayout'
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
 import { isEqual } from 'es-toolkit'
 
@@ -13,6 +13,18 @@ export class PlayerRegionLocator extends FlexLocator {
   lineSize = REGION_LINE_SIZE
   gap = { x: REGION_COLUMN_GAP }
   lineGap = { y: REGION_COLUMN_GAP }
+
+  getCoordinates(_location: Location, context: MaterialContext) {
+    return { x: REGION_ANCHOR_X, y: getRegionY(context) }
+  }
+
+  getGap(_location: Location, context: MaterialContext) {
+    return { x: getRegionColumnGap(context) }
+  }
+
+  getLineGap(_location: Location, context: MaterialContext) {
+    return { y: getRegionRowGap(context) }
+  }
 
   coordinates = { x: REGION_ANCHOR_X, y: REGION_Y }
 

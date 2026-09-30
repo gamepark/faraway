@@ -1,7 +1,7 @@
 import { HandLocator, ItemContext, MaterialContext } from '@gamepark/react-game'
 import { Location, MaterialItem } from '@gamepark/rules-api'
 import { isNotViewedPlayerItem } from './hidePlayerContent'
-import { HAND_Y, SANCTUARY_CENTER_X } from './playerLayout'
+import { getHandY, SANCTUARY_CENTER_X } from './playerLayout'
 
 export class SanctuaryHandLocator extends HandLocator {
   maxAngle = 16
@@ -20,7 +20,7 @@ export class SanctuaryHandLocator extends HandLocator {
     if (count >= 6) {
       x += (count - 6) * 3.5
     }
-    return { x, y: HAND_Y, z: 3 }
+    return { x, y: getHandY(context), z: 3 }
   }
 
   getRadius(): number {

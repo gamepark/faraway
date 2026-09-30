@@ -1,6 +1,7 @@
 import { MaterialMove, MaterialRulesPart } from '@gamepark/rules-api'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
+import { SpiritHelper } from './helper/SpiritHelper'
 import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
@@ -13,6 +14,8 @@ export class RefillRegionRule extends MaterialRulesPart {
     if (this.round < 7) {
       moves.push(...this.drawRegionCardsMoves)
     }
+
+    moves.push(...new SpiritHelper(this.game).refillMoves)
 
     moves.push(this.startSimultaneousRule(RuleId.PlaceRegion))
 

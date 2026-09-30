@@ -1,6 +1,7 @@
 import { RuleId } from '@gamepark/faraway/rules/RuleId'
 import { ComponentType } from 'react'
 import { ChooseHandCardsHeader } from './ChooseHandCardsHeader'
+import { ChooseSpiritHeader } from './ChooseSpiritHeader'
 import { DealSanctuariesHeader } from './DealSanctuariesHeader'
 import { ExplorationHeader } from './ExplorationHeader'
 import { NewRegionHeader } from './NewRegionHeader'
@@ -20,5 +21,6 @@ export const Headers: Partial<Record<RuleId, ComponentType>> = {
   [RuleId.Scoring]: ScoringHeader,
   [RuleId.HideRegionLine]: ScoringHeader,
   [RuleId.ChooseHandCards]: ChooseHandCardsHeader,
-  [RuleId.SacrificeSanctuary]: SacrificeSanctuaryHeader
+  [RuleId.SacrificeSanctuary]: SacrificeSanctuaryHeader,
+  [RuleId.ChooseSpirit]: ChooseSpiritHeader
 }

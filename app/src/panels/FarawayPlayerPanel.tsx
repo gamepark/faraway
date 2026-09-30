@@ -9,7 +9,7 @@ import { FarawayRules } from '@gamepark/faraway/FarawayRules'
 import { LocationType } from '@gamepark/faraway/material/LocationType'
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
 import { PlayerId } from '@gamepark/faraway/PlayerId'
-import { getRegionCardScore, ScoreHelper } from '@gamepark/faraway/rules/helper/ScoreHelper'
+import { getRegionCardScore, getSpiritScoreAtX, ScoreHelper } from '@gamepark/faraway/rules/helper/ScoreHelper'
 import { Memory } from '@gamepark/faraway/rules/Memory'
 import fameIcon from '../images/icon/fame.png'
 import { Player } from '@gamepark/react-client'
@@ -101,9 +101,11 @@ const ScoringIndicator: FC<{ player: Player }> = ({ player }) => {
   const quest = RegionQuests[item.id]
   // Cards without a quest still show a bubble but with a "/" placeholder — matches the
   // scoresheet's `'/'` for the same case so the two views stay in sync.
+  // Beyond the Veil: the Spirit under the card scores at the same time.
+  const spiritScore = getSpiritScoreAtX(rules!.game, player.id, currentX)
   const score: number | string = quest && item.location.player !== undefined
-    ? getRegionCardScore(rules!.game, cardIndex)
-    : '/'
+    ? getRegionCardScore(rules!.game, cardIndex) + (spiritScore ?? 0)
+    : spiritScore ?? '/'
   return (
     <div css={scoringIndicatorCss} key={cardIndex}>
       <div css={fameBadgeCss}>{score}</div>

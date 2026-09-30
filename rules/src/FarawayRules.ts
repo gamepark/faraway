@@ -17,6 +17,7 @@ import { MaterialType } from './material/MaterialType'
 import { PlayerId } from './PlayerId'
 import { ChooseHandCardsRule } from './rules/ChooseHandCardsRule'
 import { ChooseNewRegionCardRule } from './rules/ChooseNewRegionCardRule'
+import { ChooseSpiritRule } from './rules/ChooseSpiritRule'
 import { DealSanctuariesRule } from './rules/DealSanctuariesRule'
 import { ScoreHelper } from './rules/helper/ScoreHelper'
 import { HideRegionLineRule } from './rules/HideRegionLineRule'
@@ -37,6 +38,11 @@ export const hideCardWhenNotRotated: HidingStrategy = (
 }
 
 /**
+ * Beyond the Veil: the Spirit deck is face up, but only its top card can be seen (it is rotated).
+ */
+export const hideItemIdWhenNotRotated: HidingStrategy = (item: MaterialItem) => item.location.rotation ? [] : ['id']
+
+/**
  * This class implements the rules of the board game.
  * It must follow Game Park "Rules" API so that the Game Park server can enforce the rules.
  */
@@ -53,7 +59,8 @@ export class FarawayRules extends SecretMaterialRules<PlayerId, MaterialType, Lo
     [RuleId.HideRegionLine]: HideRegionLineRule,
     [RuleId.Scoring]: ScoringRule,
     [RuleId.ChooseHandCards]: ChooseHandCardsRule,
-    [RuleId.SacrificeSanctuary]: SacrificeSanctuaryRule
+    [RuleId.SacrificeSanctuary]: SacrificeSanctuaryRule,
+    [RuleId.ChooseSpirit]: ChooseSpiritRule
   }
 
   locationsStrategies = {
@@ -68,6 +75,10 @@ export class FarawayRules extends SecretMaterialRules<PlayerId, MaterialType, Lo
       [LocationType.PlayerSanctuaryHand]: new PositiveSequenceStrategy(),
       [LocationType.SanctuaryDeck]: new PositiveSequenceStrategy(),
       [LocationType.PlayerSanctuaryLine]: new PositiveSequenceStrategy()
+    },
+    [MaterialType.Spirit]: {
+      [LocationType.SpiritDeck]: new PositiveSequenceStrategy(),
+      [LocationType.AvailableSpirit]: new FillGapStrategy()
     }
   }
 
@@ -80,6 +91,9 @@ export class FarawayRules extends SecretMaterialRules<PlayerId, MaterialType, Lo
     [MaterialType.Sanctuary]: {
       [LocationType.PlayerSanctuaryHand]: hideItemIdToOthers,
       [LocationType.SanctuaryDeck]: hideItemId
+    },
+    [MaterialType.Spirit]: {
+      [LocationType.SpiritDeck]: hideItemIdWhenNotRotated
     }
   }
 

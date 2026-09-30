@@ -3,6 +3,7 @@ import { LocationType } from '../../material/LocationType'
 import { PlayerId } from '../../PlayerId'
 import { Region } from '../Region'
 import { Sanctuary } from '../Sanctuary'
+import { Spirit } from '../Spirit'
 import { Wonder } from '../Wonder'
 import { Quest } from './Quest'
 import { QuestType } from './QuestType'
@@ -21,9 +22,9 @@ export class MultiWonderSumQuest extends Quest {
     super(pointsPerWonder)
   }
 
-  getScore(regions: MaterialItem<PlayerId, LocationType, Region>[], sanctuaries: MaterialItem<PlayerId, LocationType, Sanctuary>[]): number | undefined {
+  getScore(regions: MaterialItem<PlayerId, LocationType, Region>[], sanctuaries: MaterialItem<PlayerId, LocationType, Sanctuary>[], _playerId?: PlayerId, spirits: MaterialItem<PlayerId, LocationType, Spirit>[] = []): number | undefined {
     return this.scoringWonders.reduce(
-      (total, wonder) => total + this.pointsPerWonder * this.getPlayerWonderCount(regions, sanctuaries, wonder),
+      (total, wonder) => total + this.pointsPerWonder * this.getPlayerWonderCount(regions, sanctuaries, wonder, spirits),
       0
     )
   }

@@ -9,8 +9,9 @@ import { MaterialMoveBuilder } from '@gamepark/rules-api'
 import { FC, useCallback, useMemo } from 'react'
 import { DevCardViewer } from './dev/DevCardViewer'
 import { ExtensionsTableButton } from './extension/ExtensionsTableButton'
+import { isBeyondTheVeil } from './extension/isBeyondTheVeil'
 import { useExtensionPopups } from './extension/useExtensionPopups'
-import { tableSize } from './panels/PanelConstants'
+import { getTableSize } from './panels/PanelConstants'
 import { PlayerPanels } from './panels/PlayerPanels'
 
 /** Full starting hand size in a standard game (beginner mode deals 3). */
@@ -45,7 +46,7 @@ export const GameDisplay: FC = () => {
 
   return (
     <>
-      <GameTable {...tableSize}
+      <GameTable {...getTableSize(isBeyondTheVeil(rules))}
         verticalCenter
         margin={{ top: 7, left: 0, right: 0, bottom: 0 }} css={process.env.NODE_ENV === 'development' ? borderCss : undefined}>
         <PlayerPanels />

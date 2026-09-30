@@ -3,6 +3,7 @@ import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { RoundHelper } from './helper/RoundHelper'
 import { SanctuaryHelper } from './helper/SanctuaryHelper'
+import { SpiritHelper } from './helper/SpiritHelper'
 import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
@@ -43,13 +44,8 @@ export class PlaceSanctuaryRule extends PlayerTurnRule {
   }
 
   goToNextRule() {
-    const nextPlayer = new RoundHelper(this.game).getNextPlayer(this.player)
-    if (!nextPlayer) {
-      if (this.round === 8) return [this.startRule(RuleId.HideRegionLine)]
-      return [this.startRule(RuleId.RefillRegion)]
-    }
-
-    return [this.startPlayerTurn(RuleId.ChooseNewRegion, nextPlayer)]
+    if (new SpiritHelper(this.game).isActive) return [this.startPlayerTurn(RuleId.ChooseSpirit, this.player)]
+    return new RoundHelper(this.game).goToNextPlayerMoves(this.player)
   }
 
   discardHand() {

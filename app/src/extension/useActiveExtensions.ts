@@ -7,6 +7,7 @@ import { useMemo } from 'react'
 export type ActiveExtensions = {
   expansion1: boolean
   starrySkies: boolean
+  beyondTheVeil: boolean
 }
 
 /**
@@ -23,13 +24,14 @@ export type ActiveExtensions = {
 export const useActiveExtensions = (): ActiveExtensions => {
   const rules = useRules<FarawayRules>()
   return useMemo(() => {
-    if (!rules) return { expansion1: false, starrySkies: false }
+    if (!rules) return { expansion1: false, starrySkies: false, beyondTheVeil: false }
     const delta = rules.material(MaterialType.Region).length - baseGameRegions.length
     const exp1 = expansion1Regions.length
     const starry = starrySkiesRegions.length
     return {
       expansion1: delta === exp1 || delta === exp1 + starry,
-      starrySkies: delta === starry || delta === exp1 + starry
+      starrySkies: delta === starry || delta === exp1 + starry,
+      beyondTheVeil: rules.material(MaterialType.Spirit).length > 0
     }
   }, [rules])
 }

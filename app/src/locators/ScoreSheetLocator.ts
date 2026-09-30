@@ -2,11 +2,13 @@ import { LocationType } from '@gamepark/faraway/material/LocationType'
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
 import { Memory } from '@gamepark/faraway/rules/Memory'
 import { Locator, MaterialContext } from '@gamepark/react-game'
-import { scoreSheetX, scoreSheetY } from '../panels/PanelConstants'
+import { Location } from '@gamepark/rules-api'
+import { isBeyondTheVeil } from '../extension/isBeyondTheVeil'
+import { getScoreSheetPosition } from '../panels/PanelConstants'
 
 export class ScoreSheetLocator extends Locator {
-  getLocationCoordinates() {
-    return { x: scoreSheetX, y: scoreSheetY }
+  getLocationCoordinates(_location: Location, context: MaterialContext) {
+    return getScoreSheetPosition(isBeyondTheVeil(context.rules))
   }
 
   // Force the score sheet's getLocations to re-run as scoring progresses, so its rows

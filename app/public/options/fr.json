@@ -4,5 +4,7 @@
   "option.expansion1": "Le peuple du dessous",
   "option.expansion1.help": "Cette extension ajoute 9 régions et 8 sanctuaires, et permet de jouer jusqu'à 7 joueurs.",
   "option.starrySkies": "Sous un Ciel d'Étoiles",
-  "option.starrySkies.help": "Cette extension ajoute 15 cartes Région Météorite au deck, avec de nouveaux types de quêtes."
+  "option.starrySkies.help": "Cette extension ajoute 15 cartes Région Météorite au deck, avec de nouveaux types de quêtes.",
+  "option.beyondTheVeil": "Au-delà du Voile",
+  "option.beyondTheVeil.help": "Cette extension ajoute 13 cartes Esprit que vous pouvez prendre en remplissant leurs conditions, pour les glisser sous vos cartes Région et gagner ressources et points supplémentaires."
 }

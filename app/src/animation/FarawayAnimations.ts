@@ -232,6 +232,23 @@ farawayAnimations
   .duration(1800)
   .trajectory((ctx, move) => pickTrajectory(ctx, move as MoveItem))
 
+// §3.g — Beyond the Veil: non-viewed player takes a Spirit. Their Region line
+// is hidden, so the Spirit surfaces beside their panel for a read beat before
+// snapping onto it, like a region pick. The viewed player's Spirit simply
+// slides under their Region card (default animation). Spirits flip together
+// with their Region without any move of their own: they are child items of
+// the Region (see SpiritCardDescription.isFlippedOnTable).
+farawayAnimations
+  .configure((move, context) => {
+    if (!isMoveItemType(MaterialType.Spirit)(move)) return false
+    if (move.location.type !== LocationType.PlayerSpirit) return false
+    const player = move.location.player
+    const viewed = getViewPlayer(context)
+    return viewed !== undefined && player !== undefined && player !== viewed
+  })
+  .duration(1800)
+  .trajectory((ctx, move) => pickTrajectory(ctx, move as MoveItem))
+
 // ----------------------------------------------------------------------------
 // §4. Sanctuary animations
 // ----------------------------------------------------------------------------

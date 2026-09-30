@@ -6,7 +6,7 @@ import { Location, MaterialItem } from '@gamepark/rules-api'
 import { orderBy } from 'es-toolkit/compat'
 import { isNotViewedPlayerItem } from './hidePlayerContent'
 import { getViewPlayer } from './panelCoordinates'
-import { HAND_Y, REGION_CENTER_X } from './playerLayout'
+import { getHandY, getRegionCenterX } from './playerLayout'
 
 export class RegionHandLocator extends HandLocator {
   locationDescription = new DropAreaDescription({ width: 20, height: 8, borderRadius: 0.4 })
@@ -22,12 +22,12 @@ export class RegionHandLocator extends HandLocator {
   // The sanctuary anchor shifts by ~4em/card past 5; we shift faster (~6em/card) so the
   // gap between fans stays roughly constant rather than shrinking.
   getCoordinates(location: Location, context: MaterialContext) {
-    let x = REGION_CENTER_X
+    let x = getRegionCenterX(context)
     const sanctuaryHand = this.getSanctuaryHandCount(location, context)
     if (sanctuaryHand >= 6) {
       x += Math.min((sanctuaryHand - 6) * 5, 31)
     }
-    return { x, y: HAND_Y, z: 1 }
+    return { x, y: getHandY(context), z: 1 }
   }
 
   // Re-render whenever either the region hand size OR the sanctuary hand size changes —

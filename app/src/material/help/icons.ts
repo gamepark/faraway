@@ -10,6 +10,8 @@ import spring from '../../images/icon/River.jpg'
 import rock from '../../images/icon/rock.png'
 import thistle from '../../images/icon/thistle.png'
 import nightIconImg from '../../images/time/night.png'
+import noResourceIconImg from '../../images/icon/no-resource.png'
+import spiritIconImg from '../../images/icon/spirit.png'
 
 export const wonderIcon: Record<Wonder, string> = {
   [Wonder.Rock]: rock,
@@ -27,3 +29,5 @@ export const biomeIcon: Record<Color, string> = {
 
 export const clueIcon = clueIconImg
 export const nightIcon = nightIconImg
+export const noResourceIcon = noResourceIconImg
+export const spiritIcon = spiritIconImg

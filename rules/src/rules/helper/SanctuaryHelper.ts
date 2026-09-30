@@ -4,6 +4,8 @@ import { compareTime, Region } from '../../cards/Region'
 import { Regions } from '../../cards/Regions'
 import { Sanctuaries } from '../../cards/Sanctuaries'
 import { Sanctuary } from '../../cards/Sanctuary'
+import { Spirit } from '../../cards/Spirit'
+import { Spirits } from '../../cards/Spirits'
 import { LocationType } from '../../material/LocationType'
 import { MaterialType } from '../../material/MaterialType'
 import { PlayerId } from '../../PlayerId'
@@ -44,7 +46,13 @@ export class SanctuaryHelper extends MaterialRulesPart {
         .getItems<Sanctuary>().map((item) => Sanctuaries[item.id]?.clue ?? 0)
     )
 
-    return 1 + regionClues + sanctuaryClues
+    // Beyond the Veil: a Spirit under a Region card is one card with it
+    const spiritClues = sum(
+      this.material(MaterialType.Spirit).location(LocationType.PlayerSpirit).player(this.player)
+        .getItems<Spirit>().map((item) => Spirits[item.id].clue ?? 0)
+    )
+
+    return 1 + regionClues + sanctuaryClues + spiritClues
   }
 
   get currentCard(): Region {
