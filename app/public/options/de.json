@@ -4,5 +4,7 @@
   "option.expansion1": "Jenseits der Grenze",
   "option.expansion1.help": "Diese Erweiterung fügt 9 Regionen und 8 Heiligtümer hinzu und ermöglicht das Spiel mit bis zu 7 Spielern.",
   "option.starrySkies": "Sternenhimmel",
-  "option.starrySkies.help": "Diese Erweiterung fügt 15 Meteoriten-Regionskarten mit neuen Auftragstypen zum Stapel hinzu."
+  "option.starrySkies.help": "Diese Erweiterung fügt 15 Meteoriten-Regionskarten mit neuen Auftragstypen zum Stapel hinzu.",
+  "option.beyondTheVeil": "Jenseits des Schleiers",
+  "option.beyondTheVeil.help": "Diese Erweiterung fügt 13 Geister-Karten hinzu, die du nehmen kannst, wenn du ihre Bedingungen erfüllst, um sie unter deine Regions-Karten zu schieben und zusätzliche Ressourcen und Punkte zu erhalten."
 }
