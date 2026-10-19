@@ -9,6 +9,8 @@ import { LocationType } from '../../material/LocationType'
 import { MaterialType } from '../../material/MaterialType'
 import { PlayerId } from '../../PlayerId'
 import { Memory } from '../Memory'
+import { RuleId } from '../RuleId'
+import { RoundHelper } from './RoundHelper'
 
 /**
  * Beyond the Veil extension helpers.
@@ -67,12 +69,39 @@ export class SpiritHelper extends MaterialRulesPart {
     const regions = this.material(MaterialType.Region).location(LocationType.PlayerRegionLine).player(player)
     const region = regions.location(location => location.x === round - 1).getItem<Region>()
     if (region && countCriterion(criterion, { regions: [region], sanctuaries: [] }) > 0) return true
+    if (!this.isSanctuaryChoiceOver(player)) return false
     // A Sanctuary is placed when the exploration time is greater than the previous round's one
     const previous = regions.location(location => location.x === round - 2).getItem<Region>()
     if (!region || !previous || compareTime(region.id, previous.id) <= 0) return false
     const sanctuary = this.material(MaterialType.Sanctuary).location(LocationType.PlayerSanctuaryLine).player(player)
       .maxBy(item => item.location.x!).getItem<Sanctuary>()
     return !!sanctuary && countCriterion(criterion, { regions: [], sanctuaries: [sanctuary] }) > 0
+  }
+
+  /**
+   * Whether the player is past the choice of their Sanctuary this round: before it, the last Sanctuary of their line is from
+   * an earlier turn.
+   */
+  isSanctuaryChoiceOver(player: PlayerId) {
+    const rule = this.game.rule
+    switch (rule?.id) {
+      case RuleId.PlaceRegion:
+      case RuleId.RevealRegions:
+      case RuleId.DealSanctuaries:
+        return false
+      case RuleId.ChooseNewRegion:
+      case RuleId.PlaceSanctuary:
+        return this.playedBefore(player, rule.player!)
+      case RuleId.ChooseSpirit:
+        return rule.player === player || this.playedBefore(player, rule.player!)
+      default:
+        return true
+    }
+  }
+
+  private playedBefore(player: PlayerId, activePlayer: PlayerId) {
+    const turnOrder = new RoundHelper(this.game).turnOrder
+    return turnOrder.indexOf(player) < turnOrder.indexOf(activePlayer)
   }
 
   /**

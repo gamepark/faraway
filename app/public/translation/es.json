@@ -133,7 +133,6 @@
   "help.spirit.available": "Este Espíritu está disponible: al final de su turno, un jugador que cumpla sus condiciones de adquisición puede cogerlo.",
   "help.spirit.placed.you": "Este Espíritu está colocado bajo una de tus cartas de Región.",
   "help.spirit.placed.player": "Este Espíritu está colocado bajo una de las cartas de Región de {player}.",
-  "help.spirit.blocked": "Cumples las condiciones de este Espíritu, pero para cogerlo, la carta de Región o el Santuario jugado este turno debe formar parte de ellas.",
   "help.spirit.condition.title": "Condiciones de adquisición:",
   "help.spirit.condition": "tener al menos {count} <0/> entre tus cartas de Región y de Santuario.",
   "help.spirit.points.title": "Puntos adicionales:",
@@ -167,5 +166,8 @@
   "spirit.13": "Espíritu Pavo",
   "button.spirit.unavailable": "Este Espíritu no está disponible",
   "help.spirit.unavailable.title": "Espíritu no disponible",
-  "help.spirit.unavailable": "Este Espíritu es la carta superior del mazo: se puede consultar, pero no se puede coger. Estará disponible en cuanto se haya cogido uno de los 2 Espíritus disponibles."
+  "help.spirit.unavailable": "Este Espíritu es la carta superior del mazo: se puede consultar, pero no se puede coger. Estará disponible en cuanto se haya cogido uno de los 2 Espíritus disponibles.",
+  "button.spirit.blocked": "¿Por qué no puedo coger este Espíritu?",
+  "help.spirit.blocked.title": "Condición de obtención",
+  "help.spirit.blocked.rule": "Si ya cumples todas las condiciones de una carta de Espíritu cuando entra en juego, eso no te permite cogerla inmediatamente. Para conseguirla, <0>debes jugar al menos 1 carta de Región o de Santuario</0> que cumpla las condiciones del Espíritu."
 }

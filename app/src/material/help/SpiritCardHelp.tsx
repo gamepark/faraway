@@ -1,4 +1,6 @@
 import { css } from '@emotion/react'
+import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons/faCircleExclamation'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { getCriterionColor, getCriterionWonder } from '@gamepark/faraway/cards/CardCounting'
 import { Criterion } from '@gamepark/faraway/cards/Criterion'
 import { Spirit } from '@gamepark/faraway/cards/Spirit'
@@ -59,7 +61,10 @@ const BlockedSpirit = ({ itemIndex }: { itemIndex: number }) => {
   const rules = useRules<FarawayRules>()
   const playerId = usePlayerId()
   if (!rules || playerId === undefined || !new SpiritHelper(rules.game).isBlocked(itemIndex, playerId)) return null
-  return <p><em><Trans i18nKey="help.spirit.blocked"/></em></p>
+  return <p>
+    <FontAwesomeIcon icon={faCircleExclamation} css={blockedIconCss}/>
+    <Trans i18nKey="help.spirit.blocked.rule" components={[<strong/>]}/>
+  </p>
 }
 
 const SpiritHelp = ({ spirit }: { spirit: Spirit }) => {
@@ -133,4 +138,9 @@ const wonderKey: Record<Wonder, string> = {
 const plainEmCss = css`
   font-style: normal;
   font-weight: 700;
+`
+
+const blockedIconCss = css`
+  color: #c0392b;
+  margin-right: 0.3em;
 `

@@ -10,6 +10,7 @@ import { FarawaySetup } from '../../../FarawaySetup'
 import { LocationType } from '../../../material/LocationType'
 import { MaterialType } from '../../../material/MaterialType'
 import { Memory } from '../../Memory'
+import { RuleId } from '../../RuleId'
 import { getRegionCardScore, ScoreHelper } from '../ScoreHelper'
 import { getSpiritQuestScore, SpiritHelper } from '../SpiritHelper'
 
@@ -84,6 +85,22 @@ describe('Spirit acquisition', () => {
     const g = game(greenRegions, [available(Spirit.Bear)], { [Memory.Round]: 4 })
     g.items[MaterialType.Sanctuary] = [{ ...sanctuary(Sanctuary.Green1), location: { type: LocationType.PlayerSanctuaryLine, player: 1, x: 0 } }]
     expect(new SpiritHelper(g).canTake(0, 1)).toBe(false)
+  })
+
+  it('does not count a Sanctuary from an earlier turn while this turn\'s Sanctuary is not placed yet', () => {
+    // Round 4: Blue9 is higher than Red7, but the Sanctuary of this turn is not chosen yet: Green2 is from an earlier turn
+    const regions = [region(Region.Red4, 0), region(Region.Green5, 1), region(Region.Red7, 2), region(Region.Blue9, 3)]
+    const g = game(regions, [available(Spirit.Bear)], { [Memory.Round]: 4 })
+    g.rule = { id: RuleId.PlaceSanctuary, player: 1 }
+    g.items[MaterialType.Sanctuary] = [
+      { ...sanctuary(Sanctuary.Green1), location: { type: LocationType.PlayerSanctuaryLine, player: 1, x: 0 } },
+      { ...sanctuary(Sanctuary.Green2), location: { type: LocationType.PlayerSanctuaryLine, player: 1, x: 1 } }
+    ]
+    expect(new SpiritHelper(g).getConditionCount(Spirit.Bear, 1)).toBe(3)
+    expect(new SpiritHelper(g).canTake(0, 1)).toBe(false)
+    // Once the Sanctuary of this turn is placed, it counts
+    g.rule = { id: RuleId.ChooseSpirit, player: 1 }
+    expect(new SpiritHelper(g).canTake(0, 1)).toBe(true)
   })
 
   it('counts the resources of the Spirits already taken', () => {

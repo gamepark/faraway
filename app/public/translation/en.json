@@ -133,7 +133,6 @@
   "help.spirit.available": "This Spirit is available: at the end of their turn, a player who satisfies its acquisition conditions can take it.",
   "help.spirit.placed.you": "This Spirit is placed under one of your Region cards.",
   "help.spirit.placed.player": "This Spirit is placed under one of {player}'s Region cards.",
-  "help.spirit.blocked": "You satisfy the conditions of this Spirit, but to take it the Region card or the Sanctuary you played this turn must be part of them.",
   "help.spirit.condition.title": "Acquisition conditions:",
   "help.spirit.condition": "have at least {count} <0/> in your Region and Sanctuary cards.",
   "help.spirit.points.title": "Additional points:",
@@ -167,5 +166,8 @@
   "spirit.13": "Turkey Spirit",
   "button.spirit.unavailable": "This Spirit is not available",
   "help.spirit.unavailable.title": "Spirit not available",
-  "help.spirit.unavailable": "This Spirit is the top card of the deck: it is there to be read, and cannot be taken. It will become available once one of the 2 available Spirits has been taken."
+  "help.spirit.unavailable": "This Spirit is the top card of the deck: it is there to be read, and cannot be taken. It will become available once one of the 2 available Spirits has been taken.",
+  "button.spirit.blocked": "Why can't I take this Spirit?",
+  "help.spirit.blocked.title": "Acquisition condition",
+  "help.spirit.blocked.rule": "If you have already satisfied the conditions of a Spirit card when it comes into play, you cannot immediately take it. To take it, <0>you must play at least 1 Region or Sanctuary card</0> that are part of the Spirit's conditions."
 }

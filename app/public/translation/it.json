@@ -133,7 +133,6 @@
   "help.spirit.available": "Questo Spirito è disponibile: alla fine del proprio turno, un giocatore che soddisfa le sue condizioni di acquisizione può prenderlo.",
   "help.spirit.placed.you": "Questo Spirito è posizionato sotto una delle tue carte Regione.",
   "help.spirit.placed.player": "Questo Spirito è posizionato sotto una delle carte Regione di {player}.",
-  "help.spirit.blocked": "Soddisfi le condizioni di questo Spirito, ma per prenderlo la carta Regione o il Santuario giocato in questo turno deve farne parte.",
   "help.spirit.condition.title": "Condizioni di acquisizione:",
   "help.spirit.condition": "avere almeno {count} <0/> tra le tue carte Regione e Santuario.",
   "help.spirit.points.title": "Punti aggiuntivi:",
@@ -167,5 +166,8 @@
   "spirit.13": "Spirito Tacchino",
   "button.spirit.unavailable": "Questo Spirito non è disponibile",
   "help.spirit.unavailable.title": "Spirito non disponibile",
-  "help.spirit.unavailable": "Questo Spirito è la carta in cima al mazzo: si può consultare, ma non prendere. Diventerà disponibile non appena uno dei 2 Spiriti disponibili sarà stato preso."
+  "help.spirit.unavailable": "Questo Spirito è la carta in cima al mazzo: si può consultare, ma non prendere. Diventerà disponibile non appena uno dei 2 Spiriti disponibili sarà stato preso.",
+  "button.spirit.blocked": "Perché non posso prendere questo Spirito?",
+  "help.spirit.blocked.title": "Condizione di acquisizione",
+  "help.spirit.blocked.rule": "Se soddisfi già tutte le condizioni di una carta Spirito quando entra in gioco, questo non ti autorizza a prenderla subito. Per ottenerla, <0>devi giocare almeno 1 carta Regione o Santuario</0> che soddisfi le condizioni dello Spirito."
 }

@@ -133,7 +133,6 @@
   "help.spirit.available": "Cet Esprit est disponible : à la fin de son tour, un joueur qui remplit ses conditions d'acquisition peut le prendre.",
   "help.spirit.placed.you": "Cet Esprit est placé sous l'une de vos cartes Région.",
   "help.spirit.placed.player": "Cet Esprit est placé sous l'une des cartes Région de {player}.",
-  "help.spirit.blocked": "Vous remplissez les conditions de cet Esprit, mais pour le prendre, la carte Région ou le Sanctuaire joué ce tour doit en faire partie.",
   "help.spirit.condition.title": "Conditions d'acquisition :",
   "help.spirit.condition": "avoir au moins {count} <0/> parmi vos cartes Région et Sanctuaire.",
   "help.spirit.points.title": "Points supplémentaires :",
@@ -167,5 +166,8 @@
   "spirit.13": "Esprit Dindon",
   "button.spirit.unavailable": "Cet Esprit n'est pas disponible",
   "help.spirit.unavailable.title": "Esprit non disponible",
-  "help.spirit.unavailable": "Cet Esprit est la carte du dessus de la pioche : elle est consultable, mais ne peut pas être prise. Il deviendra disponible dès que l'un des 2 Esprits disponibles aura été pris."
+  "help.spirit.unavailable": "Cet Esprit est la carte du dessus de la pioche : elle est consultable, mais ne peut pas être prise. Il deviendra disponible dès que l'un des 2 Esprits disponibles aura été pris.",
+  "button.spirit.blocked": "Pourquoi ne puis-je pas prendre cet Esprit ?",
+  "help.spirit.blocked.title": "Condition d'obtention",
+  "help.spirit.blocked.rule": "Si vous remplissez déjà toutes les conditions d'une carte Esprit quand elle arrive en jeu, cela ne vous autorise pas à la prendre immédiatement pour autant. Pour la récupérer, <0>vous devez jouer au moins 1 carte Région ou Sanctuaire</0> répondant aux conditions de l'Esprit."
 }

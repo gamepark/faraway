@@ -133,7 +133,6 @@
   "help.spirit.available": "Dieser Geist ist verfügbar: Am Ende seines Zuges kann ein Spieler, der seine Erwerbsbedingungen erfüllt, ihn nehmen.",
   "help.spirit.placed.you": "Dieser Geist liegt unter einer deiner Regions-Karten.",
   "help.spirit.placed.player": "Dieser Geist liegt unter einer der Regions-Karten von {player}.",
-  "help.spirit.blocked": "Du erfüllst die Bedingungen dieses Geistes, aber um ihn zu nehmen, muss die in dieser Runde gespielte Regions-Karte oder das Heiligtum dazu beitragen.",
   "help.spirit.condition.title": "Erwerbsbedingungen:",
   "help.spirit.condition": "mindestens {count} <0/> unter deinen Regions- und Heiligtums-Karten haben.",
   "help.spirit.points.title": "Zusätzliche Punkte:",
@@ -167,5 +166,8 @@
   "spirit.13": "Truthahn-Geist",
   "button.spirit.unavailable": "Dieser Geist ist nicht verfügbar",
   "help.spirit.unavailable.title": "Geist nicht verfügbar",
-  "help.spirit.unavailable": "Dieser Geist ist die oberste Karte des Stapels: Du kannst ihn lesen, aber nicht nehmen. Er wird verfügbar, sobald einer der 2 verfügbaren Geister genommen wurde."
+  "help.spirit.unavailable": "Dieser Geist ist die oberste Karte des Stapels: Du kannst ihn lesen, aber nicht nehmen. Er wird verfügbar, sobald einer der 2 verfügbaren Geister genommen wurde.",
+  "button.spirit.blocked": "Warum kann ich diesen Geist nicht nehmen?",
+  "help.spirit.blocked.title": "Erwerbsbedingung",
+  "help.spirit.blocked.rule": "Wenn du alle Bedingungen einer Geisterkarte bereits erfüllst, wenn sie ins Spiel kommt, darfst du sie deshalb noch nicht sofort nehmen. Um sie zu bekommen, <0>musst du mindestens 1 Regions- oder Heiligtumskarte spielen</0>, die zu den Bedingungen des Geistes beiträgt."
 }

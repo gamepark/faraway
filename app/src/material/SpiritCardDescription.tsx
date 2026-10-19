@@ -1,10 +1,12 @@
 import { Spirit } from '@gamepark/faraway/cards/Spirit'
 import { LocationType } from '@gamepark/faraway/material/LocationType'
 import { MaterialType } from '@gamepark/faraway/material/MaterialType'
+import { SpiritHelper } from '@gamepark/faraway/rules/helper/SpiritHelper'
 import { CardDescription, fontSizeCss, ItemContext, MaterialContext } from '@gamepark/react-game'
 import { spiritHeight, spiritWidth } from '../panels/PanelConstants'
 import { isMoveItemType, MaterialItem, MaterialMove } from '@gamepark/rules-api'
 import { FarawayMenuButton, HandIcon } from '../components/ItemMenuButton'
+import { BlockedSpiritButton } from '../extension/BlockedSpiritButton'
 import { UnavailableSpiritButton } from '../extension/UnavailableSpiritButton'
 import Axolotl from '../images/spirit/spirit_axolotl.webp'
 import SpiritBack from '../images/spirit/spirit_back.webp'
@@ -85,7 +87,16 @@ export class SpiritCardDescription extends CardDescription {
     if (item.location.type === LocationType.SpiritDeck && item.location.rotation) {
       return <UnavailableSpiritButton/>
     }
+    // Satisfying the conditions without being able to take the Spirit looks like a bug: explain the rule
+    if (this.isBlockedForPlayer(item, context)) {
+      return <BlockedSpiritButton/>
+    }
     return null
+  }
+
+  isBlockedForPlayer(item: MaterialItem, { rules, player, index }: ItemContext) {
+    return item.location.type === LocationType.AvailableSpirit && player !== undefined
+      && new SpiritHelper(rules.game).isBlocked(index, player)
   }
 
   getHelpDisplayExtraCss(item: MaterialItem, context: ItemContext) {

@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ItemMenuButton, RulesDialog } from '@gamepark/react-game'
 import { FC, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
+import { spiritDialogCss } from './spiritDialogCss'
 
 /**
  * Button on the face-up card of the Spirit deck: that Spirit is only there to be read, it is not one of the 2 available ones.
@@ -23,7 +24,7 @@ export const UnavailableSpiritButton: FC = () => {
         </span>
       </ItemMenuButton>
       <RulesDialog open={open} close={() => setOpen(false)}>
-        <div css={dialogCss}>
+        <div css={spiritDialogCss}>
           <h2><Trans i18nKey="help.spirit.unavailable.title"/></h2>
           <p><Trans i18nKey="help.spirit.unavailable"/></p>
         </div>
@@ -55,22 +56,4 @@ const slashCss = css`
   transform: translate(-50%, -50%) scale(1.15);
   color: #c0392b;
   filter: drop-shadow(0 0 0.06em #f5ebd6) drop-shadow(0 0 0.06em #f5ebd6);
-`
-
-const dialogCss = css`
-  font-size: 3.4em;
-  padding: 0.7em 1.2em 1em;
-  max-width: 17em;
-
-  h2 {
-    margin: 0 0 0.6em;
-    /* Room for the dialog close button, which sits in the top-right corner */
-    padding-right: 1.2em;
-  }
-
-  p {
-    font-size: 0.9em;
-    margin: 0;
-    line-height: 1.5;
-  }
 `
