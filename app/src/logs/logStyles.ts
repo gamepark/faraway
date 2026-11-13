@@ -175,7 +175,7 @@ export const roundSeparatorCss: Interpolation<Theme> = css`
   text-transform: uppercase;
   letter-spacing: 0.18em;
   color: ${ink} !important;
-  font-size: 2.4em !important;
+  font-size: 1.2em !important;
 
   display: flex !important;
   align-items: center !important;
